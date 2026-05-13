@@ -1,0 +1,55 @@
+pipeline:
+  quality_threshold: 8.0
+  max_lyric_retries: 3
+  default_k: 1
+  dry_run: false
+
+video:
+  long:
+    width: 1920
+    height: 1080
+    fps: 25
+    crf: 23
+    audio_bitrate: "192k"
+  short:
+    width: 1080
+    height: 1920
+    fps: 25
+    crf: 23
+    hook_duration_seconds: 40
+    fade_duration_seconds: 1
+
+image:
+  width: 1920
+  height: 1080
+  # SDXL-Turbo inference steps (4 = fast, 8 = balanced)
+  num_inference_steps: 4
+  guidance_scale: 0.0
+
+youtube:
+  daily_quota_limit: 10000
+  # Cost per operation (YouTube API v3 units)
+  upload_cost: 1600
+  playlist_insert_cost: 50
+  # Max videos per day (long + short combined)
+  max_uploads_per_day: 6
+  category_id: "10"  # Music
+  default_language: "tr"
+  made_for_kids: false
+
+ollama:
+  base_url: "http://localhost:11434"
+  timeout_seconds: 120
+  max_retries: 3
+  retry_delay_seconds: 2
+
+suno:
+  client: "manual"
+
+storage:
+  outputs_dir: "outputs"
+  database_url: "sqlite:///data/anadolu.db"
+
+logging:
+  level: "INFO"
+  format: "json"

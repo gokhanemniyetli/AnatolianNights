@@ -1,0 +1,103 @@
+{
+  "city": "Sivas",
+  "region": "İç Anadolu",
+  "description": "Alevi kültürünün kalbi, Pir Sultan Abdal'ın diyarı; derin bağlama geleneği, cem törenleri ve İç Anadolu türkülerinin merkezi.",
+
+  "themes": [
+    "Pir Sultan Abdal anısı",
+    "hak ve adalet arayışı",
+    "cem ve birlik",
+    "gurbet ve dönüş",
+    "dağlarda yalnızlık",
+    "sevda ve acı",
+    "asker uğurlaması",
+    "kış ve soğuk",
+    "yayla ve dağ",
+    "köyden göç",
+    "eski dostlar",
+    "ana sütü",
+    "yol ve yolculuk",
+    "bahar yenilenmesi",
+    "özgürlük özlemi"
+  ],
+
+  "place_names": [
+    "Kızılırmak",
+    "Yıldız dağları",
+    "Divriği",
+    "Kangal",
+    "Zara",
+    "Hafik",
+    "Suşehri",
+    "Gürün",
+    "Banaz yaylası"
+  ],
+
+  "nature_images": [
+    "Kızılırmak kıyısı",
+    "karlı Yıldız dağları",
+    "serin yayla havası",
+    "ot ve taş",
+    "gece mehtabı",
+    "duman tüten köy",
+    "toprak yol",
+    "kavak sırası",
+    "uzak mezarlık",
+    "kuzey rüzgarı"
+  ],
+
+  "cultural_references": [
+    "Pir Sultan Abdal",
+    "Alevi-Bektaşi kültürü",
+    "cem töreni",
+    "dede geleneği",
+    "Sivas katliamı anısı (hassas)",
+    "Divriği Ulu Camii",
+    "Kangal köpeği"
+  ],
+
+  "instruments": {
+    "primary": ["bağlama", "davul"],
+    "secondary": ["kaval", "zurna", "mey"],
+    "avoid": ["kemençe", "tulum", "ud", "cümbüş"]
+  },
+
+  "rhythms": ["serbest uzun hava (bozlak)", "5/8 semah ritmi", "4/4 orta türkü", "9/8 oyun havası"],
+  "tempos": ["çok yavaş bozlak", "slow türkü", "orta semah", "hareketli halay"],
+  "vocal_types": ["güçlü derin erkek", "içli kadın solo", "yaşlı dede anlatıcı", "koro semah"],
+
+  "moods": [
+    "derin ve hüzünlü",
+    "isyankar ve güçlü",
+    "manevi ve dingin",
+    "coşkulu semah",
+    "hasretli gurbet",
+    "yalnız ve düşünceli",
+    "umutlu direniş"
+  ],
+
+  "lyric_style": {
+    "language_notes": "Sivas ağzından izler olabilir. Alevi divan geleneğine ait bazı imgeler doğal. Ama anlamı bozacak arkaik kelimelerden kaçın.",
+    "sentence_structure": "Uzun bozlak havası veya kısa kıta yapısı. Her dize dolgun anlam taşısın.",
+    "imagery_notes": "Yol, dağ, pınar, ocak, dede, hak, sevda güçlü imgeler. Pir Sultan Abdal anısı özenle kullanılabilir.",
+    "forbidden_words": ["İstanbul hayatı", "eğlence mekanı", "elektronik eşya"],
+    "forbidden_styles": ["arabesk", "trap", "pop", "Karadeniz tarzı"]
+  },
+
+  "visual_atmosphere": {
+    "colors": ["toprak kırmızısı", "gri-mavi gökyüzü", "yeşil ot", "beyaz kar", "altın gün batımı"],
+    "landscape": "İç Anadolu yaylası, karlı dağlar, duman tüten köy evi, toprak yol, ıssız mezarlık",
+    "season_suggestions": ["kış soğuğu", "ilkbahar uyanışı", "sonbahar solgunluğu"],
+    "lighting": "sert ve berrak gökyüzü, gece mehtabı, gün doğumu kırmızısı"
+  },
+
+  "suno_style_hints": [
+    "Central Anatolian folk from Sivas",
+    "bağlama-led Alevi tradition",
+    "bozlak long-form vocal style",
+    "deep emotional Turkish folk",
+    "no electronic synth",
+    "no trap beats",
+    "raw powerful acoustic"
+  ]
+}

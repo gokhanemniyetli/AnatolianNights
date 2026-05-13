@@ -1,0 +1,104 @@
+{
+  "city": "Erzincan",
+  "region": "Doğu Anadolu",
+  "description": "Fırat'ın kollarının beslendiği, dağlarla çevrili, derin gurbet ve hasret geleneğine sahip il.",
+
+  "themes": [
+    "gurbet",
+    "ana özlemi",
+    "yaylada yalnızlık",
+    "asker yolu",
+    "ayrılık",
+    "kavuşma",
+    "nehir ve dağ",
+    "kış ve kar",
+    "bahar ve çiçek",
+    "köyden göç",
+    "eski mahalle",
+    "kardeşe ağıt",
+    "sevda",
+    "çocukluk anıları",
+    "hasat sevinci"
+  ],
+
+  "place_names": [
+    "Fırat",
+    "Munzur dağları",
+    "Refahiye",
+    "Kemah",
+    "Kemaliye",
+    "Çayırlı",
+    "Tercan",
+    "Altıntepe",
+    "Karanlık dere"
+  ],
+
+  "nature_images": [
+    "karlı dağlar",
+    "Fırat'ın sesi",
+    "yayla çiçekleri",
+    "soğuk pınar",
+    "köy yolu",
+    "gün batımı kırmızısı",
+    "çam ormanı",
+    "sisli sabah",
+    "boz toprak",
+    "ak kar"
+  ],
+
+  "cultural_references": [
+    "Kemah kalesi",
+    "Altıntepe tümülüsü",
+    "bağlama geleneği",
+    "cem töreni",
+    "düğün halayları",
+    "Alevi kültürü",
+    "dede sözleri"
+  ],
+
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna", "mey"],
+    "avoid": ["keman", "kemençe", "tulum", "kemane"]
+  },
+
+  "rhythms": ["5/8 Türkmen havası", "9/8 oyun havası", "serbest uzun hava", "4/4 slow türkü"],
+  "tempos": ["çok yavaş ağıt", "slow türkü", "orta tempo", "hareketli halay"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif", "erkek-kadın düet", "yaşlı erkek anlatıcı"],
+
+  "moods": [
+    "içli ve sade",
+    "hasretli",
+    "coşkulu halay",
+    "melankolik",
+    "umutlu",
+    "ağıtsal",
+    "neşeli düğün",
+    "hüzünlü ayrılık"
+  ],
+
+  "lyric_style": {
+    "language_notes": "Sade, doğal Türkçe. Erzincan yöresi ağzından izler taşıyabilir ama çok ağır ağız kullanma.",
+    "sentence_structure": "Kısa ve etkili dizeler. Her kıtanın kendi anlamı olmalı.",
+    "imagery_notes": "Dağ, nehir, yol, kar, ocak, ana, gurbet gibi imgeler güçlü. Yapay veya şehirli imgelerden kaçın.",
+    "forbidden_words": ["teknoloji", "şehir hayatı", "metro", "ofis", "sosyal medya"],
+    "forbidden_styles": ["arabesk", "trap", "rap", "pop elektro", "R&B"]
+  },
+
+  "visual_atmosphere": {
+    "colors": ["toprak kırmızısı", "boz gri", "derin mavi gökyüzü", "sarı kuru ot", "beyaz kar"],
+    "landscape": "Doğu Anadolu dağ köyü, geniş vadi, karlı tepeler, köy evi, ocak başı",
+    "season_suggestions": ["kış karı", "sonbahar sararması", "ilkbahar yayla açılışı"],
+    "lighting": "altın saat gün batımı, gri sabah sisi, akşam mor gökyüzü"
+  },
+
+  "suno_style_hints": [
+    "Anatolian folk from Erzincan region",
+    "bağlama-led arrangement",
+    "kaval phrases",
+    "emotional deep Turkish folk",
+    "no electronic synth",
+    "no trap beats",
+    "warm natural acoustic"
+  ]
+}

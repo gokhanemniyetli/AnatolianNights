@@ -1,0 +1,103 @@
+{
+  "city": "Konya",
+  "region": "İç Anadolu",
+  "description": "Bozkırın ortasında Mevlana'nın şehri; sema, dini duygusallık, geniş düzlükler ve buğday tarlaları.",
+
+  "themes": [
+    "sema ve dönüş",
+    "Mevlana'ya saygı",
+    "bozkır yalnızlığı",
+    "sevgiliye kavuşma",
+    "gurbet ve dönüş",
+    "anneye mektup",
+    "hasat zamanı",
+    "kış bozkırı",
+    "uzun yol",
+    "köyden şehre",
+    "bayram sabahı",
+    "dede sözleri",
+    "el ele yürüyüş",
+    "çoban ve sürü",
+    "buğday tarlası"
+  ],
+
+  "place_names": [
+    "Mevlana Dergahı",
+    "Konya ovası",
+    "Beyşehir gölü",
+    "Karatay",
+    "Seydişehir",
+    "Çumra",
+    "Ereğli düzlüğü",
+    "Ilgın",
+    "Akşehir"
+  ],
+
+  "nature_images": [
+    "sonsuz bozkır",
+    "buğday tarlası",
+    "yalnız kavak ağacı",
+    "sarı toprak",
+    "uzun yol",
+    "gece yıldızları",
+    "kuru ot kokusu",
+    "ufuk çizgisi",
+    "toz duman",
+    "sonbahar bozkırı"
+  ],
+
+  "cultural_references": [
+    "Mevlana ve sema",
+    "Konya Selçuklu mirası",
+    "karavangah geleneği",
+    "bozkır yaşam kültürü",
+    "Anadolu Aleviliği",
+    "hasat geleneği",
+    "kervansaray"
+  ],
+
+  "instruments": {
+    "primary": ["bağlama", "ney"],
+    "secondary": ["kudüm", "davul", "kaval"],
+    "avoid": ["kemençe", "tulum", "horon ritmi", "Karadeniz tarzı düzenleme"]
+  },
+
+  "rhythms": ["serbest ney havası", "4/4 orta tempo türkü", "9/8 Orta Anadolu oyun havası", "yavaş sema ritmi"],
+  "tempos": ["çok yavaş dini", "slow türkü", "orta tempo", "hareketli oyun havası"],
+  "vocal_types": ["derin erkek solo", "dingin kadın solo", "koro", "yaşlı dede anlatıcı"],
+
+  "moods": [
+    "dingin ve derin",
+    "manevi",
+    "hasretli",
+    "bozkır yalnızlığı",
+    "umut dolu",
+    "içten ve sade",
+    "coşkusuz ama güçlü"
+  ],
+
+  "lyric_style": {
+    "language_notes": "Sade, yalın Türkçe. Mevlana etkisi duygu derinliğine yansıyabilir ama dini söylemde abartılmamalı.",
+    "sentence_structure": "Uzun soluklu dizeler olabilir. Bozkır sessizliği ve geniş zaman hissi taşısın.",
+    "imagery_notes": "Bozkır, buğday, yol, yalnız ağaç, gece gökyüzü, rüzgar en güçlü imgeler.",
+    "forbidden_words": ["İstanbul", "deniz", "horon", "kemençe", "Karadeniz"],
+    "forbidden_styles": ["arabesk", "trap", "pop elektro", "Karadeniz tarzı hızlı"]
+  },
+
+  "visual_atmosphere": {
+    "colors": ["sarı-altın buğday", "gri mavi gökyüzü", "toprak kahverengisi", "beyaz kar", "turuncu gün batımı"],
+    "landscape": "Geniş İç Anadolu ovası, sonsuz bozkır, yalnız ağaç, köy camii, kervan yolu",
+    "season_suggestions": ["altın hasat mevsimi", "kar altında bozkır", "ilkbahar yeşil ova"],
+    "lighting": "engin gün batımı, yıldızlı gece, sabah sisi orada"
+  },
+
+  "suno_style_hints": [
+    "Central Anatolian folk from Konya",
+    "bağlama and ney arrangement",
+    "spiritual deep Turkish folk",
+    "slow introspective pace",
+    "no electronic synth",
+    "no trap beats",
+    "warm meditative acoustic"
+  ]
+}

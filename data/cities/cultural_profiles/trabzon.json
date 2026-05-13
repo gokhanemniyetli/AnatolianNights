@@ -1,0 +1,103 @@
+{
+  "city": "Trabzon",
+  "region": "Karadeniz",
+  "description": "Karadeniz'in dalgaları, yayla türküleri, kemençe sesi ve horon geleneğiyle özdeşleşmiş Doğu Karadeniz şehri.",
+
+  "themes": [
+    "deniz özlemi",
+    "yayla yolculuğu",
+    "gurbet (büyük şehirlere göç)",
+    "balıkçı hayatı",
+    "fındık bahçesi",
+    "horon coşkusu",
+    "dağdan inen sis",
+    "anneye duygu",
+    "sevda mektubu",
+    "kış karası fırtına",
+    "bahar yaylaya çıkış",
+    "kardeş ayrılığı",
+    "denizden dönen baba",
+    "köy düğünü",
+    "çocukluk fındık bahçesinde"
+  ],
+
+  "place_names": [
+    "Boztepe",
+    "Uzungöl",
+    "Maçka",
+    "Çaykara",
+    "Tonya",
+    "Sürmene",
+    "Araklı",
+    "Rize yolu",
+    "Karadeniz sahili"
+  ],
+
+  "nature_images": [
+    "yemyeşil dağlar",
+    "sis ve bulut",
+    "deniz dalgası",
+    "fındık bahçesi",
+    "çay yolu",
+    "şelale sesi",
+    "yağmur",
+    "serin yayla havası",
+    "mor bulut",
+    "kayalık sahil"
+  ],
+
+  "cultural_references": [
+    "kemençe geleneği",
+    "horon dansı",
+    "Sümela Manastırı",
+    "fındık hasadı",
+    "Karadeniz balıkçılığı",
+    "yayla kültürü",
+    "Laz kültürü"
+  ],
+
+  "instruments": {
+    "primary": ["kemençe", "tulum"],
+    "secondary": ["davul", "zurna", "bağlama"],
+    "avoid": ["kaval", "mey", "bağlama ağırlıklı düzenleme"]
+  },
+
+  "rhythms": ["7/8 horon ritmi", "serbest uzun hava", "hızlı 2/4 horon", "yavaş ağıt"],
+  "tempos": ["hızlı horon", "orta tempo türkü", "yavaş ağıt", "çok hızlı oyun havası"],
+  "vocal_types": ["yüksek sesli erkek Karadeniz", "güçlü kadın solo", "koro", "tiz kadın sesi"],
+
+  "moods": [
+    "coşkulu ve enerjik",
+    "özlem dolu",
+    "hüzünlü gurbet",
+    "neşeli halay",
+    "ağıtsal",
+    "derin duygusal",
+    "canlı festival"
+  ],
+
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı izleri taşıyabilir. Bazı yerel ifadeler doğal gelir ama abartılmamalı.",
+    "sentence_structure": "Dinamik dizeler. Horon türkülerinde hızlı ritimle uyumlu kısa cümleler.",
+    "imagery_notes": "Deniz, sis, yayla, fındık, kemençe, horon güçlü imgeler. Doğu Karadeniz atmosferi net hissedilmeli.",
+    "forbidden_words": ["İstanbul gecesi", "kent", "trafik", "neon"],
+    "forbidden_styles": ["arabesk", "trap", "pop elektro", "R&B"]
+  },
+
+  "visual_atmosphere": {
+    "colors": ["derin yeşil", "gri-mavi deniz", "beyaz sis", "kahverengi toprak", "sarı sonbahar fındık"],
+    "landscape": "Karadeniz kıyısı, yeşil dağ etekleri, sis bulutlu yayla, ahşap köy evi",
+    "season_suggestions": ["yağmurlu sonbahar", "yeşil yaz yaylası", "kış fırtınası"],
+    "lighting": "gri bulutlu gün ışığı, sis arasında güneş, akşam deniz üstü turuncu"
+  },
+
+  "suno_style_hints": [
+    "Black Sea folk from Trabzon",
+    "kemençe-led arrangement",
+    "traditional horon rhythm",
+    "energetic Eastern Black Sea Turkish folk",
+    "no electronic synth",
+    "no trap beats",
+    "raw acoustic energy"
+  ]
+}

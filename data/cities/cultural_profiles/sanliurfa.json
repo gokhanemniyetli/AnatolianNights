@@ -1,0 +1,102 @@
+{
+  "city": "Urfa",
+  "region": "Güneydoğu Anadolu",
+  "description": "Peygamberler şehri; sıcak Güneydoğu atmosferi, Dicle ve Fırat arası kültür, derin müzik geleneği ve sıra geceleri.",
+
+  "themes": [
+    "gurbet ve yurt özlemi",
+    "aşk ve ayrılık",
+    "Hz. İbrahim ve Nemrut",
+    "sıra gecesi",
+    "kahve ve muhabbet",
+    "Harran ovası",
+    "sıcak yaz geceleri",
+    "sevgiliye hasret",
+    "ezan sesi ve huzur",
+    "ana yurdu",
+    "kervan yolu",
+    "tarih ve kadim kültür",
+    "bağ bozumu",
+    "düğün töreni",
+    "nehir ve ova"
+  ],
+
+  "place_names": [
+    "Harran",
+    "Göbeklitepe",
+    "Balıklıgöl",
+    "Halfeti",
+    "Birecik",
+    "Urfa kalesi",
+    "Nemrut",
+    "Fırat kıyısı"
+  ],
+
+  "nature_images": [
+    "sıcak kuru toprak",
+    "palmiye ve incir",
+    "tunç renkli güneş",
+    "gece yıldız yağmuru",
+    "Harran kulesi",
+    "toz ve rüzgar",
+    "nar bahçesi",
+    "balıklı havuz",
+    "kızgın taş",
+    "hurma"
+  ],
+
+  "cultural_references": [
+    "Urfa müzik geleneği (sıra gecesi)",
+    "mırra kahvesi",
+    "Urfa halkevi",
+    "divan müziği izleri",
+    "Güneydoğu davul zurna",
+    "kilit oyunu",
+    "Alevi-Sünni ortak kültür"
+  ],
+
+  "instruments": {
+    "primary": ["bağlama", "ud"],
+    "secondary": ["davul", "zurna", "ney", "cümbüş"],
+    "avoid": ["kemençe", "tulum", "horon ritmi"]
+  },
+
+  "rhythms": ["serbest uzun hava", "4/4 ağır türkü", "9/8 Güneydoğu oyun havası", "2/4 hareketli"],
+  "tempos": ["çok yavaş ağıt", "slow ağır türkü", "orta tempo", "hareketli düğün"],
+  "vocal_types": ["derin erkek solo", "güçlü kadın sesi", "erkek-kadın düet", "yaşlı erkek anlatıcı"],
+
+  "moods": [
+    "derin ve ağır",
+    "romantik hasret",
+    "dingin manevi",
+    "coşkulu düğün",
+    "hüzünlü ayrılık",
+    "sıcak ve samimi",
+    "tarihi ve derin"
+  ],
+
+  "lyric_style": {
+    "language_notes": "Güneydoğu ağzından izler taşıyabilir ama çok ağır olmayacak. Divan edebiyatı etkisi hafifçe olabilir.",
+    "sentence_structure": "Uzun soluklu, ağır dizeler. Her satır derin anlam taşısın.",
+    "imagery_notes": "Güneş, toprak, kale, incir, nar, gece, yıldız, hasret güçlü imgeler. Harran ovası çok etkili.",
+    "forbidden_words": ["metro", "gece kulübü", "sosyal medya", "arabesk özel kelimeleri"],
+    "forbidden_styles": ["arabesk balon pop", "trap", "R&B", "elektronik"]
+  },
+
+  "visual_atmosphere": {
+    "colors": ["kızıl-altın güneş", "toprak sarısı", "derin mavi gece", "yeşil incir", "turuncu nar"],
+    "landscape": "Harran kuleleri, geniş ova, kale surları, gece yıldızlı gökyüzü, taş duvarlar",
+    "season_suggestions": ["yaz sıcağı", "gece serinliği", "sonbahar bağ bozumu"],
+    "lighting": "sert öğle güneşi, altın akşam, yıldızlı gece gökyüzü"
+  },
+
+  "suno_style_hints": [
+    "Southeastern Anatolian folk from Urfa",
+    "bağlama and ud arrangement",
+    "deep slow Turkish folk",
+    "ancient Mesopotamian atmosphere",
+    "no electronic synth",
+    "no trap beats",
+    "warm night acoustic feeling"
+  ]
+}

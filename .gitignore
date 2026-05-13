@@ -1,0 +1,56 @@
+# Secrets
+.env
+config/secrets.yaml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+dist/
+build/
+*.egg-info/
+.eggs/
+
+# Outputs — large generated files
+outputs/
+
+# Database (local state)
+*.db
+*.sqlite3
+
+# ML model cache — GB sized
+.cache/
+models/
+*.safetensors
+*.ckpt
+*.bin
+*.pt
+
+# Audio / Video temp files
+*.tmp.mp4
+*.tmp.mp3
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# VSCode
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# pytest
+.pytest_cache/
+htmlcov/
+.coverage
+
+# mypy
+.mypy_cache/
