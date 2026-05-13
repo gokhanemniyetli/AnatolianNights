@@ -31,9 +31,18 @@ SONG CONCEPT:
 SUNO STYLE HINTS (from cultural profile):
 {json.dumps(cultural_profile.get('suno_style_hints', []), ensure_ascii=False)}
 
+ALLOWED INSTRUMENTS (region-specific):
+{json.dumps(cultural_profile.get('instruments', {}).get('primary', []), ensure_ascii=False)}
+
+AVOID INSTRUMENTS (region-specific):
+{json.dumps(cultural_profile.get('instruments', {}).get('avoid', []), ensure_ascii=False)}
+
 TURKISH LYRICS:
 {lyrics}
 
-Write the Suno style prompt and format the lyrics for Suno input.
+Write the Suno style prompt in English.
+IMPORTANT: In suno_lyrics, copy TURKISH LYRICS exactly as provided.
+Do NOT translate, rewrite, paraphrase, shorten, or reorder any line.
+Keep all tags and line breaks exactly the same.
 """
         return self.call(user_prompt)

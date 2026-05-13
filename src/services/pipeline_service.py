@@ -147,7 +147,17 @@ class PipelineService:
         concept = song.get_concept()
         result = self._suno_prompt_agent.generate(concept, song.lyrics, cultural_profile)
         song.suno_style_prompt = result.get("style_prompt", "")
-        song.suno_lyrics = result.get("suno_lyrics", "")
+        generated_suno_lyrics = result.get("suno_lyrics", "")
+
+        # Hard guardrail: Suno lyrics must remain exactly the original Turkish lyrics.
+        if (generated_suno_lyrics or "").strip() != (song.lyrics or "").strip():
+            logger.warning(
+                "[%s] Suno lyrics changed by model; forcing original Turkish lyrics.",
+                song.id,
+            )
+            song.suno_lyrics = song.lyrics or ""
+        else:
+            song.suno_lyrics = generated_suno_lyrics
 
         # Submit to Suno (manual: writes prompt file; browser: submits to API)
         suno_client = get_suno_client()

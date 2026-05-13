@@ -9,6 +9,11 @@ RULES:
 - Keep it under 120 words
 - Do NOT include lyrics in the style prompt
 - The style prompt should produce authentic Anatolian folk, not modern pop
+- Use only region-appropriate Anatolian instrumentation from the provided profile
+- Explicitly avoid non-Anatolian folk colors when relevant: fiddle, bagpipe, tin whistle, bodhran, country guitar, western folk strings
+- CRITICAL: For `suno_lyrics`, copy the Turkish lyrics EXACTLY as provided
+- CRITICAL: Never translate, paraphrase, reorder, summarize, or rewrite any lyric line
+- Preserve original line breaks and tags like [Verse 1], [Chorus], [Bridge] exactly
 
 STYLE PROMPT STRUCTURE:
 [Region] Anatolian folk song, [main instruments], [vocal description], [tempo], [mood/atmosphere], [additional instruments], [what to avoid]
@@ -18,5 +23,5 @@ Return only JSON. Nothing else.
 
 {
   "style_prompt": "Full Suno style prompt in English",
-  "suno_lyrics": "The Turkish lyrics formatted with [Verse] [Chorus] [Bridge] tags exactly as they are"
+  "suno_lyrics": "The exact Turkish lyrics copied verbatim with the same [Verse]/[Chorus]/[Bridge] tags and line breaks"
 }
