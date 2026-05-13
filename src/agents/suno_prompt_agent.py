@@ -1,5 +1,5 @@
 """
-SunoPromptAgent — generates English style prompt and formatted lyrics for Suno.
+SunoPromptAgent — generates a single Turkish simple-mode Suno prompt.
 """
 
 import json
@@ -22,14 +22,18 @@ class SunoPromptAgent(BaseAgent):
 
     def generate(self, concept: dict, lyrics: str, cultural_profile: dict) -> dict:
         """
-        Returns dict with keys: style_prompt (str), suno_lyrics (str)
+        Returns dict with key: simple_prompt (str)
         """
+        place_names = cultural_profile.get("place_names", [])[:3]
+        themes = concept.get("themes", []) if isinstance(concept, dict) else []
+        themes = themes[:3] if isinstance(themes, list) else []
+
         user_prompt = f"""
 SONG CONCEPT:
 {json.dumps(concept, ensure_ascii=False, indent=2)}
 
-SUNO STYLE HINTS (from cultural profile):
-{json.dumps(cultural_profile.get('suno_style_hints', []), ensure_ascii=False)}
+    CITY/REGION:
+    {json.dumps({'city': cultural_profile.get('city', ''), 'region': cultural_profile.get('region', '')}, ensure_ascii=False)}
 
 ALLOWED INSTRUMENTS (region-specific):
 {json.dumps(cultural_profile.get('instruments', {}).get('primary', []), ensure_ascii=False)}
@@ -37,12 +41,10 @@ ALLOWED INSTRUMENTS (region-specific):
 AVOID INSTRUMENTS (region-specific):
 {json.dumps(cultural_profile.get('instruments', {}).get('avoid', []), ensure_ascii=False)}
 
-TURKISH LYRICS:
-{lyrics}
+    PRIORITY PLACE/THEME HINTS (use at most 1-3 total words):
+    {json.dumps({'place_names': place_names, 'themes': themes}, ensure_ascii=False)}
 
-Write the Suno style prompt in English.
-IMPORTANT: In suno_lyrics, copy TURKISH LYRICS exactly as provided.
-Do NOT translate, rewrite, paraphrase, shorten, or reorder any line.
-Keep all tags and line breaks exactly the same.
+    Write exactly one Turkish simple-mode prompt sentence for Suno.
+    No lyrics. No lists. No alternatives.
 """
         return self.call(user_prompt)

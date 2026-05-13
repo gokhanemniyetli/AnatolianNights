@@ -167,12 +167,16 @@ class BrowserSunoClient:
         self._jwt = jwt
         return jwt
 
-    async def _async_generate(self, style_prompt: str, suno_lyrics: str) -> str:
+    async def _async_generate(self, style_prompt: str, suno_lyrics: str, attempt: int = 0) -> str:
         """
         Submit generation by making the API call FROM WITHIN the browser page context.
         This avoids IP/cookie/CSRF issues and adapts to Suno API endpoint changes.
         """
         from playwright.async_api import async_playwright
+
+        if not _SESSION_FILE.exists():
+            logger.info("Suno session dosyası yok; yeni oturum oluşturuluyor.")
+            await self._ensure_jwt()
 
         storage_state = json.loads(_SESSION_FILE.read_text())
         real_chrome = _find_real_browser()
@@ -235,11 +239,12 @@ class BrowserSunoClient:
                         "https://studio-api-prod.suno.com/api/generate/v2/",
                         "https://studio-api.suno.ai/api/generate/v2/",
                     ];
+                    const isSimpleMode = !suno_lyrics || !suno_lyrics.trim();
                     const payload = {
-                        prompt: suno_lyrics,
+                        prompt: isSimpleMode ? style_prompt.slice(0, 320) : suno_lyrics,
                         mv: "chirp-v4",
                         title: "",
-                        tags: style_prompt.slice(0, 200),
+                        tags: isSimpleMode ? "" : style_prompt.slice(0, 200),
                         make_instrumental: false,
                     };
                     for (const url of endpoints) {
@@ -266,6 +271,18 @@ class BrowserSunoClient:
             await browser.close()
 
         logger.info("Suno generate yanıtı — status=%s url=%s", result["status"], result["url"])
+
+        # Recover once when the stored browser session has gone stale.
+        if (
+            result["status"] == 422
+            and "token_validation_failed" in result.get("text", "")
+            and attempt == 0
+        ):
+            logger.warning("Suno token geçersiz; session yenilenip bir kez daha denenecek.")
+            if _SESSION_FILE.exists():
+                _SESSION_FILE.unlink()
+            await self._ensure_jwt()
+            return await self._async_generate(style_prompt, suno_lyrics, attempt=1)
 
         # Also check intercepted responses
         if captured:

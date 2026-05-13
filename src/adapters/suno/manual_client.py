@@ -17,7 +17,7 @@ _PROMPT_DIR = Path("outputs") / "_suno_prompts"
 class ManualSunoClient:
     """
     Implements the ISunoClient Protocol via manual workflow:
-    1. generate() writes style_prompt + lyrics to a text file
+    1. generate() writes a single simple-mode prompt to a text file
     2. Operator generates audio on suno.com manually
     3. Operator runs `import-audio` CLI to copy the file into the pipeline
     4. get_status() just returns 'pending' (no real check)
@@ -32,14 +32,12 @@ class ManualSunoClient:
         prompt_file = _PROMPT_DIR / f"{song_id}.txt"
 
         content = (
-            f"=== SUNO STYLE PROMPT ===\n"
+            f"=== SUNO SIMPLE PROMPT ===\n"
             f"{style_prompt}\n\n"
-            f"=== LYRICS ===\n"
-            f"{suno_lyrics}\n\n"
             f"=== INSTRUCTIONS ===\n"
             f"1. Go to suno.com and create a new song.\n"
-            f"2. Paste the STYLE PROMPT into the 'Style of Music' field.\n"
-            f"3. Paste the LYRICS into the 'Lyrics' field.\n"
+            f"2. Use Simple mode (do not switch to Custom lyrics/style).\n"
+            f"3. Paste the SIMPLE PROMPT into the main prompt box.\n"
             f"4. Generate the song and download the best version as MP3.\n"
             f"5. Run: python -m cli import-audio --song-id {song_id} --file /path/to/audio.mp3\n"
         )
