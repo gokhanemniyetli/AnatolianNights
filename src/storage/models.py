@@ -26,6 +26,7 @@ class Base(DeclarativeBase):
 
 
 class SongStatus(str, Enum):
+    PENDING = "pending"
     CONCEPT_READY = "concept_ready"
     LYRICS_READY = "lyrics_ready"
     QUALITY_APPROVED = "quality_approved"
@@ -88,9 +89,14 @@ class Song(Base):
     quality_score: Mapped[float | None] = mapped_column(Float, nullable=True)
     quality_report: Mapped[str | None] = mapped_column(Text, nullable=True)  # JSON
 
+    # Lyrics
+    rejected_reason: Mapped[str | None] = mapped_column(Text, nullable=True)
+
     # Suno
+    suno_task_id: Mapped[str | None] = mapped_column(String(100), nullable=True)  # Suno clip/job ID
     suno_style_prompt: Mapped[str | None] = mapped_column(Text, nullable=True)
     suno_full_prompt: Mapped[str | None] = mapped_column(Text, nullable=True)
+    suno_lyrics: Mapped[str | None] = mapped_column(Text, nullable=True)
 
     # Image
     image_prompt: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -99,6 +105,8 @@ class Song(Base):
     youtube_metadata: Mapped[str | None] = mapped_column(Text, nullable=True)  # JSON
     youtube_video_id: Mapped[str | None] = mapped_column(String(50), nullable=True)
     youtube_short_id: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    youtube_long_video_id: Mapped[str | None] = mapped_column(String(50), nullable=True)
+    youtube_short_video_id: Mapped[str | None] = mapped_column(String(50), nullable=True)
 
     # File paths (relative to outputs dir)
     audio_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
@@ -106,6 +114,10 @@ class Song(Base):
     short_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
     thumbnail_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
     background_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    long_video_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    short_video_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    background_image_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    subtitles_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
     # Status
     status: Mapped[str] = mapped_column(String(50), default=SongStatus.CONCEPT_READY)

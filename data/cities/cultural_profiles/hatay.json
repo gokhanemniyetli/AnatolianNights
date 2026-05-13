@@ -1,0 +1,24 @@
+{
+  "city": "Hatay",
+  "region": "Akdeniz",
+  "description": "Arap ve Türk kültürlerinin harmanlandığı Asi Nehri kıyısında, zengin çok katmanlı bir halk müziği geleneğine ev sahipliği yapan bereketli ildir.",
+  "themes": ["Asi'nin sesi", "zeytinyağı ve bereket", "dostluk", "gurbet", "barış özlemi", "sevda"],
+  "place_names": ["Asi Nehri", "Amanos Dağları", "Antakya", "Samandağ", "İskenderun Körfezi", "Harbiye"],
+  "nature_images": ["zeytin bahçeleri", "narenciye tarlaları", "Asi kıyısı sazlıkları", "mor dağ silueti"],
+  "cultural_references": ["Antakya mozaiği", "Hz. Habbab geleneği", "çok kültürlü yaşam", "şahin gibi yiğitler"],
+  "instruments": {
+    "primary": ["bağlama", "ud"],
+    "secondary": ["davul", "zurna", "def"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 halay", "maqam tabanlı türkü"],
+  "tempos": ["yavaş ve ağır", "orta tempo", "hareketli halay"],
+  "vocal_types": ["erkek solo coşkulu", "kadın solo zarif", "çok sesli atışma"],
+  "moods": ["sıcak ve kucaklayıcı", "hüzünlü", "coşkulu", "dingin"],
+  "lyric_style": {
+    "language_notes": "Hatay ağzı; zaman zaman Arapça kelimeler, sıcak ve akıcı söylem, 'habibi' yerine Türkçe sevgi sözcükleri",
+    "forbidden_styles": ["arabesk", "pop ritmi", "yabancı dilli karışım"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["dörtlük", "gazel", "koşma", "mani"]
+  }
+}

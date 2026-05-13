@@ -1,0 +1,24 @@
+{
+  "city": "Düzce",
+  "region": "Karadeniz",
+  "description": "Melen Nehri ve ova-dağ geçişindeki Batı Karadeniz kenti Düzce'de sade ve içten türkü söylemi, fındık ve kereste kokusuyla harmanlanmıştır.",
+  "themes": ["ova ve dağ arası", "gurbet", "sevda", "fındık ve kereste", "deprem sonrası direniş"],
+  "place_names": ["Melen Nehri", "Bolu Dağı geçişi", "Akçakoca Sahili", "Düzce Ovası", "Gölyaka"],
+  "nature_images": ["fındıklıklar", "orman yolları", "Melen kıyısı", "Karadeniz'e uzanan ova"],
+  "cultural_references": ["deprem geleneği ve dayanışma", "fındık hasadı", "Bolu-Düzce yolu"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["davul"],
+    "avoid": ["bağlama", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "3/4 lirik türkü"],
+  "tempos": ["yavaş ve içten", "orta tempo türkü"],
+  "vocal_types": ["erkek solo dingin", "kadın solo zarif"],
+  "moods": ["sade ve içten", "dayanıklı", "hüzünlü"],
+  "lyric_style": {
+    "language_notes": "Batı Karadeniz ağzı; ova ve fındık metaforları, sade söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani"]
+  }
+}

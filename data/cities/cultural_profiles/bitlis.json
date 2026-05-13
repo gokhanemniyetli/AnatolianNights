@@ -1,0 +1,24 @@
+{
+  "city": "Bitlis",
+  "region": "Doğu Anadolu",
+  "description": "Bitlis Çayı'nın derin vadisinde tarihi köprüler ve kalıntılar arasında Kürt-Türk türkü geleneğinin iç içe geçtiği dağlı kenttir.",
+  "themes": ["vadi hüznü", "gurbet", "tarihi ağırlık", "dağ yolu", "sevda"],
+  "place_names": ["Bitlis Çayı", "Bitlis Kalesi", "Ahlat", "Tatvan", "Van Gölü kıyısı"],
+  "nature_images": ["derin vadi", "tarihi köprüler", "Van Gölü manzarası", "karlı dağlar"],
+  "cultural_references": ["Bitlis Beyliği tarihi", "Osmanlı kalesi", "Kürt kültürü"],
+  "instruments": {
+    "primary": ["bağlama", "mey"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 ağır türkü"],
+  "tempos": ["çok yavaş ağıt", "yavaş türkü", "orta tempo halay"],
+  "vocal_types": ["erkek solo güçlü dağlı", "kadın solo hüzünlü"],
+  "moods": ["ağır ve hüzünlü", "tarihi derinlik", "yalnız"],
+  "lyric_style": {
+    "language_notes": "Doğu Anadolu ağzı; vadi ve tarihi yapı metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

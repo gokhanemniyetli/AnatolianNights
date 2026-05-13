@@ -1,0 +1,24 @@
+{
+  "city": "Şırnak",
+  "region": "Güneydoğu Anadolu",
+  "description": "Cudi Dağı ve Dicle'nin kollarında Kürt-Türk türkü geleneğinin en doğu noktasında güçlü seslerle Güneydoğu'nun zorlu coğrafyasını anlatan kenttir.",
+  "themes": ["Cudi'nin sesi", "gurbet", "Dicle kıyısı", "dağ yolu zorluğu", "yurt sevgisi"],
+  "place_names": ["Cudi Dağı", "Dicle Nehri", "Cizre", "İdil", "Silopi"],
+  "nature_images": ["Cudi yamaçları", "Dicle vadisi", "sınır manzarası", "Nuh'un yurdu"],
+  "cultural_references": ["Cudi Dağı Nuh efsanesi", "Kürt aşiret geleneği", "Cizre tarihi"],
+  "instruments": {
+    "primary": ["bağlama", "davul", "zurna"],
+    "secondary": ["mey"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 türkü"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı halay"],
+  "vocal_types": ["erkek solo güçlü dağlı", "kadın solo hüzünlü"],
+  "moods": ["zorlu coğrafya hüznü", "dağ gururu", "yurt özlemi"],
+  "lyric_style": {
+    "language_notes": "Güneydoğu ağzı; Kürtçe-Türkçe geçiş; dağ ve nehir metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "destan"]
+  }
+}

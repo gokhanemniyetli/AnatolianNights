@@ -1,0 +1,24 @@
+{
+  "city": "Adana",
+  "region": "Akdeniz",
+  "description": "Çukurova ovasının bereketli topraklarında doğan, sıcak ve ateşli bir türkü geleneğine sahip büyük Akdeniz kentidir.",
+  "themes": ["gurbet", "pamuk tarlası", "yiğitlik", "sevda", "ana özlemi", "yörük göçü"],
+  "place_names": ["Seyhan Nehri", "Ceyhan Nehri", "Toros Dağları", "Çukurova", "Misis", "Yüreğir Ovası"],
+  "nature_images": ["pamuk tarlaları", "sıcak güneş", "nar bahçeleri", "zeytinlikler", "pamuk gibi bulutlar"],
+  "cultural_references": ["Karacaoğlan", "yörük geleneği", "harman zamanı", "çukurova bereketli toprak", "delikanlı yiğitler"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum", "keman"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 halay", "9/8 zeybek havası", "2/4 türkü"],
+  "tempos": ["çok yavaş uzun hava", "orta tempo türkü", "hareketli halay"],
+  "vocal_types": ["erkek solo güçlü ve ateşli", "kadın solo içli ve sıcak", "toplu atışmalı"],
+  "moods": ["ateşli ve coşkulu", "hasretli", "yiğitçe", "sıcak ve samimi"],
+  "lyric_style": {
+    "language_notes": "Çukurova ağzı; yörük söylemi, zaman zaman 'be' ve 'hey' nidaları, açık hece vurgusu",
+    "forbidden_styles": ["arabesk", "pop ritmi", "hızlı rap", "disco"],
+    "forbidden_words": ["baby", "şampanya", "parti", "disko"],
+    "preferred_forms": ["dörtlük", "koşma", "semai", "mani"]
+  }
+}

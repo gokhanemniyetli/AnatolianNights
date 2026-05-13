@@ -1,0 +1,24 @@
+{
+  "city": "Burdur",
+  "region": "Akdeniz",
+  "description": "Burdur Gölü kıyısında huzurlu kırsal yaşamı yansıtan, sade ve içten bir türkü geleneğine sahip küçük Akdeniz ilidir.",
+  "themes": ["göl hüznü", "gurbet", "sevda", "kırsal yaşam", "ana özlemi", "yiğitlik"],
+  "place_names": ["Burdur Gölü", "Eğirdir Gölü", "Karakent", "Salda Gölü", "Çeltikçi"],
+  "nature_images": ["mavi göl", "kıyı kamışları", "buğday tarlaları", "çorak bozkır", "lavanta tarlaları"],
+  "cultural_references": ["göçer geleneği", "yörük kültürü", "kağnı arabası", "çobanlık hayatı"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hareketli oyun havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif ve hüzünlü"],
+  "moods": ["sakin ve hüzünlü", "hasretli", "sade ve içten"],
+  "lyric_style": {
+    "language_notes": "Sade Anadolu Türkçesi; doğa ve göl imgeleri yoğun, yalın anlatım",
+    "forbidden_styles": ["arabesk", "pop ritmi", "şehirli söylem"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["dörtlük", "mani", "koşma"]
+  }
+}

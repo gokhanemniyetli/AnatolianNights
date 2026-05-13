@@ -1,0 +1,24 @@
+{
+  "city": "Bolu",
+  "region": "Karadeniz",
+  "description": "Abant Gölü ve yemyeşil ormanlarında dingin ve lirik bir Karadeniz türküsü geleneği yaşatan, doğanın sesini türkülerine taşıyan kenttir.",
+  "themes": ["orman hüznü", "göl özlemi", "gurbet", "sevda", "doğa ve huzur"],
+  "place_names": ["Abant Gölü", "Yedigöller", "Mudurnu Çayı", "Gerede", "Bolu Dağı"],
+  "nature_images": ["sonbahar ormanları", "Abant Gölü yansıması", "sisli dağlar", "fındıklıklar"],
+  "cultural_references": ["Karadeniz mutfak geleneği", "Bolu dağı", "Abant doğası", "ormancılık"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["serbest uzun hava", "7/8 horon", "3/4 lirik türkü"],
+  "tempos": ["yavaş ve dingin", "orta tempo türkü", "hızlı horon"],
+  "vocal_types": ["erkek solo dingin", "kadın solo zarif Karadeniz sesi"],
+  "moods": ["dingin ve lirik", "hüzünlü", "doğa ile barışık"],
+  "lyric_style": {
+    "language_notes": "Batı Karadeniz ağzı; doğa metaforları, sade ve dingin dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani", "koşma"]
+  }
+}

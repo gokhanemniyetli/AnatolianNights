@@ -1,0 +1,24 @@
+{
+  "city": "Yalova",
+  "region": "Marmara",
+  "description": "Marmara kıyısında termal suları ve yeşil doğasıyla tanınan, sakin ve lirik bir türkü kültürünü barındıran küçük kenttir.",
+  "themes": ["deniz özlemi", "gurbet", "sevda", "kırsal huzur", "doğa güzelliği"],
+  "place_names": ["Marmara Kıyısı", "Armutlu", "Termal", "Çınarcık", "Samanlı Dağları"],
+  "nature_images": ["masmavi Marmara", "çiçek bahçeleri", "termal buharı", "çam ağaçları"],
+  "cultural_references": ["Atatürk'ün Yalova'sı", "termal kaplıca geleneği", "çiçekçilik"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş lirik", "orta tempo türkü"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["sakin ve lirik", "huzurlu", "hafif hüzünlü"],
+  "lyric_style": {
+    "language_notes": "Temiz Türkçe; deniz ve doğa metaforları, sade anlatım",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani"]
+  }
+}

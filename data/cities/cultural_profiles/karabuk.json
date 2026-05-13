@@ -1,0 +1,24 @@
+{
+  "city": "Karabük",
+  "region": "Karadeniz",
+  "description": "Safranbolu'nun tarihi dokusu ve demir-çelik fabrikasının dumanıyla hem tarihi hem endüstriyel kimliği türkülerine yansıtan Batı Karadeniz kentidir.",
+  "themes": ["Safranbolu nostaljisi", "demir ve emek", "gurbet", "tarihi koruma", "sevda"],
+  "place_names": ["Safranbolu", "Araç Nehri", "Karabük Demir-Çelik", "Yenice Ormanları", "Ovacık"],
+  "nature_images": ["Safranbolu osmanlı evleri", "Yenice kayın ormanları", "Araç kanyonu", "fabrika dumanı"],
+  "cultural_references": ["Safranbolu Dünya Mirası", "demir-çelik işçisi geleneği", "safran tarımı tarihi"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["davul"],
+    "avoid": ["bağlama", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "3/4 lirik türkü"],
+  "tempos": ["yavaş ve nostaljik", "orta tempo türkü"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["nostaljik", "onurlu emekçi", "tarihe saygılı"],
+  "lyric_style": {
+    "language_notes": "Batı Karadeniz ağzı; tarihi ev ve emek metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

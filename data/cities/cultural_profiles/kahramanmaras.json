@@ -1,0 +1,24 @@
+{
+  "city": "Kahramanmaraş",
+  "region": "Akdeniz",
+  "description": "Sarp dağların ve sıcak ovaların buluştuğunda, kahramanlık destanlarıyla örülü güçlü ve gururlu bir halk müziği geleneği yaşatan kenttir.",
+  "themes": ["yiğitlik ve kahramanlık", "gurbet", "dağ özlemi", "sevda", "ana özlemi", "yurt sevgisi"],
+  "place_names": ["Ahır Dağı", "Ceyhan Nehri", "Göksun", "Elbistan Ovası", "Nurhak Dağları", "Andırın"],
+  "nature_images": ["karlı Ahır Dağı", "sert kayalıklar", "çam ormanları", "ova yolları", "dağ çiçekleri"],
+  "cultural_references": ["Sütçü İmam", "Kurtuluş Savaşı destanı", "Maraş kalesi", "yörük geleneği"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 halay", "9/8 oyun havası"],
+  "tempos": ["yavaş ağıtlı destan", "orta tempo türkü", "hareketli halay"],
+  "vocal_types": ["erkek solo güçlü ve gururlu", "kadın solo içli"],
+  "moods": ["gururlu ve coşkulu", "hüzünlü destan", "yiğitçe", "ateşli"],
+  "lyric_style": {
+    "language_notes": "Maraş ağzı; destan söylemi, yiğit ve kahraman metaforları, sert ünsüzler",
+    "forbidden_styles": ["arabesk", "pop ritmi", "kaba söylem"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["destan", "koşma", "dörtlük"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "city": "Kastamonu",
+  "region": "Karadeniz",
+  "description": "Batı Karadeniz'in tarihi şehrinde Ilgaz Dağları'nın serin havasıyla köklü ve onurlu bir halk müziği geleneği yaşatan kenttir.",
+  "themes": ["gurbet", "Ilgaz özlemi", "yiğitlik", "sevda", "tarihi derinlik", "ana özlemi"],
+  "place_names": ["Ilgaz Dağları", "Gökırmak Nehri", "Kastamonu Kalesi", "Tosya", "İnebolu"],
+  "nature_images": ["Ilgaz çam ormanları", "kar ve sis", "kıyı ovası", "nehir kenarı köyler"],
+  "cultural_references": ["İnce Memed'in Torosları gibi Ilgaz", "Osmanlı tarihi konumu", "şapka devrimi"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["serbest uzun hava", "7/8 horon", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı horon"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif Karadeniz sesi"],
+  "moods": ["onurlu ve sakin", "hüzünlü", "derin"],
+  "lyric_style": {
+    "language_notes": "Batı Karadeniz ağzı; sade ve köklü söylem, dağ ve orman metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani", "koşma"]
+  }
+}

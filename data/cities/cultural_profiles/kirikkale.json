@@ -1,0 +1,24 @@
+{
+  "city": "Kırıkkale",
+  "region": "İç Anadolu",
+  "description": "Ankara'nın hemen yanında sanayi ve kırsal yaşamın iç içe geçtiği, bozkır özlemini ve emekçi ruhunu türkülerine taşıyan genç İç Anadolu ilidir.",
+  "themes": ["gurbet", "emek ve çalışkanlık", "sevda", "bozkır hüznü", "ana özlemi"],
+  "place_names": ["Kızılırmak", "Delice Nehri", "Keskin", "Balışeyh"],
+  "nature_images": ["kızıl topraklı bozkır", "nehir kıyısı kavakları", "sarı buğday tarlaları"],
+  "cultural_references": ["sanayi geleneği", "Kırıkkale fabrika emekçileri", "kırsal köy yaşamı"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["sade ve hüzünlü", "emekçi ruhu", "özlemli"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; emek ve köy metaforları, yalın söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma", "mani"]
+  }
+}

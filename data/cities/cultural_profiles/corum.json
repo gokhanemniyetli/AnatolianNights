@@ -1,0 +1,24 @@
+{
+  "city": "Çorum",
+  "region": "Karadeniz",
+  "description": "Hitit medeniyetinin kalbi Boğazköy'ü barındıran, Kızılırmak ve Yeşilırmak arasında köklü tarihsel birikimi türkülerine yansıtan kenttir.",
+  "themes": ["gurbet", "tarih ve yurt", "sevda", "bozkır ve dağ arası", "ana özlemi"],
+  "place_names": ["Hattuşaş", "Kızılırmak", "Alacahöyük", "Mecitözü", "İskilip"],
+  "nature_images": ["Hatti ovası", "kayalık tepeler", "buğday tarlaları", "söğütler"],
+  "cultural_references": ["Hitit medeniyeti", "Hattuşaş anısı", "leblebicilik", "aşıklık geleneği"],
+  "instruments": {
+    "primary": ["kemençe", "bağlama"],
+    "secondary": ["davul"],
+    "avoid": ["tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "7/8 horon"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı horon"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["tarihe saygılı", "hüzünlü", "köklü"],
+  "lyric_style": {
+    "language_notes": "Orta-Karadeniz geçiş ağzı; tarih metaforları, sade dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

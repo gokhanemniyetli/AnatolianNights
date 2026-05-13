@@ -1,0 +1,24 @@
+{
+  "city": "Denizli",
+  "region": "Ege",
+  "description": "Pamuk ve travertenleriyle ünlü, Büyük Menderes havzasında zeybek kültürünü ve sıcak Ege türküsünü bir arada yaşatan dinamik Ege şehridir.",
+  "themes": ["zeybek yiğitliği", "Menderes'in sesi", "gurbet", "sevda", "bereket"],
+  "place_names": ["Büyük Menderes", "Pamukkale", "Babadağ", "Honaz Dağı", "Çürüksu Ovası"],
+  "nature_images": ["pamuk tarlaları", "beyaz travertenler", "Menderes kavakları", "bağ ve bahçeler"],
+  "cultural_references": ["zeybek efeler", "Laodikeia antik kenti", "pamukçuluk geleneği"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "4/4 Menderes türküsü"],
+  "tempos": ["yavaş zeybek", "orta tempo türkü", "hareketli zeybek"],
+  "vocal_types": ["erkek solo yiğit", "kadın solo sıcak"],
+  "moods": ["yiğitçe ve ferah", "hasretli", "bereketli"],
+  "lyric_style": {
+    "language_notes": "Ege ağzı; efe söylemi, dağ ve ova metaforları, sıcak anlatım",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "dörtlük"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "city": "Mersin",
+  "region": "Akdeniz",
+  "description": "Akdeniz kıyısında narenciye bahçeleri ve liman kültürüyle şekillenen, Toros eteklerinden inen yörük geleneğini taşıyan büyük kenttir.",
+  "themes": ["gurbet", "deniz özlemi", "yörük yaşamı", "liman hayatı", "sevda", "ayrılık"],
+  "place_names": ["Toros Dağları", "Silifke", "Gözne Yaylası", "Tece", "Kızkalesi", "Sertavul Geçidi"],
+  "nature_images": ["portakal bahçeleri", "limon ağaçları", "mavi Akdeniz", "karlı Toroslar", "kaktüs ve çam"],
+  "cultural_references": ["Silifke yöresi türküleri", "yörük göçü", "Kızkalesi efsanesi", "denizci hayatı"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "Silifke türkü ritmi", "4/4 halay", "7/8 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hareketli halay"],
+  "vocal_types": ["erkek solo güçlü", "kadın solo sıcak ve akıcı"],
+  "moods": ["sıcak ve canlı", "hasretli", "ferah", "yiğitçe"],
+  "lyric_style": {
+    "language_notes": "Silifke yöresi ağzı; ritmik söylem, hızlı hece atlamaları zaman zaman, doğal Akdeniz dili",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["dörtlük", "koşma", "semai"]
+  }
+}

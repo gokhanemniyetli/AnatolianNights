@@ -1,0 +1,24 @@
+{
+  "city": "Afyonkarahisar",
+  "region": "Ege",
+  "description": "Kara kaya gölgesinde Frig vadileri ve haşhaş tarlaları arasında özgün zeybek geleneği ve derin hüznüyle bilinen Ege-İç Anadolu geçiş kentidir.",
+  "themes": ["yiğit zeybek", "kara kaya hüznü", "sevda", "gurbet", "dağ yolu"],
+  "place_names": ["Afyon Kalesi", "Akarçay", "Sultandağları", "Başmakçı", "Frig Vadisi"],
+  "nature_images": ["kara kayalık", "haşhaş tarlaları", "bozkır", "dağ geçitleri", "afyon çiçekleri"],
+  "cultural_references": ["zeybek geleneği", "Dumlupınar savaşı", "Frig uygarlığı anısı", "kurtuluş savaşı"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "2/4 oyun havası"],
+  "tempos": ["çok yavaş zeybek", "orta tempo türkü", "hareketli zeybek"],
+  "vocal_types": ["erkek solo yiğit ve güçlü", "kadın solo hüzünlü"],
+  "moods": ["yiğitçe ve gururlu", "hüzünlü", "sert ve kararlı"],
+  "lyric_style": {
+    "language_notes": "Zeybek ağzı; yiğit söylemi, kaya ve dağ metaforları, sert ünsüzler",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["destan", "koşma", "dörtlük"]
+  }
+}

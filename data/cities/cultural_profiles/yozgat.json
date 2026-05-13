@@ -1,0 +1,24 @@
+{
+  "city": "Yozgat",
+  "region": "İç Anadolu",
+  "description": "Bozok yaylasının sert iklimiyle şekillenen, içten aşıklık geleneği ve derin gurbet türküleriyle İç Anadolu'nun özgün sesini taşıyan kenttir.",
+  "themes": ["gurbet", "bozok yaylası", "sevda", "ana özlemi", "köy hayatı", "yiğitlik"],
+  "place_names": ["Kızılırmak", "Bozok Yaylası", "Sorgun", "Yerköy", "Çekerek"],
+  "nature_images": ["bozok bozkırı", "kızıl toprak", "söğütler", "sel akıntıları"],
+  "cultural_references": ["Bozok beyleri", "aşıklık geleneği", "yurt ve toprak bağı"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "bozlak"],
+  "tempos": ["çok yavaş ağıt", "yavaş türkü", "orta tempo oyun havası"],
+  "vocal_types": ["erkek solo derin ve içli", "kadın solo zarif"],
+  "moods": ["derin ve hüzünlü", "özlemli", "yiğitçe"],
+  "lyric_style": {
+    "language_notes": "Bozok ağzı; sert ünsüzler, yaylak metaforları, aşık söylemi",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "semai", "dörtlük"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "city": "Gümüşhane",
+  "region": "Karadeniz",
+  "description": "Gümüş madenleri ve Zigana geçidinin sarp dağlarında, hüzünlü ve güçlü Karadeniz türkü geleneğini yaşatan dağ kentidir.",
+  "themes": ["gurbet", "gümüş dağlar", "maden ve emek", "sevda", "dağ yolu hüznü"],
+  "place_names": ["Zigana Geçidi", "Harşit Çayı", "Torul Barajı", "Kürtün", "Kelkit Vadisi"],
+  "nature_images": ["karlı Zigana", "derin vadiler", "gümüşi dağ zirveleri", "Harşit kanyonu"],
+  "cultural_references": ["gümüş madeni geleneği", "dağ geçidi ticareti", "Zigana kış zor geçidi"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["serbest uzun hava", "7/8 horon", "2/4 Karadeniz türküsü"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı horon"],
+  "vocal_types": ["erkek solo güçlü ve dağlı", "kadın solo hüzünlü"],
+  "moods": ["sert ve hüzünlü", "güçlü", "dağ özlemi"],
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı; dağ ve maden metaforları, güçlü söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

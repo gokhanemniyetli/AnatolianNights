@@ -1,0 +1,24 @@
+{
+  "city": "Diyarbakır",
+  "region": "Güneydoğu Anadolu",
+  "description": "Dicle kıyısındaki siyah bazalt surlar arkasında dengbej sesinin ve bağlamanın Kürt-Türk türkü geleneğini yüzyıllardır taşıdığı Güneydoğu'nun kalbi kenttir.",
+  "themes": ["Dicle kıyısı hüznü", "siyah sur ve şehir", "dengbej sesi", "gurbet", "kavun ve incir"],
+  "place_names": ["Dicle Nehri", "Diyarbakır Surları", "Hevsel Bahçeleri", "Silvan", "Ergani"],
+  "nature_images": ["siyah bazalt surlar", "Dicle kıyısı", "Hevsel bahçeleri", "karpuz ve kavun tarlaları"],
+  "cultural_references": ["dengbej kültürü", "Dünya Mirası surlari", "Kürt-Türk kültür mirası"],
+  "instruments": {
+    "primary": ["bağlama", "davul", "zurna"],
+    "secondary": ["saz"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "dengbej serbest"],
+  "tempos": ["çok yavaş dengbej", "yavaş ağıt", "orta tempo halay"],
+  "vocal_types": ["erkek solo güçlü dengbej", "kadın solo hüzünlü ağıt"],
+  "moods": ["derin hüzün", "tarihin ağırlığı", "dengbej ruhu"],
+  "lyric_style": {
+    "language_notes": "Güneydoğu ağzı; Kürtçe-Türkçe geçiş; sur ve Dicle metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dengbej koşması", "ağıt", "dörtlük"]
+  }
+}

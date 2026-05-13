@@ -1,0 +1,24 @@
+{
+  "city": "Edirne",
+  "region": "Marmara",
+  "description": "Osmanlı'nın ilk Avrupa başkenti olup Meriç kıyısında tarihi zenginliği ve sınır hüznünü türkülerine katan Trakya'nın köklü şehridir.",
+  "themes": ["gurbet", "sınır hüznü", "tarih ve yurt", "sevda", "Meriç'in sesi"],
+  "place_names": ["Meriç Nehri", "Tunca Nehri", "Selimiye Camii", "Uzunköprü", "Karaağaç"],
+  "nature_images": ["mısır tarlaları", "Meriç kıyısı söğütleri", "gün batımında sınır", "düz Trakya ovası"],
+  "cultural_references": ["Osmanlı başkenti mirası", "Kırkpınar güreş geleneği", "Rumeli muhacireti", "sınır hayatı"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "Trakya oyun havası"],
+  "tempos": ["yavaş hüzünlü türkü", "orta tempo", "hareketli Trakya havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["hüzünlü ve özlemli", "tarihe saygılı", "sade"],
+  "lyric_style": {
+    "language_notes": "Trakya ağzı; Rumeli söylemi zaman zaman, sade ve akıcı Türkçe, muhaciret teması",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma", "mani"]
+  }
+}

@@ -46,12 +46,12 @@ class FileStorage:
         p.write_text(text, encoding="utf-8")
         return p
 
-    def write_suno_prompt(self, city_slug: str, song_id: int, lyrics: str, style: str) -> tuple[Path, Path]:
+    def write_suno_prompt(self, city_slug: str, song_id: int, suno_lyrics: str, style_prompt: str) -> tuple[Path, Path]:
         d = self.song_dir(city_slug, song_id)
         lyrics_path = d / "suno_prompt.txt"
         style_path = d / "style_prompt.txt"
-        lyrics_path.write_text(lyrics, encoding="utf-8")
-        style_path.write_text(style, encoding="utf-8")
+        lyrics_path.write_text(suno_lyrics, encoding="utf-8")
+        style_path.write_text(style_prompt, encoding="utf-8")
         return lyrics_path, style_path
 
     def write_quality_report(self, city_slug: str, song_id: int, data: dict) -> Path:
@@ -77,14 +77,24 @@ class FileStorage:
     # ── Import helpers ────────────────────────────────────────────────
 
     def import_audio(self, city_slug: str, song_id: int, source_path: str | Path) -> Path:
-        dest = self.song_dir(city_slug, song_id) / "audio.mp3"
-        shutil.copy2(str(source_path), str(dest))
+        source = Path(source_path)
+        ext = source.suffix.lower() or ".wav"  # preserve .wav or .mp3
+        dest = self.song_dir(city_slug, song_id) / f"audio{ext}"
+        shutil.copy2(str(source), str(dest))
         return dest
 
     # ── Path accessors ────────────────────────────────────────────────
 
     def audio_path(self, city_slug: str, song_id: int) -> Path:
-        return self.song_dir(city_slug, song_id) / "audio.mp3"
+        """Return audio path. Prefer .wav if it exists, else .mp3 (or .wav as default dest)."""
+        song_dir = self.song_dir(city_slug, song_id)
+        wav = song_dir / "audio.wav"
+        mp3 = song_dir / "audio.mp3"
+        if wav.exists():
+            return wav
+        if mp3.exists():
+            return mp3
+        return wav  # default destination for new downloads
 
     def background_path(self, city_slug: str, song_id: int) -> Path:
         return self.song_dir(city_slug, song_id) / "background.png"

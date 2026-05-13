@@ -1,0 +1,24 @@
+{
+  "city": "Bayburt",
+  "region": "Karadeniz",
+  "description": "Çoruh'un yurdu Bayburt'ta yüksek yaylaların sert havası ve gurbet acısıyla bütünleşen derin Karadeniz türküsü geleneği yaşar.",
+  "themes": ["gurbet", "yayla özlemi", "kış hüznü", "sevda", "yüksek dağlar"],
+  "place_names": ["Çoruh Nehri", "Bayburt Kalesi", "Soğanlı Dağları", "Demirözü"],
+  "nature_images": ["karlı Soğanlı", "Çoruh vadisi", "yüksek yayla", "kış fırtınası"],
+  "cultural_references": ["Karadeniz-Doğu Anadolu geçiş kültürü", "yayla göçü geleneği", "Çoruh ticareti"],
+  "instruments": {
+    "primary": ["kemençe", "mey"],
+    "secondary": ["davul"],
+    "avoid": ["tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 ağır türkü"],
+  "tempos": ["çok yavaş ağıt", "yavaş türkü"],
+  "vocal_types": ["erkek solo güçlü dağ sesi", "kadın solo hüzünlü"],
+  "moods": ["ağır ve hüzünlü", "gurbet acısı", "dağın soğukluğu"],
+  "lyric_style": {
+    "language_notes": "Karadeniz-Doğu Anadolu geçiş ağzı; yayla ve dağ metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

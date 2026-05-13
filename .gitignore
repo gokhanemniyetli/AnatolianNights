@@ -1,6 +1,9 @@
 # Secrets
 .env
 config/secrets.yaml
+config/youtube_client_secrets.json
+config/youtube_token.json
+config/suno_session.json
 
 # Python
 __pycache__/
@@ -21,6 +24,8 @@ outputs/
 
 # Database (local state)
 *.db
+*.db-shm
+*.db-wal
 *.sqlite3
 
 # ML model cache — GB sized

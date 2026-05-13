@@ -1,0 +1,24 @@
+{
+  "city": "Balıkesir",
+  "region": "Ege",
+  "description": "Ege ve Marmara arasında köprü kuran, zeybek geleneği ve Rumeli göçmen kültürünün kesiştiği bereketli ve çok sesli Ege ilidir.",
+  "themes": ["zeybek yiğitliği", "gurbet", "Marmara-Ege köprüsü", "sevda", "göç ve hasret"],
+  "place_names": ["Kaz Dağları", "Manyas Gölü", "Erdek", "Bandırma", "Edremit Körfezi", "Çanakkale yolu"],
+  "nature_images": ["Kaz Dağları çamları", "Manyas kuş sesi", "zeytin ağaçları", "Marmara manzarası"],
+  "cultural_references": ["Kaz Dağları efsanesi", "zeybek efeler", "Balkan göçmenleri", "Dede Korkut"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "4/4 türkü"],
+  "tempos": ["yavaş zeybek", "orta tempo türkü", "hareketli zeybek"],
+  "vocal_types": ["erkek solo yiğit", "kadın solo içli"],
+  "moods": ["yiğitçe", "hüzünlü", "coşkulu"],
+  "lyric_style": {
+    "language_notes": "Ege ağzı; zeybek söylemi, dağ ve deniz imgeleri, Rumeli tonlaması zaman zaman",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma", "destan"]
+  }
+}

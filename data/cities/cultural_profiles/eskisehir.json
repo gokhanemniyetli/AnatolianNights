@@ -1,0 +1,24 @@
+{
+  "city": "Eskişehir",
+  "region": "İç Anadolu",
+  "description": "Porsuk Çayı kıyısında genç ve dinamik, Lületaşı geleneği ile yeniliği bir arada yaşayan, aşık edebiyatını modern ruha taşıyan İç Anadolu şehridir.",
+  "themes": ["gurbet", "genç sevda", "özgürlük", "yenilik ve geçmiş", "çay kıyısı hüznü"],
+  "place_names": ["Porsuk Çayı", "Kütahya yolu", "Sivrihisar", "Frigya", "Seyitgazi"],
+  "nature_images": ["Porsuk kıyısı söğütleri", "tarla ve köy yolları", "lületaşı beyazı", "bozkır ufku"],
+  "cultural_references": ["lületaşı geleneği", "Seyitgazi türbesi", "Frig uygarlığı", "aşıklık kültürü"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "9/8 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hareketli oyun havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["özlemli", "genç ve dinamik", "hüzünlü"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; genç ve taze söylem, Frigya mirası metaforları, sade dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "dörtlük", "semai"]
+  }
+}

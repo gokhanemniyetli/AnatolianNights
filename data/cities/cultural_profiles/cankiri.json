@@ -1,0 +1,24 @@
+{
+  "city": "Çankırı",
+  "region": "İç Anadolu",
+  "description": "Anadolu'nun ortasında tuz madenleri ve bozkırıyla sade kırsal hayatı türkülerine yansıtan, içten ve hüzünlü bir halk müziği geleneği sürdüren kenttir.",
+  "themes": ["gurbet", "bozkır hüznü", "sevda", "ana özlemi", "kırsal yaşam"],
+  "place_names": ["Ilgaz Dağları", "Kızılırmak", "Kurşunlu", "Orta İlçesi", "Çankırı Tuz Madenleri"],
+  "nature_images": ["tuz mağaraları", "bozkır tepeleri", "karlı Ilgaz", "sel suları"],
+  "cultural_references": ["tuzculuk geleneği", "aşık kültürü", "yaylacılık"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["sade ve hüzünlü", "özlemli", "sakin"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; yalın söylem, bozkır imgesi, sade duygu aktarımı",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani", "koşma"]
+  }
+}

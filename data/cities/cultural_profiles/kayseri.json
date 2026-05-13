@@ -1,0 +1,24 @@
+{
+  "city": "Kayseri",
+  "region": "İç Anadolu",
+  "description": "Erciyes Dağı'nın gölgesinde köklü Anadolu medeniyeti ve çalışkanlık kültürünü türkülerine işleyen, güçlü ve köklü İç Anadolu kentidir.",
+  "themes": ["Erciyes özlemi", "gurbet", "yiğitlik", "sevda", "ana özlemi", "çalışkanlık onuru"],
+  "place_names": ["Erciyes Dağı", "Kızılırmak", "Develi", "Pınarbaşı", "Sarıoğlan"],
+  "nature_images": ["karla kaplı Erciyes", "bozkır genişliği", "çayır meralar", "volkanik ovalar"],
+  "cultural_references": ["Erciyes'in karı", "Gevher Nesibe", "Selçuklu mirası", "halı ve dokuma"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "9/8 halay"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hareketli halay"],
+  "vocal_types": ["erkek solo güçlü", "kadın solo içli"],
+  "moods": ["güçlü ve onurlu", "hüzünlü", "yiğitçe"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; Erciyes ve bozkır metaforları, güçlü söylem, sade ama derin dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["destan", "koşma", "dörtlük"]
+  }
+}

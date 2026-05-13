@@ -1,0 +1,24 @@
+{
+  "city": "Kütahya",
+  "region": "Ege",
+  "description": "Çini sanatı ve Gediz Nehri ile tanınan, zeybek geleneğini ve Ege'nin kırsal içtenliğini türkülerine yansıtan tarihi Ege ilidir.",
+  "themes": ["zeybek yiğitliği", "gurbet", "sevda", "kırsal yaşam", "çini ve zanaat onuru"],
+  "place_names": ["Gediz Nehri", "Domaniç Dağları", "Simav Gölü", "Kütahya Kalesi", "Tavşanlı"],
+  "nature_images": ["çam ormanları", "bozkır", "çayır ve meralar", "bulutlu tepeler"],
+  "cultural_references": ["çini geleneği", "zeybek efeler", "Phrygian anısı", "Kossuth sürgünü"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "4/4 türkü"],
+  "tempos": ["yavaş zeybek", "orta tempo türkü", "hareketli zeybek"],
+  "vocal_types": ["erkek solo yiğit", "kadın solo içli"],
+  "moods": ["yiğitçe", "hüzünlü", "sakin ve derin"],
+  "lyric_style": {
+    "language_notes": "Ege ağzı; zeybek ve zanaat imgesi, dağ metaforları, yalın anlatım",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "dörtlük"]
+  }
+}

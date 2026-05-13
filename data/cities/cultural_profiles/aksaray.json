@@ -1,0 +1,24 @@
+{
+  "city": "Aksaray",
+  "region": "İç Anadolu",
+  "description": "İpek yolunun kavşağında Ihlara Vadisi'nin gizemini ve Kapadokya sınırındaki bozkırın hüznünü türkülerine yansıtan İç Anadolu ilidir.",
+  "themes": ["yol ve gurbet", "sevda", "vadi gizemliği", "toprak bağı", "ana özlemi"],
+  "place_names": ["Ihlara Vadisi", "Melendiz Dağları", "Tuz Gölü", "Güzelyurt", "Ağaçlı"],
+  "nature_images": ["derin vadi", "Ihlara kayalıkları", "tuz düzlüğü", "bozkır ufku"],
+  "cultural_references": ["Ihlara kilise freskler", "Kapadokya geçidi", "ipek yolu kervanları"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["hüzünlü ve derin", "özlemli", "sakin"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; yol ve vadi metaforları, yalın dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

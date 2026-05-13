@@ -3,7 +3,6 @@ SongService — creates and advances songs through the status state machine.
 """
 
 import logging
-import uuid
 
 from sqlalchemy.orm import Session
 
@@ -32,7 +31,6 @@ class SongService:
 
     def create_song(self, city_id: int) -> Song:
         song = Song(
-            id=str(uuid.uuid4()),
             city_id=city_id,
             status=SongStatus.PENDING,
             lyric_attempt=0,

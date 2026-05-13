@@ -1,0 +1,24 @@
+{
+  "city": "Karaman",
+  "region": "İç Anadolu",
+  "description": "Türkçe'nin resmî dil ilan edildiği tarihi kentin mirasını ve Karamanoğulları'nın gururunu taşıyan, sade ve köklü bir İç Anadolu türküsü geleneğine sahiptir.",
+  "themes": ["gurbet", "dil ve kültür onuru", "sevda", "bozkır hüznü", "tarih ve yurt"],
+  "place_names": ["Karaman Kalesi", "Binboğa Dağları", "Karadağ", "Ayrancı", "Mut"],
+  "nature_images": ["bozkır genişliği", "sarp kayalıklar", "kiraz bahçeleri", "sarı buğday"],
+  "cultural_references": ["Karamanoğulları", "Türkçeyi resmî dil eden ferman", "Mevlana'nın ailesi"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü"],
+  "vocal_types": ["erkek solo güçlü", "kadın solo zarif"],
+  "moods": ["onurlu ve köklü", "hüzünlü", "sade"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; güzel Türkçeye özen, sade ve temiz dil, tarih metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi", "yabancı kelimeler"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "dörtlük", "semai"]
+  }
+}

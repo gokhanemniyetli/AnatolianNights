@@ -1,0 +1,24 @@
+{
+  "city": "Muğla",
+  "region": "Ege",
+  "description": "Ege ile Akdeniz'in buluştuğu körfezler diyarında çam ormanları ve turkuaz koylar arasında sade ve ferah bir türkü geleneği taşıyan güzel kenttir.",
+  "themes": ["deniz özlemi", "çam kokusu", "gurbet", "sevda", "denizci hayatı"],
+  "place_names": ["Bodrum", "Datça", "Marmaris", "Göcek", "Köyceğiz Gölü", "Dalyan"],
+  "nature_images": ["turkuaz koylar", "çam ormanları", "kıyı kayalıkları", "zeytinlikler"],
+  "cultural_references": ["denizci geleneği", "Bodrum kalesi", "zeybek efeler", "Mausoleum anısı"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "4/4 Ege türküsü"],
+  "tempos": ["yavaş lirik", "orta tempo türkü", "hareketli zeybek"],
+  "vocal_types": ["erkek solo ferah ve özgür", "kadın solo zarif"],
+  "moods": ["ferah ve özgür", "nostaljik", "hüzünlü"],
+  "lyric_style": {
+    "language_notes": "Ege ağzı; deniz metaforları, ferah söylem, yalın dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "city": "Gaziantep",
+  "region": "Güneydoğu Anadolu",
+  "description": "Baklava ve fıstık başkentinde davul-zurna ve bağlamanın coşkusuyla zengin kültür birikimini türkülerine taşıyan, Güneydoğu'nun en canlı kenttir.",
+  "themes": ["şehir coşkusu", "bakır ve çarşı", "gurbet", "düğün ve halay", "lezzet ve şenlik"],
+  "place_names": ["Gaziantep Kalesi", "Yesemek", "Nizip", "İslahiye", "Karkamış"],
+  "nature_images": ["bakırcı çarşısı", "mozaik müzesi", "fıstık bahçeleri", "tarihi çarşı"],
+  "cultural_references": ["Zeugma Mozaikleri", "Antep savunması", "baklavalık fıstık", "yöresel mutfak zenginliği"],
+  "instruments": {
+    "primary": ["davul", "zurna", "bağlama"],
+    "secondary": ["kaval"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["9/8 halay", "4/4 oyun havası", "serbest uzun hava"],
+  "tempos": ["hızlı halay", "orta tempo oyun havası", "yavaş ağıt"],
+  "vocal_types": ["erkek solo güçlü", "toplu halay söylemi"],
+  "moods": ["coşkulu ve şenlikli", "hüzünlü türkü", "savunma onuru"],
+  "lyric_style": {
+    "language_notes": "Güneydoğu ağzı; şehir ve çarşı metaforları, coşkulu dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "city": "Artvin",
+  "region": "Karadeniz",
+  "description": "Dağlar ve derelerle çevrilmiş en sarp Karadeniz köşesinde tulum ve horon geleneğiyle coşku ve gururu bir arada taşıyan özgün kenttir.",
+  "themes": ["dağ coşkusu", "gurbet", "sevda", "horon neşesi", "çoruh'un sesi"],
+  "place_names": ["Çoruh Nehri", "Kaçkar Dağları", "Borçka", "Ardanuç", "Savsat Yaylası"],
+  "nature_images": ["derin vadiler", "köpüklü Çoruh", "kestane ve fındık bahçeleri", "bulutlu dağ zirveleri"],
+  "cultural_references": ["horon geleneği", "tulum ustası", "rafting ve coşku", "Artvin Kafkasör şenlikleri"],
+  "instruments": {
+    "primary": ["tulum", "kemençe"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["bağlama", "ud"]
+  },
+  "rhythms": ["7/8 horon", "5/8 dans", "serbest uzun hava"],
+  "tempos": ["çok hızlı horon", "hızlı dans havası", "yavaş ağıt"],
+  "vocal_types": ["erkek solo güçlü", "toplu horon söylemi"],
+  "moods": ["coşkulu ve neşeli", "hüzünlü", "özgür ve dağıl"],
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı; Artvin lehçesi, coşkulu söylem, dağ ve dere metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani"]
+  }
+}

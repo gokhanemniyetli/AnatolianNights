@@ -1,0 +1,24 @@
+{
+  "city": "Erzurum",
+  "region": "Doğu Anadolu",
+  "description": "Türkiye'nin en soğuk şehrinde Palandöken'in kartal zirvelerinde bağlamanın güçlü ve coşkulu sesiyle halay kültürünü yaşatan yiğitlik yurdu kenttir.",
+  "themes": ["Palandöken yiğitliği", "kış ve soğuk", "gurbet", "halay coşkusu", "bar ve halay"],
+  "place_names": ["Palandöken", "Kargapazarı Dağları", "Karasu", "Ilıca Yaylası", "Erzurum Kalesi"],
+  "nature_images": ["karlı Palandöken", "dondurucu kış", "kale ve surlar", "geniş ova"],
+  "cultural_references": ["bar oyunu geleneği", "Erzurum aşıklık geleneği", "tarhana ve pastırma kültürü"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay-bar", "5/8 bar"],
+  "tempos": ["yavaş ağıt", "hızlı bar", "orta tempo halay"],
+  "vocal_types": ["erkek solo güçlü Erzurum sesi", "toplu halay söylemi"],
+  "moods": ["yiğitlik ve güç", "hüzünlü", "coşkulu halay"],
+  "lyric_style": {
+    "language_notes": "Doğu Anadolu ağzı; yiğitlik ve kış metaforları, güçlü söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

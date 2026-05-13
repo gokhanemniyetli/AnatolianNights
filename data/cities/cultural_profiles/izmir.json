@@ -1,0 +1,24 @@
+{
+  "city": "İzmir",
+  "region": "Ege",
+  "description": "Körfezin incisi İzmir'de denizin özgürlüğü ve efe yiğitliği, zarif ve özgüveni yüksek bir Ege türküsü geleneğini besler.",
+  "themes": ["deniz özgürlüğü", "zeybek onuru", "gurbet", "sevda", "körfez hüznü"],
+  "place_names": ["İzmir Körfezi", "Kemeraltı", "Kordon", "Bornova", "Karşıyaka", "Ege Denizi"],
+  "nature_images": ["mavi körfez", "zeytinlikler", "incir ağaçları", "Bozyaka tepeleri"],
+  "cultural_references": ["İzmir'in kurtuluşu", "zeybek efeler", "kavaklar ve maniler", "körfez rüzgarı"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "4/4 Ege türküsü"],
+  "tempos": ["yavaş zeybek", "orta tempo türkü", "hareketli zeybek"],
+  "vocal_types": ["erkek solo özgür ve güçlü", "kadın solo zarif ve ferah"],
+  "moods": ["özgür ve gururi", "yiğitçe", "zarif", "coşkulu"],
+  "lyric_style": {
+    "language_notes": "Ege ağzı; özgür ve kendine güvenen söylem, deniz ve körfez imgeleri, 'efe' ruhu",
+    "forbidden_styles": ["arabesk", "pop ritmi", "kaba söylem"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["koşma", "dörtlük", "destan"]
+  }
+}

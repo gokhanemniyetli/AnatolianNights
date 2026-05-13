@@ -1,0 +1,24 @@
+{
+  "city": "Elazığ",
+  "region": "Doğu Anadolu",
+  "description": "Fırat'ın gözü Hazar Gölü kıyısında Harput geleneğinin bağlama ve hüseyni makamını derin bir hüzünle yaşatan, Türk halk müziğinin önemli merkezlerinden biridir.",
+  "themes": ["Harput hüznü", "Hazar özlemi", "gurbet", "sevda", "kayıp şehir özlemi"],
+  "place_names": ["Hazar Gölü", "Harput", "Fırat Nehri", "Keban Barajı", "Kovancılar"],
+  "nature_images": ["Hazar Gölü manzarası", "Harput kalesi", "Fırat vadisi", "kış ve yalnızlık"],
+  "cultural_references": ["Harput Türküleri geleneği", "Kemani geleneği", "Hüseyni makamı Elazığ yorumu"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava hüseyni", "9/8 halay", "4/4 Harput türküsü"],
+  "tempos": ["çok yavaş ağıt", "yavaş türkü", "orta tempo halay"],
+  "vocal_types": ["erkek solo derin ve hüzünlü Harput sesi", "kadın solo zarif ve içli"],
+  "moods": ["derin hüzün", "Harput nostaljisi", "gül ve bülbül"],
+  "lyric_style": {
+    "language_notes": "Doğu Anadolu ağzı; Harput lehçesi; gül, bülbül ve Hazar metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["gazel", "dörtlük", "koşma"]
+  }
+}

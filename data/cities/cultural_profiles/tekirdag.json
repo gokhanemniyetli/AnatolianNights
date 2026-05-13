@@ -1,0 +1,24 @@
+{
+  "city": "Tekirdağ",
+  "region": "Marmara",
+  "description": "Marmara kıyısında bağ bozumu geleneği ve Trakya türküsünün enerjisiyle şekillenen, Rumeli ruhunu taşıyan özgün kenttir.",
+  "themes": ["bağ bozumu", "deniz özlemi", "gurbet", "sevda", "göç ve muhaciret", "Trakya hüznü"],
+  "place_names": ["Marmara Denizi", "Ergene Nehri", "Şarköy", "Mürefte Bağları", "Malkara"],
+  "nature_images": ["Marmara'ya uzanan üzüm bağları", "kıyı rüzgarı", "ayçiçeği tarlaları", "kırmızı toprak"],
+  "cultural_references": ["Rumeli göçmen geleneği", "Trakya bağ kültürü", "Mürefte şarabı anısı"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "Trakya oyun havası"],
+  "tempos": ["yavaş hüzünlü", "orta tempo", "hareketli Trakya türküsü"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["hüzünlü ve özlemli", "Rumeli nostaljisi", "coşkulu"],
+  "lyric_style": {
+    "language_notes": "Trakya ağzı; Rumeli söylemi, bağ ve deniz metaforları, akıcı dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani", "koşma"]
+  }
+}

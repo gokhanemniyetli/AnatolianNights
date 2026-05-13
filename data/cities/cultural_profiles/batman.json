@@ -1,0 +1,24 @@
+{
+  "city": "Batman",
+  "region": "Güneydoğu Anadolu",
+  "description": "Petrol kuleleri ve Dicle kollarının kesiştiği modern Güneydoğu kentinde bağlama ve zurnanın hüzünlü coşkusu gelenekle modernliği buluşturur.",
+  "themes": ["petrol ve çelik", "gurbet", "Dicle kıyısı", "modern şehir hüznü", "sevda"],
+  "place_names": ["Batman Çayı", "Dicle Nehri", "Hasankeyf", "Kozluk", "Sason"],
+  "nature_images": ["Hasankeyf kayalıkları", "petrol boru hattı", "Dicle kıyısı", "tarihi mağaralar"],
+  "cultural_references": ["Hasankeyf tarihi", "petrol kültürü", "Dicle havzası medeniyeti"],
+  "instruments": {
+    "primary": ["bağlama", "davul"],
+    "secondary": ["zurna", "saz"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 türkü"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı halay"],
+  "vocal_types": ["erkek solo güçlü", "kadın solo hüzünlü"],
+  "moods": ["tarihin hüznü", "modern kent özlemi", "coşkulu halay"],
+  "lyric_style": {
+    "language_notes": "Güneydoğu ağzı; tarihi yapı ve Dicle metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

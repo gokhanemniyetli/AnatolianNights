@@ -1,0 +1,24 @@
+{
+  "city": "Iğdır",
+  "region": "Doğu Anadolu",
+  "description": "Ağrı Dağı eteklerindeki sıcak ovasında Kafkas-Türk-Kürt kültür kavşağında özgün bir türkü ve dengbej geleneği yaşatan kenttir.",
+  "themes": ["Ağrı Dağı gölgesinde", "gurbet", "ova sıcağı ve dağ soğuğu", "Kafkas özlemi", "sevda"],
+  "place_names": ["Aras Nehri", "Ağrı Dağı", "Aralik", "Tuzluca", "Karakoyunlu"],
+  "nature_images": ["Ağrı Dağı silueti", "Aras vadisi", "sıcak ova", "sınır manzarası"],
+  "cultural_references": ["Azeri-Türk-Kürt kültür buluşması", "Nuh efsanesi", "Aras ticareti"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 türkü"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı halay"],
+  "vocal_types": ["erkek solo güçlü", "kadın solo Azeri etkili"],
+  "moods": ["sıcak ova ve derin hüzün", "Kafkas özlemi", "dağ gururu"],
+  "lyric_style": {
+    "language_notes": "Iğdır ağzı; Azeri Türkçesi etkileri; Ağrı ve Aras metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

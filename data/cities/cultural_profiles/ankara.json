@@ -1,0 +1,24 @@
+{
+  "city": "Ankara",
+  "region": "İç Anadolu",
+  "description": "Başkentin altında yatan Anadolu bozkırının derinliğini ve köklü halk müziği geleneğini yansıtan, aşıklık geleneğiyle zenginleşen İç Anadolu şehridir.",
+  "themes": ["gurbet", "bozkır hüznü", "yurt sevgisi", "sevda", "başkent gururu", "ana özlemi"],
+  "place_names": ["Kızılırmak", "Mogan Gölü", "Ankara Kalesi", "Beypazarı", "Ayaş"],
+  "nature_images": ["sarı bozkır", "kızılırmak kıvrımları", "sis kaplı tepeler", "söğütler"],
+  "cultural_references": ["aşıklık geleneği", "Atatürk mirası", "Hacı Bayram-ı Veli", "kurtuluş savaşı merkezi"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hareketli oyun havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif", "aşık söylemi"],
+  "moods": ["hüzünlü ve derin", "gururlu", "yurt sevgisi", "içten"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; aşık edebiyatı söylemi, bozkır metaforları, yalın ve derin dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "semai", "dörtlük", "divan"]
+  }
+}

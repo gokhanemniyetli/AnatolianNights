@@ -1,0 +1,24 @@
+{
+  "city": "Van",
+  "region": "Doğu Anadolu",
+  "description": "Van Gölü'nün mavi sularında bağlamanın derin hüznü ve Ermeni-Kürt-Türk kültür mirasının eşsiz bileşimiyle tarihin yükünü türkülerine taşıyan kenttir.",
+  "themes": ["Van Gölü özlemi", "tarihin ağırlığı", "gurbet", "inci kefali", "sevda ve hüzün"],
+  "place_names": ["Van Gölü", "Akdamar Adası", "Muradiye Şelalesi", "Erciş", "Gevaş"],
+  "nature_images": ["Van Gölü'nün mavisinde gün batımı", "Akdamar kilisesi", "lale tarlaları", "karlı Süphan"],
+  "cultural_references": ["Ermeni-Kürt-Türk kültür mirası", "inci kefali avı", "Van kedisi", "Süphan Dağı"],
+  "instruments": {
+    "primary": ["bağlama", "mey"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 Van türküsü"],
+  "tempos": ["çok yavaş ağıt", "yavaş türkü", "orta tempo halay"],
+  "vocal_types": ["erkek solo derin ve hüzünlü", "kadın solo zarif"],
+  "moods": ["derin hüzün", "göl özlemi", "tarihi derinlik"],
+  "lyric_style": {
+    "language_notes": "Doğu Anadolu ağzı; göl ve tarihi yapı metaforları, derin söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

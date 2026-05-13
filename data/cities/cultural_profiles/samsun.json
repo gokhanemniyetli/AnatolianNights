@@ -1,0 +1,24 @@
+{
+  "city": "Samsun",
+  "region": "Karadeniz",
+  "description": "Kurtuluş Savaşı'nın başladığı kentte Kızılırmak ve Yeşilırmak deltasının geniş ovasında hem deniz hem ova türkülerini harmanlayan Karadeniz'in en büyük şehridir.",
+  "themes": ["kurtuluş coşkusu", "deniz ve ova", "gurbet", "sevda", "tarihsel onur"],
+  "place_names": ["Kızılırmak Deltası", "Amisos Tepesi", "Samsun Limanı", "Bafra", "Çarşamba"],
+  "nature_images": ["Karadeniz dalgaları", "delta bataklıkları", "tütün tarlaları", "liman"],
+  "cultural_references": ["19 Mayıs 1919", "Atatürk'ün çıkarması", "tütün ticareti", "Karadeniz balıkçılığı"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["7/8 horon", "serbest uzun hava", "2/4 oyun havası"],
+  "tempos": ["hızlı horon", "orta tempo türkü", "yavaş ağıt"],
+  "vocal_types": ["erkek solo güçlü Karadeniz sesi", "kadın solo lirik"],
+  "moods": ["coşkulu ve onurlu", "hüzünlü", "tarihe saygılı"],
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı; tarihsel ve deniz metaforları, güçlü söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

@@ -34,9 +34,10 @@ YAPI:
 
 ÇIKTI FORMATI:
 Sadece JSON döndür. Başka hiçbir şey yazma.
+"lyrics" alanı içinde [Verse 1], [Chorus] gibi etiketler MUTLAKA olmalı. Aşağıdaki örneği takip et:
 
 {
-  "lyrics": "Tam şarkı sözleri (Verse/Chorus etiketleriyle birlikte)",
+  "lyrics": "[Verse 1]\nBir dize buraya\nİkinci dize buraya\nÜçüncü dize buraya\nDördüncü dize buraya\n\n[Chorus]\nNakarat birinci dize\nNakarat ikinci dize\n\n[Verse 2]\nBeşinci dize buraya\nAltıncı dize buraya\nYedinci dize buraya\nSekizinci dize buraya\n\n[Chorus]\nNakarat birinci dize\nNakarat ikinci dize",
   "first_line": "Şarkının ilk dizesi",
   "chorus_line": "Nakaratın ilk dizesi",
   "keywords": ["sözdeki önemli imgeler veya kelimeler"]

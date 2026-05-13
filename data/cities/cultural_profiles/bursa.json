@@ -1,0 +1,24 @@
+{
+  "city": "Bursa",
+  "region": "Marmara",
+  "description": "Osmanlı'nın ikinci başkenti olan, ipek geleneği ve yeşil doğasıyla zengin kültürel birikimi türkülerine yansıyan büyük Marmara şehridir.",
+  "themes": ["tarih ve gurur", "sevda", "gurbet", "ipekçilik", "Uludağ özlemi", "ana özlemi"],
+  "place_names": ["Uludağ", "Nilüfer Çayı", "Gemlik Körfezi", "Yeşil Türbe", "İznik Gölü"],
+  "nature_images": ["karla örtülü Uludağ", "şeftali bahçeleri", "kestane ormanları", "göl kıyısı"],
+  "cultural_references": ["Osmanlı hanedanı mirası", "ipek böceği yetiştirme", "çarşı geleneği", "Yeşil Cami"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "9/8 oyun havası"],
+  "tempos": ["yavaş ve ağır", "orta tempo", "hareketli oyun havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["tarihe saygılı", "gururlu", "hüzünlü", "sıcak"],
+  "lyric_style": {
+    "language_notes": "Temiz İstanbul Türkçesi; Osmanlı mirasına gönderme, zarif ve ölçülü söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi", "kaba söylem"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["koşma", "dörtlük", "semai"]
+  }
+}

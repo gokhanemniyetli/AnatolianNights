@@ -1,0 +1,24 @@
+{
+  "city": "Manisa",
+  "region": "Ege",
+  "description": "Spil Dağı'nın eteklerinde Gediz havzasının bereketli üzüm bağlarında, zeybek ve mesir geleneğiyle renklenmiş canlı bir Ege türküsü kentidir.",
+  "themes": ["bağ bozumu", "zeybek yiğitliği", "sevda", "gurbet", "bereket"],
+  "place_names": ["Spil Dağı", "Gediz Nehri", "Sardes", "Akhisar", "Gördes"],
+  "nature_images": ["üzüm bağları", "incir ve zeytin ağaçları", "Spil'in karı", "bağ bozumu coşkusu"],
+  "cultural_references": ["Mesir Macunu Festivali", "zeybek efeler", "Sardes altın mirası", "bağ bozumu geleneği"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "4/4 bağ türküsü"],
+  "tempos": ["yavaş zeybek", "orta tempo türkü", "hareketli bağ türküsü"],
+  "vocal_types": ["erkek solo yiğit", "kadın solo sıcak ve coşkulu"],
+  "moods": ["bereketli ve coşkulu", "yiğitçe", "ferah"],
+  "lyric_style": {
+    "language_notes": "Ege ağzı; bağ ve toprak metaforları, coşkulu söylem, zeybek ruhu",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "dörtlük", "semai"]
+  }
+}

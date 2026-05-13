@@ -54,7 +54,7 @@ def review_song(song_id: str):
 @click.command("import-audio")
 @click.option("--song-id", required=True, help="Song ID to import audio for")
 @click.option("--file", "audio_file", required=True, type=click.Path(exists=True),
-              help="Path to the downloaded MP3 file")
+              help="Path to the downloaded audio file (WAV or MP3)")
 def import_audio(song_id: str, audio_file: str):
     """Import a Suno-generated audio file into the pipeline."""
     with get_session() as session:

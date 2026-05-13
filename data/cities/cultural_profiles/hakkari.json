@@ -1,0 +1,24 @@
+{
+  "city": "Hakkari",
+  "region": "Doğu Anadolu",
+  "description": "Cudi ve Sat Dağları'nın en uç köşesinde dengbej sesinin ve dağlı Kürt türkü geleneğinin zorlu coğrafyayla bütünleştiği en sarp Doğu Anadolu kentidir.",
+  "themes": ["dağın zorluğu", "dengbej hüznü", "gurbet", "yurt savunması", "doğanın sertliği"],
+  "place_names": ["Sat Dağları", "Cudi Dağı", "Zap Suyu", "Yüksekova", "Şemdinli"],
+  "nature_images": ["karlı sarp dağlar", "derin Zap vadisi", "yaylatoplulukları", "kayalık geçitler"],
+  "cultural_references": ["dengbej geleneği", "Kürt dağ kültürü", "sınır ticareti", "aşiret geleneği"],
+  "instruments": {
+    "primary": ["mey", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum", "bağlama"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "kırık hava"],
+  "tempos": ["çok yavaş ağıt", "yavaş dengbej", "orta tempo halay"],
+  "vocal_types": ["erkek solo güçlü dengbej", "kadın solo ağıt"],
+  "moods": ["çok ağır hüzün", "doğanın sertliği", "yurt özlemi"],
+  "lyric_style": {
+    "language_notes": "Kürtçe ağırlıklı söylem; dağ ve coğrafya metaforları, dengbej tarzı",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dengbej koşması", "ağıt", "destan"]
+  }
+}

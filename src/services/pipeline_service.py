@@ -87,9 +87,12 @@ class PipelineService:
                     # QUALITY_APPROVED is set when lyrics pass; advance to SUNO_READY
                     song = self._stage_suno_prompt(song, song_svc, cultural_profile)
                 elif status == SongStatus.SUNO_READY:
-                    # Blocking: operator must run import-audio
-                    logger.info("Song %s is SUNO_READY. Waiting for audio import.", song.id)
-                    break
+                    if settings.suno.client.lower() == "browser":
+                        song = self._stage_suno_wait(song, song_svc, city)
+                    else:
+                        # manual mode — operator must run import-audio
+                        logger.info("Song %s is SUNO_READY. Waiting for audio import.", song.id)
+                        break
                 elif status == SongStatus.AUDIO_IMPORTED:
                     song = self._stage_image(song, song_svc, city, cultural_profile)
                 elif status == SongStatus.IMAGE_READY:
@@ -146,14 +149,32 @@ class PipelineService:
         song.suno_style_prompt = result.get("style_prompt", "")
         song.suno_lyrics = result.get("suno_lyrics", "")
 
-        # Write prompt file for operator (manual mode)
+        # Submit to Suno (manual: writes prompt file; browser: submits to API)
         suno_client = get_suno_client()
-        suno_client.generate(song.suno_style_prompt, song.suno_lyrics, song.id)
+        task_id = suno_client.generate(song.suno_style_prompt, song.suno_lyrics, song.id)
+        song.suno_task_id = str(task_id) if task_id else None
 
         file_storage.write_suno_prompt(city_slug=self._get_city_slug(song), song_id=song.id,
                                        style_prompt=song.suno_style_prompt,
                                        suno_lyrics=song.suno_lyrics)
         return song_svc.advance(song)  # → SUNO_READY
+
+    def _stage_suno_wait(self, song, song_svc, city):
+        """Browser mode: poll Suno until clip is ready, download WAV, advance to AUDIO_IMPORTED."""
+        logger.info("[%s] Stage: suno_wait (clip_id=%s)", song.id, song.suno_task_id)
+        if not song.suno_task_id:
+            raise ValueError(f"Song {song.id} is SUNO_READY but has no suno_task_id.")
+
+        city_slug = city.slug
+        suno_client = get_suno_client()
+        audio_dest = file_storage.audio_path(city_slug, song.id)  # returns .wav path
+        downloaded = suno_client.download_audio(song.suno_task_id, audio_dest)
+
+        song.audio_path = str(file_storage.rel(downloaded))
+        song.status = SongStatus.AUDIO_IMPORTED
+        song_svc.session.flush()
+        logger.info("[%s] Audio indirme tamam: %s", song.id, downloaded)
+        return song
 
     def _stage_image(self, song, song_svc, city, cultural_profile):
         logger.info("[%s] Stage: image", song.id)

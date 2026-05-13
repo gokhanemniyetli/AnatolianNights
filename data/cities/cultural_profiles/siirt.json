@@ -1,0 +1,24 @@
+{
+  "city": "Siirt",
+  "region": "Güneydoğu Anadolu",
+  "description": "Botan Çayı vadisinde büryan geleneğiyle ve Kürt-Arap kültür dokusunda davul-zurnanın coşkusu ile bağlamanın hüznünü bir arada yaşatan kenttir.",
+  "themes": ["Botan Çayı", "gurbet", "büryan ve şenlik", "dağ ve vadi", "sevda"],
+  "place_names": ["Botan Çayı", "Pervari", "Eruh", "Baykan", "Siirt Kalesi"],
+  "nature_images": ["Botan Çayı vadisi", "kayalık dağlar", "nehir kıyısı köyleri", "şelale"],
+  "cultural_references": ["büryan geleneği", "Siirt battaniyesi", "Kürt-Arap kültür buluşması"],
+  "instruments": {
+    "primary": ["bağlama", "davul", "zurna"],
+    "secondary": ["saz"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 türkü"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı halay"],
+  "vocal_types": ["erkek solo güçlü dağlı", "kadın solo hüzünlü"],
+  "moods": ["hüzünlü", "vadi özgürlüğü", "coşkulu halay"],
+  "lyric_style": {
+    "language_notes": "Güneydoğu ağzı; Kürtçe-Arapça etkileri; vadi ve çay metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "ağıt"]
+  }
+}

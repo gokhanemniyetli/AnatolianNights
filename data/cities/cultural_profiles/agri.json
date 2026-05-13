@@ -1,0 +1,24 @@
+{
+  "city": "Ağrı",
+  "region": "Doğu Anadolu",
+  "description": "Büyük Ağrı Dağı'nın kartallar yurdu zirvelerinde bağlamanın hüzünlü sesi ve Kürtçe-Türkçe türkülerin iç içe geçtiği dağlı kenttir.",
+  "themes": ["Ağrı Dağı gururu", "göç hüznü", "kar ve yoğunluk", "yurt sevgisi", "çoban türküsü"],
+  "place_names": ["Büyük Ağrı Dağı", "Iğdır Ovası", "Aras Nehri", "Doğubayazıt", "İshak Paşa Sarayı"],
+  "nature_images": ["karlı Ağrı zirveleri", "geniş yaylalar", "sürü ve çoban", "dondurucu kış"],
+  "cultural_references": ["Nuh'un gemisi efsanesi", "İshak Paşa Sarayı", "Kürt-Türk kültür buluşması"],
+  "instruments": {
+    "primary": ["bağlama", "mey"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 ağır türkü"],
+  "tempos": ["çok yavaş ağıt", "yavaş türkü", "orta tempo halay"],
+  "vocal_types": ["erkek solo güçlü dağlı", "kadın solo hüzünlü"],
+  "moods": ["sert ve hüzünlü", "dağın kuvveti", "gurbet acısı"],
+  "lyric_style": {
+    "language_notes": "Doğu Anadolu ağzı; Türkçe-Kürtçe geçiş; dağ ve kar metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

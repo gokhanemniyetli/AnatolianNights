@@ -1,0 +1,24 @@
+{
+  "city": "Rize",
+  "region": "Karadeniz",
+  "description": "Çay bahçelerinin yeşili ve Karadeniz'in derinliğinde kemençe ve tulumun coşkusuyla yaşayan, horon kültürünün merkezi kenttir.",
+  "themes": ["çay ve dağ", "deniz özlemi", "gurbet", "horon coşkusu", "sevda"],
+  "place_names": ["Çamlıhemşin", "Fırtına Deresi", "Kaçkar Dağları", "Ardeşen", "İyidere"],
+  "nature_images": ["çay bahçeleri", "yemyeşil dağ yamaçları", "Fırtına Deresi kanyonu", "sis ve yağmur"],
+  "cultural_references": ["horon ustası", "Hemşin kültürü", "çay tarımı", "tulum Rize geleneği"],
+  "instruments": {
+    "primary": ["kemençe", "tulum"],
+    "secondary": ["davul"],
+    "avoid": ["bağlama", "ud"]
+  },
+  "rhythms": ["7/8 horon", "5/8 dans", "serbest uzun hava"],
+  "tempos": ["çok hızlı horon", "orta tempo türkü", "yavaş ağıt"],
+  "vocal_types": ["erkek solo güçlü", "toplu horon söylemi"],
+  "moods": ["coşkulu ve neşeli", "hüzünlü", "güçlü ve özgür"],
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı; Hemşin lehçesi izleri, çay ve dağ metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani"]
+  }
+}

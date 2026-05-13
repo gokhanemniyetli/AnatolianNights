@@ -1,0 +1,24 @@
+{
+  "city": "Kars",
+  "region": "Doğu Anadolu",
+  "description": "Aras Nehri kıyısında Kafkas kültürünün mührünü taşıyan, Dede Korkut'un ve aşıklık geleneğinin özünü yaşatan türkü kentidir.",
+  "themes": ["Kafkas özlemi", "gurbet", "Dede Korkut geleneği", "kış bozkırı", "sevda"],
+  "place_names": ["Aras Nehri", "Akdağ", "Sarıkamış", "Ani Harabeleri", "Kars Kalesi"],
+  "nature_images": ["bozkır kışı", "Ani harabeleri", "Aras kıyısı", "Kafkas sınırı"],
+  "cultural_references": ["Dede Korkut destanı", "Kars aşıklık geleneği", "Sarıkamış şehitleri", "Kafkas kültürü"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 türkü"],
+  "tempos": ["çok yavaş ağıt", "yavaş türkü", "orta tempo halay"],
+  "vocal_types": ["erkek solo güçlü aşık sesi", "kadın solo hüzünlü"],
+  "moods": ["derin hüzün", "Kafkas özlemi", "yiğitlik"],
+  "lyric_style": {
+    "language_notes": "Kars ağzı; aşıklık dili, Dede Korkut motifler, bozkır ve kış imgeler",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["destan", "koşma", "dörtlük"]
+  }
+}

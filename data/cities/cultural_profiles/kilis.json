@@ -1,0 +1,24 @@
+{
+  "city": "Kilis",
+  "region": "Güneydoğu Anadolu",
+  "description": "Suriye sınırında zeytin ve üzüm bağlarının ortasında Arap-Türk kültür buluşmasında davul-zurnanın coşkusu ve bağlamanın hüznüyle kendine özgü türkü geleneği yaşatan küçük kenttir.",
+  "themes": ["zeytin ve üzüm", "sınır kültürü", "gurbet", "düğün şenliği", "Kilis evi ve konukluk"],
+  "place_names": ["Kilis Ovası", "Afrin Çayı", "Musabeyli", "Polateli"],
+  "nature_images": ["zeytin bağları", "üzüm bağları", "sınır ovası", "kuru toprak"],
+  "cultural_references": ["Arap-Türk kültür sınırı", "Kilis peyniri", "zeytin hasadı geleneği"],
+  "instruments": {
+    "primary": ["davul", "zurna", "bağlama"],
+    "secondary": ["saz"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["9/8 halay", "4/4 oyun havası", "serbest uzun hava"],
+  "tempos": ["hızlı halay", "orta tempo oyun havası", "yavaş türkü"],
+  "vocal_types": ["erkek solo güçlü", "toplu halay söylemi"],
+  "moods": ["coşkulu şenlik", "sınır hüznü", "zeytin kokusu"],
+  "lyric_style": {
+    "language_notes": "Güneydoğu ağzı; Arapça etkileri; zeytin ve ova metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

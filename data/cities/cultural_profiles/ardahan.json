@@ -1,0 +1,24 @@
+{
+  "city": "Ardahan",
+  "region": "Doğu Anadolu",
+  "description": "Türkiye'nin en soğuk kenti Ardahan'da Kura Nehri kıyısında Kafkas kültürünün mührü ve gurbet türkülerinin dondurucu soğukla yoğrulduğu uç kenttir.",
+  "themes": ["Kafkas soğuğu", "gurbet", "kış bozkırı", "yurt özlemi", "hayvancılık"],
+  "place_names": ["Kura Nehri", "Çıldır Gölü", "Aktaş Gölü", "Posof", "Hanak"],
+  "nature_images": ["buzlu Çıldır Gölü", "Kafkas kış bozkırı", "Kura kıyısı", "karlı ve ıssız ova"],
+  "cultural_references": ["Çıldır Gölü üzerinde at gezisi", "Kafkasya komşuluğu", "hayvancılık kültürü"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 ağır türkü"],
+  "tempos": ["çok yavaş ağıt", "yavaş türkü"],
+  "vocal_types": ["erkek solo güçlü dağlı", "kadın solo donuk hüzün"],
+  "moods": ["dondurucu hüzün", "gurbet", "bozkır yalnızlığı"],
+  "lyric_style": {
+    "language_notes": "Kars-Ardahan ağzı; soğuk ve göç metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

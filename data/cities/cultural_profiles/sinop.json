@@ -1,0 +1,24 @@
+{
+  "city": "Sinop",
+  "region": "Karadeniz",
+  "description": "Karadeniz'in kuzey burnundaki tarihi yarımadada denizin kuşattığı şehirde balıkçı türkülerinin ve gurbet acısının hüzünlü yankısı vardır.",
+  "themes": ["deniz burnu özlemi", "balıkçı gurbet", "sevda", "kuzey rüzgarı", "hapis hüznü"],
+  "place_names": ["Sinop Burnu", "Karadeniz", "Kızılırmak", "Boyabat", "Gerze"],
+  "nature_images": ["Karadeniz'in en kuzeyi", "üç tarafı deniz", "kıyı kayalıkları", "kış fırtınaları"],
+  "cultural_references": ["Sinop Cezaevi", "Diyojen'in vatanı", "balıkçılık geleneği", "denizcilik"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["serbest uzun hava", "7/8 horon", "2/4 deniz türküsü"],
+  "tempos": ["yavaş ve hüzünlü", "orta tempo türkü", "hızlı horon"],
+  "vocal_types": ["erkek solo hüzünlü balıkçı sesi", "kadın solo zarif"],
+  "moods": ["hüzünlü ve yalnız", "özgür deniz", "tarihe saygılı"],
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı; deniz metaforları, sade ve hüzünlü söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "city": "Malatya",
+  "region": "Doğu Anadolu",
+  "description": "Kayısı bağlarının altın rengi ve Fırat'ın kenarında bağlamanın içli sesini Toros eteklerinde derin hüzünle buluşturan kenttir.",
+  "themes": ["kayısı bahçesi özlemi", "Fırat sevdası", "gurbet", "ova hüznü", "ana özlemi"],
+  "place_names": ["Fırat Nehri", "Toros Etekleri", "Battalgazi", "Darende", "Doğanşehir"],
+  "nature_images": ["kayısı bağları", "Fırat kıyısı", "barajlar", "ova ve dağ manzarası"],
+  "cultural_references": ["kayısı hasadı geleneği", "Battalgazi destanı", "Beydağı yaylası"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "9/8 halay"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı halay"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif ve hüzünlü"],
+  "moods": ["içli ve hüzünlü", "ova özlemi", "kayısı kokusu"],
+  "lyric_style": {
+    "language_notes": "Doğu Anadolu ağzı; kayısı ve ova metaforları, sade dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "city": "İstanbul",
+  "region": "Marmara",
+  "description": "İki kıtayı birleştiren, yüzyıllarca imparatorlukların başkenti olan İstanbul'un türküleri gurbet hüznünü, Boğaz'ın sesini ve şehrin kadim ruhunu taşır.",
+  "themes": ["gurbet ve hasret", "Boğaz'ın sesi", "geçmiş zaman özlemi", "sevda", "şehir hüznü", "ayrılık"],
+  "place_names": ["Boğaziçi", "Üsküdar", "Galata Kulesi", "Haliç", "Büyükada", "Sarıyer"],
+  "nature_images": ["Boğaz'da kayıklar", "martılar", "sis içinde köprü", "güneş batan Boğaz", "adalar"],
+  "cultural_references": ["Üsküdar türküsü geleneği", "Osmanlı saray müziği mirası", "kahvehane geleneği", "denizci hayatı"],
+  "instruments": {
+    "primary": ["bağlama", "ud"],
+    "secondary": ["keman", "kanun"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "fasıl ritmi", "4/4 şarkı biçimi"],
+  "tempos": ["yavaş ve nostaljik", "orta tempo lirik", "sakin şarkı"],
+  "vocal_types": ["erkek solo nostaljik", "kadın solo zarif ve lirik"],
+  "moods": ["nostaljik ve hüzünlü", "zarif", "şehir melankolisi"],
+  "lyric_style": {
+    "language_notes": "Temiz İstanbul Türkçesi; yüksek sözcük seçimi, şiirsel metaforlar, zarif anlatım",
+    "forbidden_styles": ["arabesk", "pop ritmi", "kaba söylem"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["şarkı", "semai", "gazel", "koşma"]
+  }
+}

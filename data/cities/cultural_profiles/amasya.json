@@ -1,0 +1,24 @@
+{
+  "city": "Amasya",
+  "region": "Karadeniz",
+  "description": "Yeşilırmak kıyısındaki kaya mezarları ve şehzadeler şehrinin tarihi derinliğini taşıyan, kemençe sesiyle coşkulu ve özgün bir Karadeniz türküsü geleneğini yaşatan kenttir.",
+  "themes": ["Yeşilırmak'ın sesi", "şehzade özlemi", "gurbet", "sevda", "dağ yaşamı"],
+  "place_names": ["Yeşilırmak", "Harşena Dağı", "Amasya Kalesi", "Kral Kaya Mezarları", "Suluova"],
+  "nature_images": ["kaya mezarları", "elma bahçeleri", "Yeşilırmak kıyısı", "sis kaplı dağlar"],
+  "cultural_references": ["şehzadeler şehri", "Osmanlı şehzade eğitim yeri", "elma bahçeleri"],
+  "instruments": {
+    "primary": ["kemençe", "kemane"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["serbest uzun hava", "7/8 horon", "2/4 Karadeniz oyun havası"],
+  "tempos": ["yavaş ve duygulu", "hızlı horon", "orta tempo türkü"],
+  "vocal_types": ["erkek solo güçlü Karadeniz sesi", "kadın solo yüksek perdeli"],
+  "moods": ["coşkulu ve hareketli", "hüzünlü", "tarihe saygılı"],
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı; 'a' sesinin 'e'ye kayması, coşkulu söylem, deniz ve dağ imgeleri",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani", "koşma"]
+  }
+}

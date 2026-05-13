@@ -1,0 +1,24 @@
+{
+  "city": "Isparta",
+  "region": "Akdeniz",
+  "description": "Gül bahçeleriyle ünlü, Eğirdir Gölü kıyısında sakin kırsal yaşamı ve zarif bir türkü geleneğini barındıran Akdeniz ilidir.",
+  "themes": ["gül kokusu", "sevda", "gurbet", "kırsal huzur", "yayla özlemi", "ana özlemi"],
+  "place_names": ["Eğirdir Gölü", "Davraz Dağı", "Gülden Ovası", "Barla", "Burdur", "Sultan Dağları"],
+  "nature_images": ["gül tarlaları", "gül yağı kokusu", "mavi göl", "karlı dağlar", "çam ormanları"],
+  "cultural_references": ["gül üretim geleneği", "bektaşi kültürü", "Barla sürgünleri", "gülyağı çiçekçilik"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ve lirik", "orta tempo türkü", "hareketli oyun havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif ve lirik"],
+  "moods": ["zarif ve hüzünlü", "romantik", "sakin ve huzurlu"],
+  "lyric_style": {
+    "language_notes": "Sade Anadolu Türkçesi; gül ve çiçek metaforları yoğun, zarif ve temiz dil",
+    "forbidden_styles": ["arabesk", "pop ritmi", "kaba söylem"],
+    "forbidden_words": ["baby", "şampanya", "disko"],
+    "preferred_forms": ["dörtlük", "koşma", "mani"]
+  }
+}

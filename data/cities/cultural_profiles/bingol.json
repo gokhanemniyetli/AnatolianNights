@@ -1,0 +1,24 @@
+{
+  "city": "Bingöl",
+  "region": "Doğu Anadolu",
+  "description": "Göynük Çayı ve Munzur eteklerinde mey ve bağlamanın hüzünlü nefesiyle Alevi-Kürt geleneğini yaşatan özgün kenttir.",
+  "themes": ["Munzur'un sesi", "Alevi geleneği", "gurbet", "dağ ve su", "sevda"],
+  "place_names": ["Göynük Çayı", "Peri Çayı", "Solhan", "Genç", "Karlıova Yaylası"],
+  "nature_images": ["Munzur etekleri", "çay vadileri", "yüksek yaylalar", "sis kaplı tepeler"],
+  "cultural_references": ["Alevi-Bektaşi geleneği", "dengbej kültürü", "cemevi geleneği"],
+  "instruments": {
+    "primary": ["bağlama", "mey"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 halay", "4/4 semah türküsü"],
+  "tempos": ["çok yavaş semah", "yavaş ağıt", "orta tempo halay"],
+  "vocal_types": ["erkek solo içli Alevi", "kadın solo hüzünlü"],
+  "moods": ["derin ve içli", "spiritüel", "hüzünlü"],
+  "lyric_style": {
+    "language_notes": "Doğu Anadolu ağzı; Alevi semah söylemi, dağ ve su metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "semah nefesi"]
+  }
+}

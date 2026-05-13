@@ -1,0 +1,24 @@
+{
+  "city": "Uşak",
+  "region": "Ege",
+  "description": "Halıcılık geleneği ve Gediz havzasında sade bir Ege halk müziği yaşatan, zeybek kültürünü içtenlikle taşıyan küçük Ege ilidir.",
+  "themes": ["gurbet", "zeybek yiğitliği", "emek ve zanaat", "sevda", "dağ özlemi"],
+  "place_names": ["Gediz Nehri", "Murat Dağı", "Banaz Çayı", "Eşme", "Sivaslı"],
+  "nature_images": ["bozkır geçitleri", "halı renkleri gibi çiçekler", "çam tepeleri", "geniş ovalar"],
+  "cultural_references": ["halı dokuma geleneği", "zeybek efeler", "Uşak halısı mirası"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "4/4 türkü"],
+  "tempos": ["yavaş zeybek", "orta tempo türkü"],
+  "vocal_types": ["erkek solo yiğit", "kadın solo içli"],
+  "moods": ["yiğitçe", "sade ve içten", "hüzünlü"],
+  "lyric_style": {
+    "language_notes": "Ege ağzı; emek ve toprak metaforları, yalın söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

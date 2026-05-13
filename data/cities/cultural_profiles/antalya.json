@@ -1,0 +1,24 @@
+{
+  "city": "Antalya",
+  "region": "Akdeniz",
+  "description": "Toros dağlarının eteklerinde yörük gelenekleri ve mavi Akdeniz'in buluştuğu, ferah ve içten bir halk müziği mirasına sahip kenttir.",
+  "themes": ["yörük göçü", "dağ yaylası", "deniz özlemi", "yiğitlik", "sevda", "gurbet"],
+  "place_names": ["Toros Dağları", "Köprüçay", "Manavgat Şelalesi", "Kemer", "Dedegöl Yaylası", "Saklikent"],
+  "nature_images": ["sedir ormanları", "turkuaz Akdeniz", "karlı Toroslar", "portakal bahçeleri", "yayla çiçekleri"],
+  "cultural_references": ["yörük geleneği", "tahtacı kültürü", "Dedegöl yaylası", "göç yolu", "hayvancılık geleneği"],
+  "instruments": {
+    "primary": ["bağlama", "kaval"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum", "keman"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 yörük türküsü", "7/8 halay"],
+  "tempos": ["yavaş ağıt", "orta tempo yörük türküsü", "hareketli halay"],
+  "vocal_types": ["erkek solo doğal ve güçlü", "kadın solo ferah ve samimi"],
+  "moods": ["özgür ve ferah", "hüzünlü", "yiğitçe", "sakin ve doğal"],
+  "lyric_style": {
+    "language_notes": "Yörük ağzı; doğallık ön planda, sade Anadolu Türkçesi, dağ ve doğa metaforları",
+    "forbidden_styles": ["arabesk", "pop ritmi", "şehirli söylem"],
+    "forbidden_words": ["baby", "şampanya", "parti"],
+    "preferred_forms": ["dörtlük", "koşma", "semai"]
+  }
+}

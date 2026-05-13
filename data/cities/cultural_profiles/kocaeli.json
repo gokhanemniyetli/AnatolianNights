@@ -1,0 +1,24 @@
+{
+  "city": "Kocaeli",
+  "region": "Marmara",
+  "description": "İzmit Körfezi'nin kıyısında sanayi ve doğanın bir arada bulunduğu, tarihî İzmit'in halk müziği mirasını taşıyan Marmara ilidir.",
+  "themes": ["gurbet", "körfez özlemi", "işçi ve emek", "sevda", "tarih ve yurt"],
+  "place_names": ["İzmit Körfezi", "Sapanca Gölü", "Kartepe", "Gebze", "Hereke"],
+  "nature_images": ["sislenmis körfez", "Sapanca Gölü'nün maviligi", "Kartepe'nin karı", "fabrika dumanları"],
+  "cultural_references": ["İzmit'in tarihî önemi", "sanayi kültürü", "Sakarya Savaşı anısı"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hareketli oyun havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["sade ve hüzünlü", "özlemli", "güçlü"],
+  "lyric_style": {
+    "language_notes": "Sade İstanbul Türkçesi; yalın dil, emek ve gurbet temaları",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

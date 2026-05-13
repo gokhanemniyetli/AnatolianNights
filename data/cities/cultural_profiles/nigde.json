@@ -1,0 +1,24 @@
+{
+  "city": "Niğde",
+  "region": "İç Anadolu",
+  "description": "Aladağlar'ın eteklerinde elma bahçeleri ve bozkırın sadeliğiyle şekillenen, içten ve köklü bir İç Anadolu türküsü geleneğini yaşatan kenttir.",
+  "themes": ["gurbet", "dağ özlemi", "sevda", "ana özlemi", "bozkır hüznü"],
+  "place_names": ["Aladağlar", "Niğde Kalesi", "Bor Ovası", "Ulukışla", "Kemerhisar"],
+  "nature_images": ["elma bahçeleri", "karlı Aladağlar", "bozkır genişliği", "volkanik kaya"],
+  "cultural_references": ["Tyana antik kenti", "elma yetiştirme geleneği", "yaylacılık"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval", "davul"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["sade ve hüzünlü", "özlemli", "sakin"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; yalın söylem, bozkır ve dağ imgesi",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani", "koşma"]
+  }
+}

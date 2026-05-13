@@ -1,0 +1,24 @@
+{
+  "city": "Kırşehir",
+  "region": "İç Anadolu",
+  "description": "Aşık Veysel'in memleketi olarak aşıklık geleneğinin kalbi sayılan, bağlamanın ruhunu en derinden taşıyan İç Anadolu kentidir.",
+  "themes": ["aşıklık geleneği", "gurbet", "sevda", "kör gönül", "toprak ve yurt", "ana özlemi"],
+  "place_names": ["Kızılırmak", "Cacabey", "Mucur", "Akpınar", "Hirfanlı Barajı"],
+  "nature_images": ["kızıl toprak", "bozkır genişliği", "söğüt ağaçları", "nehir kıyısı"],
+  "cultural_references": ["Aşık Veysel", "Neşet Ertaş", "aşık meclisleri", "bozlak geleneği"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["kaval"],
+    "avoid": ["kemençe", "tulum", "davul"]
+  },
+  "rhythms": ["serbest uzun hava", "bozlak", "4/4 türkü"],
+  "tempos": ["çok yavaş bozlak", "yavaş ağıt", "orta tempo türkü"],
+  "vocal_types": ["erkek solo aşık söylemi", "kadın solo içli"],
+  "moods": ["derin ve içten", "hüzünlü", "felsefi", "özlemli"],
+  "lyric_style": {
+    "language_notes": "Orta Anadolu ağzı; aşık şiiri dili, felsefi derinlik, 'gönül' ve 'toprak' metaforları, bozlak makamı",
+    "forbidden_styles": ["arabesk", "pop ritmi", "yüzeysel söylem"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "semai", "divan", "dörtlük"]
+  }
+}

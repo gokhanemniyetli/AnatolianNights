@@ -1,0 +1,24 @@
+{
+  "city": "Giresun",
+  "region": "Karadeniz",
+  "description": "Karadeniz'in fındık başkentinde dalgalı deniz ve sarp dağlar arasında kemençenin coşkusu ve denizci ruhunun iç içe geçtiği Karadeniz kentidir.",
+  "themes": ["deniz ve dağ arasında", "gurbet", "fındık bahçesi", "denizci ruhu", "sevda"],
+  "place_names": ["Karadeniz", "Giresun Adası", "Kümbet Yaylası", "Tirebolu", "Espiye"],
+  "nature_images": ["fındıklıklar", "Karadeniz dalgaları", "sis kaplı dağlar", "kıyı kayalıkları"],
+  "cultural_references": ["Giresun Adası efsanesi", "Amazonlar efsanesi", "fındık hasadı geleneği", "denizcilik"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["7/8 horon", "serbest uzun hava", "2/4 Karadeniz türküsü"],
+  "tempos": ["hızlı horon", "orta tempo türkü", "yavaş ağıt"],
+  "vocal_types": ["erkek solo coşkulu Karadeniz sesi", "kadın solo yüksek perdeli"],
+  "moods": ["coşkulu ve enerjik", "hüzünlü", "deniz özlemi"],
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı; deniz ve fındık metaforları, coşkulu söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani"]
+  }
+}

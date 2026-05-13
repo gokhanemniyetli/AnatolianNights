@@ -1,0 +1,24 @@
+{
+  "city": "Ordu",
+  "region": "Karadeniz",
+  "description": "Karadeniz'in fındık ve deniz kenti Ordu'da kemençenin coşkulu sesi ve deniz türkülerinin iç içe geçtiği canlı bir halk müziği geleneği vardır.",
+  "themes": ["deniz ve fındık", "gurbet", "sevda", "dağ ve sahil arası", "hasret"],
+  "place_names": ["Karadeniz", "Boztepe", "Melet Çayı", "Ünye", "Fatsa", "Perşembe Yaylası"],
+  "nature_images": ["fındıklık yamaçlar", "mavi Karadeniz", "sis ve yağmur", "dağlardan denize bakan köyler"],
+  "cultural_references": ["fındık hasadı geleneği", "denizci aileleri", "Karadeniz balıkçılığı"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["7/8 horon", "serbest uzun hava", "2/4 Karadeniz türküsü"],
+  "tempos": ["hızlı horon", "orta tempo türkü", "yavaş ve hüzünlü ağıt"],
+  "vocal_types": ["erkek solo coşkulu", "kadın solo yüksek perdeli Karadeniz sesi"],
+  "moods": ["coşkulu ve enerjik", "hüzünlü", "deniz özlemi"],
+  "lyric_style": {
+    "language_notes": "Karadeniz ağzı; deniz ve fındık metaforları, coşkulu söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani"]
+  }
+}

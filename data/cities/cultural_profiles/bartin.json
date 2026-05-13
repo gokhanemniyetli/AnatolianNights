@@ -1,0 +1,24 @@
+{
+  "city": "Bartın",
+  "region": "Karadeniz",
+  "description": "Bartın Nehri'nin kıyısında ahşap mimarisi ve fındıklıklarıyla dingin Batı Karadeniz türküsü geleneğini taşıyan kenttir.",
+  "themes": ["nehir kıyısı hüznü", "gurbet", "sevda", "ahşap ev kokusu", "fındık bahçesi"],
+  "place_names": ["Bartın Nehri", "İnkumu Sahili", "Amasra", "Ulus", "Kurucaşile"],
+  "nature_images": ["nehir kıyısı ormanı", "deniz kıyısı Amasra", "fındıklıklar", "yağmurlu kıyı"],
+  "cultural_references": ["Amasra tarihi limanı", "ahşap ev geleneği", "Bartın nehircilik tarihi"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["davul"],
+    "avoid": ["bağlama", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "3/4 lirik türkü"],
+  "tempos": ["yavaş ve dingin", "orta tempo türkü"],
+  "vocal_types": ["erkek solo dingin", "kadın solo zarif"],
+  "moods": ["dingin ve lirik", "hüzünlü", "doğa ile barışık"],
+  "lyric_style": {
+    "language_notes": "Batı Karadeniz ağzı; nehir ve deniz metaforları, sade söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "mani"]
+  }
+}

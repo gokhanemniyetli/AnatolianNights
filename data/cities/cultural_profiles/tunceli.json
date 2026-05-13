@@ -1,0 +1,24 @@
+{
+  "city": "Tunceli",
+  "region": "Doğu Anadolu",
+  "description": "Munzur'un pınarları ve dar vadilerinde Alevi geleneğinin en özgün sesini, bağlama ve mey eşliğinde semah ve ağıtlarla yaşatan kutsal kenttir.",
+  "themes": ["Munzur kutsallığı", "Alevi ruhu", "dağ özgürlüğü", "yas ve direniş", "pınar ve temizlik"],
+  "place_names": ["Munzur Nehri", "Munzur Vadisi Milli Parkı", "Ovacık", "Pertek", "Nazimiye"],
+  "nature_images": ["Munzur pınarları", "dar vadiler", "çınar ağaçları", "kutsal su kaynakları"],
+  "cultural_references": ["Alevi-Bektaşi pirler türbesi", "cemevi geleneği", "Seyit Rıza", "doğa kutsiyeti"],
+  "instruments": {
+    "primary": ["bağlama", "mey"],
+    "secondary": ["davul"],
+    "avoid": ["kemençe", "tulum", "zurna"]
+  },
+  "rhythms": ["serbest uzun hava", "semah ritmi", "4/4 nefes"],
+  "tempos": ["çok yavaş semah", "yavaş nefes", "orta tempo türkü"],
+  "vocal_types": ["erkek solo derin Alevi sesi", "kadın solo hüzünlü ağıt"],
+  "moods": ["kutsal ve derin", "hüzünlü", "özgür Munzur"],
+  "lyric_style": {
+    "language_notes": "Doğu Anadolu ağzı; Alevi nefes dili; pınar ve dağ kutsallığı",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["nefes", "semah", "ağıt"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "city": "Aydın",
+  "region": "Ege",
+  "description": "Büyük Menderes ovasında incir ve zeytinliklerin gölgesinde, zeybek kültürü ve içten Ege türküleriyle şekillenen bereketli Ege kentidir.",
+  "themes": ["zeybek yiğitliği", "Menderes'in sesi", "sevda", "gurbet", "incir bahçesi", "bereket"],
+  "place_names": ["Büyük Menderes", "Söke Ovası", "Didim", "Kuşadası", "Bozdağlar"],
+  "nature_images": ["incir bahçeleri", "zeytin ağaçları", "Menderes kıvrımları", "kuş cennetleri"],
+  "cultural_references": ["zeybek efeler", "Atatürk'ün Ege seferi", "Menderes medeniyeti", "Efes anısı"],
+  "instruments": {
+    "primary": ["bağlama", "cura"],
+    "secondary": ["zeybek davulu", "zurna"],
+    "avoid": ["tulum", "kemençe"]
+  },
+  "rhythms": ["serbest uzun hava", "9/8 zeybek", "4/4 Menderes türküsü"],
+  "tempos": ["yavaş zeybek", "orta tempo türkü", "hareketli zeybek"],
+  "vocal_types": ["erkek solo yiğit", "kadın solo ferah"],
+  "moods": ["yiğitçe", "ferah ve açık", "hüzünlü", "bereketli"],
+  "lyric_style": {
+    "language_notes": "Ege ağzı; 'efe' söylemi, zeybek yiğitliği, doğa ve bereket imgeleri",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["koşma", "dörtlük", "destan"]
+  }
+}

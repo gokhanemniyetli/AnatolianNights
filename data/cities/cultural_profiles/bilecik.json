@@ -1,0 +1,24 @@
+{
+  "city": "Bilecik",
+  "region": "Marmara",
+  "description": "Osmanlı'nın ilk başkenti Söğüt'ü barındıran, tarihî derin kökleriyle sade ve içten bir Marmara türküsü geleneğini yaşatan kenttir.",
+  "themes": ["gurbet", "tarih ve yurt", "sevda", "ana özlemi", "yiğitlik"],
+  "place_names": ["Söğüt", "Sakarya Nehri", "Bilecik Kalesi", "Bozüyük", "İnegöl"],
+  "nature_images": ["yeşil tepeler", "dere kıyıları", "bağ ve bahçeler", "sis kaplı ovalar"],
+  "cultural_references": ["Osman Gazi geleneği", "Osmanlı kuruluş yeri", "ipek yolu anısı"],
+  "instruments": {
+    "primary": ["bağlama"],
+    "secondary": ["davul", "zurna"],
+    "avoid": ["kemençe", "tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "2/4 oyun havası"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hareketli oyun havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["sade ve hüzünlü", "tarihe saygılı", "içten"],
+  "lyric_style": {
+    "language_notes": "Sade İstanbul Türkçesine yakın; tarih ve köklere gönderme, yalın ve temiz dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma", "mani"]
+  }
+}

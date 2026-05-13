@@ -1,0 +1,24 @@
+{
+  "city": "Tokat",
+  "region": "Karadeniz",
+  "description": "Yeşilırmak vadisinde tarihi köprüler ve cumbalı evlerle Karadeniz-İç Anadolu geçiş ruhunu türkülerine yansıtan, bağ ve bahçe söylemlerinin yaygın olduğu kenttir.",
+  "themes": ["Yeşilırmak hüznü", "gurbet", "bağ bahçe özlemi", "sevda", "tarihsel anlam"],
+  "place_names": ["Yeşilırmak", "Niksar Kalesi", "Zile", "Turhal", "Ballıca Mağarası"],
+  "nature_images": ["bağ bahçeleri", "Yeşilırmak kıyısı", "Tokat Kalesi", "vadi köyleri"],
+  "cultural_references": ["Pontus krallığı tarihi", "Osmanlı tarihi önemi", "şarapçılık geleneği"],
+  "instruments": {
+    "primary": ["kemençe", "bağlama"],
+    "secondary": ["davul"],
+    "avoid": ["tulum"]
+  },
+  "rhythms": ["serbest uzun hava", "4/4 türkü", "7/8 horon"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı oyun havası"],
+  "vocal_types": ["erkek solo içli", "kadın solo zarif"],
+  "moods": ["içli ve hüzünlü", "tarihe saygılı", "doğa ile barışık"],
+  "lyric_style": {
+    "language_notes": "Karadeniz-İç Anadolu geçiş ağzı; bağ ve bahçe metaforları, sade dil",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}

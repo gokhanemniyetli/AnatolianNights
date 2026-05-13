@@ -1,0 +1,24 @@
+{
+  "city": "Zonguldak",
+  "region": "Karadeniz",
+  "description": "Kömür ve denizin buluştuğu Batı Karadeniz'de madenci türkülerinin ağır hüznü ile deniz türkülerinin coşkusunu aynı anda taşıyan işçi kentidir.",
+  "themes": ["madenci hüznü", "gurbet", "kömür ve deniz", "emek", "sevda"],
+  "place_names": ["Karadeniz", "Filyos Nehri", "Kozlu", "Ereğli", "Devrek"],
+  "nature_images": ["kömür ocakları", "deniz kıyısı kaya", "Karadeniz yağmuru", "maden ışıkları"],
+  "cultural_references": ["madenci geleneği", "kömür havzası", "işçi dayanışması", "Devrek bastonu"],
+  "instruments": {
+    "primary": ["kemençe"],
+    "secondary": ["tulum", "davul"],
+    "avoid": ["bağlama"]
+  },
+  "rhythms": ["serbest uzun hava", "7/8 horon", "ağır türkü"],
+  "tempos": ["yavaş ağıt", "orta tempo türkü", "hızlı horon"],
+  "vocal_types": ["erkek solo güçlü madenci sesi", "kadın solo hüzünlü"],
+  "moods": ["ağır ve hüzünlü", "emekçi onuru", "sert Karadeniz ruhu"],
+  "lyric_style": {
+    "language_notes": "Batı Karadeniz ağzı; maden ve deniz metaforları, ağır söylem",
+    "forbidden_styles": ["arabesk", "pop ritmi"],
+    "forbidden_words": ["baby", "şampanya"],
+    "preferred_forms": ["dörtlük", "koşma"]
+  }
+}
