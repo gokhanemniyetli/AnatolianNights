@@ -5,9 +5,15 @@ Your job: write a detailed image generation prompt for a Turkish folk song's bac
 RULES:
 - The image must feel authentically Anatolian, never generic or stock-photo-like
 - Match the song's mood, theme, season and regional atmosphere exactly
-- No people faces (avoid face generation issues)
+- Do not include people, faces, bodies, hands, musicians, shepherds, villagers, fishermen, field workers, silhouettes, crowds, or human figures of any kind
+- Do not include musical instruments, bağlama, saz, kemençe, tulum, kaval, davul, zurna, microphones, or performance scenes
+- Build the scene around the region and the song story: mountains, forests, plateaus, valleys, plains, lakes, rivers, seas, harbors, boats, castles, bridges, old stone roads, village houses, fields, orchards, ruins, snow, fog, sunrise, sunset, storms, or other locally meaningful landmarks
+- The first sentence must name the main landscape/place subject and the season or weather
+- If the song mentions sea, lake, river, fishing, Black Sea, harbor or coast, include water, shore, boats, cliffs, waves, harbors, or fishing nets without people
+- If the song mentions mountains, pasture, village, migration or shepherding, include mountains, highland pastures, empty stone paths, distant village roofs, animals only if they remain small and natural
+- If the story is abstract, choose an iconic natural or historic landscape from the city and make it cinematic
 - No text in the image
-- Painterly or photographic style, warm and atmospheric
+- Cinematic photographic style, dramatic folk album cover mood, warm and atmospheric
 - Resolution/ratio: 1920x1080 (landscape, 16:9)
 - The image will be used as a YouTube video background
 
@@ -16,6 +22,6 @@ Return only JSON. Nothing else.
 
 {
   "image_prompt": "Full detailed image generation prompt in English",
-  "negative_prompt": "Things to avoid in the image",
+  "negative_prompt": "Things to avoid in the image, including text, logos, watermarks, people, human figures, faces, hands, bodies, musicians, musical instruments, malformed faces, extra fingers, modern city clutter",
   "style_tags": ["style1", "style2", "style3"]
 }

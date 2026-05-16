@@ -7,7 +7,7 @@ import logging
 from pathlib import Path
 
 from src.adapters.suno import get_suno_client
-from src.adapters.youtube import QuotaTracker, YouTubeClient
+from src.adapters.youtube import YouTubeClient, YouTubeStudioUploader
 from src.agents import (
     ConceptAgent,
     ImagePromptAgent,
@@ -155,7 +155,7 @@ class PipelineService:
         if not simple_prompt:
             raise ValueError("Suno simple prompt boş geldi.")
 
-        # In simple mode, we send a single command prompt and let Suno handle lyrics/style.
+        # Simple mode: send only the description and let Suno generate lyrics/style.
         song.suno_style_prompt = simple_prompt
         song.suno_full_prompt = simple_prompt
         song.suno_lyrics = ""
@@ -180,6 +180,15 @@ class PipelineService:
         suno_client = get_suno_client()
         audio_dest = file_storage.audio_path(city_slug, song.id)  # returns .wav path
         downloaded = suno_client.download_audio(song.suno_task_id, audio_dest)
+        suno_status = suno_client.get_status(song.suno_task_id)
+
+        suno_title = (suno_status.get("suno_title") or "").strip()
+        if suno_title:
+            song.title = suno_title
+
+        suno_lyrics = (suno_status.get("suno_lyrics") or "").strip()
+        if suno_lyrics:
+            song.lyrics = suno_lyrics
 
         song.audio_path = str(file_storage.rel(downloaded))
         song.status = SongStatus.AUDIO_IMPORTED
@@ -201,6 +210,21 @@ class PipelineService:
         self._image_generator.generate(image_prompt, negative_prompt, bg_path)
         song.background_image_path = str(file_storage.rel(bg_path))
 
+        short_prompt = (
+            f"{image_prompt} Vertical 9:16 composition for a YouTube Short, "
+            "strong central landscape subject, no stretching, no people, no instruments."
+        )
+        short_bg_path = file_storage.short_background_path(city.slug, song.id)
+        self._image_generator.generate(
+            short_prompt,
+            negative_prompt,
+            short_bg_path,
+            target_width=1080,
+            target_height=1920,
+            gen_width=576,
+            gen_height=1024,
+        )
+
         return song_svc.advance(song)  # → IMAGE_READY
 
     def _stage_video(self, song, song_svc):
@@ -208,6 +232,9 @@ class PipelineService:
         city_slug = self._get_city_slug(song)
         audio_path = file_storage.audio_path(city_slug, song.id)
         bg_path = file_storage.background_path(city_slug, song.id)
+        short_bg_path = file_storage.short_background_path(city_slug, song.id)
+        if not short_bg_path.exists():
+            short_bg_path = bg_path
         srt_path = file_storage.subtitles_path(city_slug, song.id)
         long_path = file_storage.video_path(city_slug, song.id)
         short_path = file_storage.short_path(city_slug, song.id)
@@ -224,18 +251,31 @@ class PipelineService:
         song.thumbnail_path = str(file_storage.rel(thumb_path))
 
         # Long video
-        self._long_renderer.render(bg_path, audio_path, srt_path, long_path)
+        self._long_renderer.render(
+            bg_path,
+            audio_path,
+            srt_path,
+            long_path,
+            title=song.title or "",
+            city_name=self._get_city_name(song),
+        )
         song.long_video_path = str(file_storage.rel(long_path))
 
         # Short
-        self._short_renderer.render(bg_path, audio_path, srt_path, short_path)
+        self._short_renderer.render(
+            short_bg_path,
+            audio_path,
+            srt_path,
+            short_path,
+            title=song.title or "",
+            city_name=self._get_city_name(song),
+        )
         song.short_video_path = str(file_storage.rel(short_path))
 
         return song_svc.advance(song)  # → VIDEO_READY
 
     def _stage_upload(self, song, song_svc, session, city):
         logger.info("[%s] Stage: upload", song.id)
-        quota_tracker = QuotaTracker(session)
 
         yt = YouTubeClient(
             client_secrets_file=settings.youtube.client_secrets_file,
@@ -252,34 +292,71 @@ class PipelineService:
         short_path = Path("outputs") / song.short_video_path if song.short_video_path else None
         thumb_path = Path("outputs") / song.thumbnail_path if song.thumbnail_path else None
 
+        missing_ops: list[str] = []
+        if long_path and long_path.exists() and not song.youtube_long_video_id:
+            missing_ops.append("upload")
+            missing_ops.append("playlist_insert")
+        if short_path and short_path.exists() and not song.youtube_short_video_id:
+            missing_ops.append("upload_short")
+
+        if not missing_ops:
+            if song.youtube_long_video_id or song.youtube_short_video_id:
+                return song_svc.advance(song)  # → UPLOADED
+            raise RuntimeError(f"No uploadable video files found for song {song.id}")
+
         # Upload long video
-        if long_path and long_path.exists() and quota_tracker.can_afford("upload"):
-            vid_id = yt.upload_video(
+        if long_path and long_path.exists() and not song.youtube_long_video_id:
+            playlist_id = self._ensure_city_playlist(yt, city)
+            studio = YouTubeStudioUploader()
+            vid_id = studio.upload_video(
                 video_path=long_path,
                 title=meta.get("title", song.title or ""),
                 description=meta.get("description", ""),
-                tags=meta.get("tags", []),
                 thumbnail_path=thumb_path,
-                playlist_id=city.playlist_id,
+                playlist_title=self._city_playlist_title(city),
             )
+            yt.publish_video(vid_id)
             song.youtube_long_video_id = vid_id
-            quota_tracker.record("upload", song.id)
+            yt.add_to_playlist(vid_id, playlist_id)
+            studio.add_end_screen(vid_id)
 
         # Upload Short
-        if short_path and short_path.exists() and quota_tracker.can_afford("upload_short"):
-            short_id = yt.upload_short(
+        if short_path and short_path.exists() and not song.youtube_short_video_id:
+            studio = YouTubeStudioUploader()
+            short_id = studio.upload_video(
                 video_path=short_path,
                 title=meta.get("short_title", meta.get("title", "")),
                 description=meta.get("short_description", ""),
-                tags=meta.get("tags", []),
-                playlist_id=None,
             )
+            yt.publish_video(short_id)
             song.youtube_short_video_id = short_id
-            quota_tracker.record("upload_short", song.id)
+            if song.youtube_long_video_id:
+                try:
+                    studio.set_related_video(
+                        short_video_id=short_id,
+                        related_video_id=song.youtube_long_video_id,
+                        related_video_title=meta.get("title", song.title or ""),
+                    )
+                except PermissionError as exc:
+                    logger.warning("Short related video could not be set: %s", exc)
 
         return song_svc.advance(song)  # → UPLOADED
 
     # ── Helpers ───────────────────────────────────────────────────────
+
+    def _ensure_city_playlist(self, yt: YouTubeClient, city) -> str:
+        if city.playlist_id:
+            return city.playlist_id
+
+        title = self._city_playlist_title(city)
+        description = f"{city.name} yöresinden üretilen Anadolu türküleri."
+        playlist_id = yt.ensure_playlist(title, description)
+        city.playlist_id = playlist_id
+        return playlist_id
+
+    @staticmethod
+    def _city_playlist_title(city) -> str:
+        return f"{city.name} Türküleri | Anadolu Türküleri Ezgileri"
 
     def _get_city_slug(self, song: Song) -> str:
         with get_session() as s:

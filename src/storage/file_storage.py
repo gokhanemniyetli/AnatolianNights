@@ -9,6 +9,7 @@ outputs/{city_slug}/{song_id}/
   quality_report.json
   image_prompt.txt
   background.png
+  short_background.png
   thumbnail.png
   audio.mp3
   subtitles.srt
@@ -98,6 +99,9 @@ class FileStorage:
 
     def background_path(self, city_slug: str, song_id: int) -> Path:
         return self.song_dir(city_slug, song_id) / "background.png"
+
+    def short_background_path(self, city_slug: str, song_id: int) -> Path:
+        return self.song_dir(city_slug, song_id) / "short_background.png"
 
     def thumbnail_path(self, city_slug: str, song_id: int) -> Path:
         return self.song_dir(city_slug, song_id) / "thumbnail.png"

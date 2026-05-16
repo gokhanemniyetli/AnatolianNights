@@ -104,6 +104,52 @@ class YouTubeClient:
             is_short=True,
         )
 
+    def update_video_metadata(
+        self,
+        video_id: str,
+        title: str,
+        description: str,
+        tags: list[str],
+    ) -> None:
+        """Update title/description/tags for an existing YouTube video."""
+        if self.dry_run:
+            logger.info("[DRY-RUN] Would update metadata for video %s", video_id)
+            return
+
+        service = self._get_service()
+        service.videos().update(
+            part="snippet",
+            body={
+                "id": video_id,
+                "snippet": {
+                    "title": title[:100],
+                    "description": description[:5000],
+                    "tags": tags[:500],
+                    "categoryId": MUSIC_CATEGORY_ID,
+                },
+            },
+        ).execute()
+        logger.info("Updated metadata for video %s", video_id)
+
+    def publish_video(self, video_id: str) -> None:
+        """Set an existing YouTube video to public."""
+        if self.dry_run:
+            logger.info("[DRY-RUN] Would publish video %s", video_id)
+            return
+
+        service = self._get_service()
+        service.videos().update(
+            part="status",
+            body={
+                "id": video_id,
+                "status": {
+                    "privacyStatus": "public",
+                    "selfDeclaredMadeForKids": False,
+                },
+            },
+        ).execute()
+        logger.info("Published video %s", video_id)
+
     def _upload(
         self,
         video_path: Path,
@@ -191,6 +237,48 @@ class YouTubeClient:
             },
         ).execute()
         logger.info("Added video %s to playlist %s", video_id, playlist_id)
+
+    def add_to_playlist(self, video_id: str, playlist_id: str) -> None:
+        """Add an existing video to a playlist."""
+        if self.dry_run:
+            logger.info("[DRY-RUN] Would add video %s to playlist %s", video_id, playlist_id)
+            return
+        try:
+            self._add_to_playlist(self._get_service(), video_id, playlist_id)
+        except HttpError as exc:
+            if getattr(exc, "resp", None) is not None and exc.resp.status == 409:
+                logger.info("Video %s is already in playlist %s", video_id, playlist_id)
+                return
+            raise
+
+    def find_playlist_by_title(self, title: str) -> str | None:
+        """Return the authenticated channel playlist id with an exact title match."""
+        if self.dry_run:
+            return None
+
+        service = self._get_service()
+        page_token = None
+        while True:
+            resp = service.playlists().list(
+                part="snippet",
+                mine=True,
+                maxResults=50,
+                pageToken=page_token,
+            ).execute()
+            for item in resp.get("items", []):
+                if item.get("snippet", {}).get("title") == title:
+                    return item.get("id")
+            page_token = resp.get("nextPageToken")
+            if not page_token:
+                return None
+
+    def ensure_playlist(self, title: str, description: str = "") -> str:
+        """Find an existing playlist by title or create it."""
+        existing = self.find_playlist_by_title(title)
+        if existing:
+            logger.info("Found playlist '%s' id=%s", title, existing)
+            return existing
+        return self.create_playlist(title, description)
 
     def create_playlist(self, title: str, description: str = "") -> str:
         """Create a new playlist and return its ID."""

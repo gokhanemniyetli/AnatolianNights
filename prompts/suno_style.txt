@@ -9,6 +9,10 @@ RULES:
 - Mention only 1-3 concept/place words (never long lists).
 - Mention region-appropriate instruments from profile (primary instruments first).
 - Explicitly request Anatolian folk/turku character.
+- Do NOT mention any non-Turkish or modern commercial genre.
+- Forbidden words/styles: German, rap, pop, pop-rap, rock, country, trap, hip-hop, R&B, electro, electronic, synth, western folk, Irish, Scottish, English folk.
+- Do NOT append style tags after the sentence.
+- Keep the music rooted in Turkish / Anatolian folk only.
 - Do NOT write song lyrics.
 - Do NOT produce sections, bullets, tags, JSON arrays, or alternatives.
 

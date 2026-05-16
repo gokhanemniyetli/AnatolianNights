@@ -30,6 +30,7 @@ class CycleRunner:
                 created.append(song_id)
             else:
                 logger.warning("Song generation %d/%d failed or skipped", i + 1, self.k)
+                break
             # Brief pause between generations to avoid memory pressure
             if i < self.k - 1:
                 time.sleep(2)

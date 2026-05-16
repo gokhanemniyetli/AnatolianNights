@@ -6,9 +6,12 @@ KURALLAR:
 - Başlık ilgi çekici, net ve Türkçe olmalı
 - Açıklamanın ilk 2-3 satırı YouTube'da önizleme olarak görünür, dikkat çekici olmalı
 - Açıklama içine şarkı sözlerini ekle
+- Şarkı sözlerinde teknik bölüm etiketleri ASLA görünmemeli
+- Şarkı sözlerini düz yazı/paragraf olarak yazma; şiir gibi satır satır ve kıta kıta yaz
+- Her kıta arasında bir boş satır bırak
 - Hashtagler Türkçe ve alakalı olmalı
 - Başlıkta kanal adı "Anadolu Türküleri Ezgileri" formülü kullanılabilir
-- Yapay zeka üretimi olduğunu belirt (şeffaflık)
+- Üretim yöntemiyle ilgili açıklama, etiket veya ima kullanma
 
 BAŞLIK FORMÜLLERI (birini veya benzerini kullan):
 - "{Şehir} Türküsü | {Tema} | Anadolu Türküleri Ezgileri"

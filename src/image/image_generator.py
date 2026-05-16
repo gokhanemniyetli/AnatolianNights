@@ -51,6 +51,10 @@ class ImageGenerator:
         image_prompt: str,
         negative_prompt: str,
         output_path: Path,
+        target_width: int | None = None,
+        target_height: int | None = None,
+        gen_width: int | None = None,
+        gen_height: int | None = None,
     ) -> Path:
         """
         Generate image from prompt and save to output_path as PNG.
@@ -71,14 +75,17 @@ class ImageGenerator:
                 negative_prompt=negative_prompt or "text, watermark, signature, blurry, deformed",
                 num_inference_steps=4,
                 guidance_scale=0.0,  # Turbo mode: guidance disabled
-                width=self.GEN_WIDTH,
-                height=self.GEN_HEIGHT,
+                width=gen_width or self.GEN_WIDTH,
+                height=gen_height or self.GEN_HEIGHT,
             )
 
         img: Image.Image = result.images[0]
 
-        # Upscale to 1920×1080 with LANCZOS for best quality
-        img = img.resize((self.TARGET_WIDTH, self.TARGET_HEIGHT), Image.LANCZOS)
+        # Upscale with LANCZOS for best quality.
+        img = img.resize(
+            (target_width or self.TARGET_WIDTH, target_height or self.TARGET_HEIGHT),
+            Image.LANCZOS,
+        )
         img.save(str(output_path), format="PNG")
 
         logger.info("Image saved to %s", output_path)

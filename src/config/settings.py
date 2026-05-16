@@ -30,18 +30,28 @@ class YouTubeSettings(BaseSettings):
     daily_quota_limit: int = Field(default=_yaml.get("youtube", {}).get("daily_quota_limit", 10000))
     upload_cost: int = Field(default=_yaml.get("youtube", {}).get("upload_cost", 1600))
     playlist_insert_cost: int = Field(default=_yaml.get("youtube", {}).get("playlist_insert_cost", 50))
-    max_uploads_per_day: int = Field(default=_yaml.get("youtube", {}).get("max_uploads_per_day", 6))
     category_id: str = Field(default=_yaml.get("youtube", {}).get("category_id", "10"))
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+        populate_by_name=True,
+        protected_namespaces=(),
+    )
 
 
 class SunoSettings(BaseSettings):
     client: str = Field(default="manual", alias="SUNO_CLIENT")
+    model_version: str = Field(default=_yaml.get("suno", {}).get("model_version", "chirp-fenix"), alias="SUNO_MODEL_VERSION")
     email: Optional[str] = Field(default=None, alias="SUNO_EMAIL")
     password: Optional[str] = Field(default=None, alias="SUNO_PASSWORD")
 
-    model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        extra="ignore",
+        populate_by_name=True,
+        protected_namespaces=(),
+    )
 
 
 class PipelineSettings(BaseSettings):
@@ -49,6 +59,15 @@ class PipelineSettings(BaseSettings):
     max_lyric_retries: int = Field(default=_yaml.get("pipeline", {}).get("max_lyric_retries", 3))
     default_k: int = Field(default=_yaml.get("pipeline", {}).get("default_k", 1))
     dry_run: bool = Field(default=False, alias="DRY_RUN")
+
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
+
+
+class VideoSettings(BaseSettings):
+    short_hook_duration: int = Field(
+        default=_yaml.get("video", {}).get("short", {}).get("hook_duration_seconds", 40),
+        alias="SHORT_HOOK_DURATION_SECONDS",
+    )
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
 
@@ -65,6 +84,7 @@ class Settings(BaseSettings):
     youtube: YouTubeSettings = Field(default_factory=YouTubeSettings)
     suno: SunoSettings = Field(default_factory=SunoSettings)
     pipeline: PipelineSettings = Field(default_factory=PipelineSettings)
+    video: VideoSettings = Field(default_factory=VideoSettings)
     storage: StorageSettings = Field(default_factory=StorageSettings)
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
 

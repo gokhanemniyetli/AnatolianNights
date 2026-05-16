@@ -12,6 +12,7 @@ import subprocess
 from pathlib import Path
 
 from src.config.settings import settings
+from src.video.hook_overlay import HookOverlayRenderer
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
 class ShortRenderer:
     SHORT_WIDTH = 1080
     SHORT_HEIGHT = 1920
+    MAX_DURATION_SECONDS = 12
     VIDEO_CODEC = "libx264"
     AUDIO_CODEC = "aac"
     CRF = "23"
@@ -31,6 +33,8 @@ class ShortRenderer:
         subtitles_path: Path,
         output_path: Path,
         hook_duration: int | None = None,
+        title: str = "",
+        city_name: str = "",
     ) -> Path:
         """
         Render Short video (portrait, first hook_duration seconds).
@@ -38,23 +42,28 @@ class ShortRenderer:
         """
         output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
+        hook_path = output_path.with_name("hook_short.png")
+        HookOverlayRenderer().render_short(city_name, title, hook_path)
 
-        duration = hook_duration or settings.video.short_hook_duration
-        srt_escaped = str(subtitles_path).replace("\\", "/").replace(":", "\\:")
-
+        requested_duration = hook_duration or settings.video.short_hook_duration
+        duration = min(requested_duration, self.MAX_DURATION_SECONDS)
         cmd = [
             "ffmpeg", "-y",
             "-loop", "1",
             "-i", str(background_path),
             "-i", str(audio_path),
+            "-loop", "1",
+            "-i", str(hook_path),
             "-t", str(duration),
-            "-vf", (
-                # Crop center square from 1920x1080, then scale to 1080x1920
-                f"crop=1080:1080:(iw-1080)/2:(ih-1080)/2,"
-                f"scale={self.SHORT_WIDTH}:{self.SHORT_HEIGHT}:force_original_aspect_ratio=disable,"
-                f"pad={self.SHORT_WIDTH}:{self.SHORT_HEIGHT}:(ow-iw)/2:(oh-ih)/2:black,"
-                f"subtitles='{srt_escaped}':force_style='FontSize=26,PrimaryColour=&HFFFFFF,OutlineColour=&H000000,Outline=2,Shadow=1,Alignment=2'"
+            "-filter_complex", (
+                # Preserve image proportions for Shorts. If the input is already
+                # 9:16 this is a clean resize; otherwise it crops, never squeezes.
+                f"[0:v]scale={self.SHORT_WIDTH}:{self.SHORT_HEIGHT}:force_original_aspect_ratio=increase,"
+                f"crop={self.SHORT_WIDTH}:{self.SHORT_HEIGHT}[bg];"
+                f"[bg][2:v]overlay=0:0[v]"
             ),
+            "-map", "[v]",
+            "-map", "1:a",
             "-c:v", self.VIDEO_CODEC,
             "-preset", self.PRESET,
             "-crf", self.CRF,

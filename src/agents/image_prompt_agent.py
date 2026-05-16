@@ -41,6 +41,32 @@ VISUAL ATMOSPHERE FROM CULTURAL PROFILE:
 - Lighting: {visual.get('lighting', '')}
 
 Generate a 1920x1080 landscape background image prompt for this Turkish folk song.
-No faces, no text in image.
+Use only scenery, landmarks, architecture, weather, water, terrain, animals, and regional atmosphere.
+Do not include people, human figures, musicians, faces, hands, bodies, silhouettes, or musical instruments.
+The first sentence must mention the main regional landscape/place and the season or weather.
+No text in image.
 """
-        return self.call(user_prompt)
+        result = self.call(user_prompt)
+
+        # SDXL's CLIP encoder truncates long prompts, so keep the non-negotiable
+        # "no humans/instruments" constraint at the front where it cannot be dropped.
+        forced_opening = (
+            f"Empty cinematic landscape of {city_name}, no people, no human figures, "
+            "no faces, no hands, no musicians, no musical instruments."
+        )
+        image_prompt = (result.get("image_prompt") or "").strip()
+        if forced_opening.lower() not in image_prompt.lower():
+            result["image_prompt"] = f"{forced_opening} {image_prompt}".strip()
+
+        negative_prompt = (result.get("negative_prompt") or "").strip()
+        extra_negative = (
+            "people, person, human figure, face, hands, body, portrait, crowd, "
+            "musician, singer, dancer, shepherd, villager, fisherman, worker, "
+            "silhouette of a person, baglama, saz, lute, guitar, kaval, flute, "
+            "drum, zurna, musical instrument, malformed faces, extra fingers"
+        )
+        result["negative_prompt"] = (
+            f"{negative_prompt}, {extra_negative}" if negative_prompt else extra_negative
+        )
+
+        return result

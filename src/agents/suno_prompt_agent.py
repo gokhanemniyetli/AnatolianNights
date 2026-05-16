@@ -10,6 +10,24 @@ from src.config.models_config import get_model
 
 _PROMPT_PATH = Path(__file__).parent.parent.parent / "prompts" / "suno_style.txt"
 _SYSTEM_PROMPT = _PROMPT_PATH.read_text(encoding="utf-8")
+_FORBIDDEN_STYLE_TERMS = (
+    "german",
+    "rap",
+    "pop",
+    "rock",
+    "country",
+    "trap",
+    "hip-hop",
+    "hip hop",
+    "r&b",
+    "electro",
+    "electronic",
+    "synth",
+    "western folk",
+    "irish",
+    "scottish",
+    "english folk",
+)
 
 
 class SunoPromptAgent(BaseAgent):
@@ -47,4 +65,14 @@ AVOID INSTRUMENTS (region-specific):
     Write exactly one Turkish simple-mode prompt sentence for Suno.
     No lyrics. No lists. No alternatives.
 """
-        return self.call(user_prompt)
+        result = self.call(user_prompt)
+        simple_prompt = str(result.get("simple_prompt", "")).strip()
+        lowered = simple_prompt.lower()
+        forbidden = [term for term in _FORBIDDEN_STYLE_TERMS if term in lowered]
+        if forbidden:
+            raise ValueError(
+                "Suno prompt contains forbidden modern/western style terms: "
+                + ", ".join(forbidden)
+            )
+        result["simple_prompt"] = simple_prompt
+        return result

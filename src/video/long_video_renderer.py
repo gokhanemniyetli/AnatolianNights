@@ -11,6 +11,8 @@ import logging
 import subprocess
 from pathlib import Path
 
+from src.video.hook_overlay import HookOverlayRenderer
+
 logger = logging.getLogger(__name__)
 
 
@@ -28,6 +30,8 @@ class LongVideoRenderer:
         audio_path: Path,
         subtitles_path: Path,
         output_path: Path,
+        title: str = "",
+        city_name: str = "",
     ) -> Path:
         """
         Render long video. Returns output_path.
@@ -35,9 +39,8 @@ class LongVideoRenderer:
         """
         output_path = Path(output_path)
         output_path.parent.mkdir(parents=True, exist_ok=True)
-
-        # Escape subtitle path for FFmpeg ass/subtitles filter
-        srt_escaped = str(subtitles_path).replace("\\", "/").replace(":", "\\:")
+        hook_path = output_path.with_name("hook_long.png")
+        HookOverlayRenderer().render_long(city_name, title, hook_path)
 
         cmd = [
             "ffmpeg", "-y",
@@ -46,12 +49,18 @@ class LongVideoRenderer:
             "-i", str(background_path),
             # Audio input
             "-i", str(audio_path),
-            # Filters: scale, pad to exact dimensions, burn subtitles
-            "-vf", (
-                f"scale={self.VIDEO_WIDTH}:{self.VIDEO_HEIGHT}:force_original_aspect_ratio=increase,"
-                f"crop={self.VIDEO_WIDTH}:{self.VIDEO_HEIGHT},"
-                f"subtitles='{srt_escaped}':force_style='FontSize=22,PrimaryColour=&HFFFFFF,OutlineColour=&H000000,Outline=2,Shadow=1,Alignment=2'"
+            "-loop", "1",
+            "-i", str(hook_path),
+            # Filters: scale and crop to exact dimensions.
+            # The local Homebrew FFmpeg build may not include libass/drawtext,
+            # so subtitles are kept as a sidecar SRT instead of burned in.
+            "-filter_complex", (
+                f"[0:v]scale={self.VIDEO_WIDTH}:{self.VIDEO_HEIGHT}:force_original_aspect_ratio=increase,"
+                f"crop={self.VIDEO_WIDTH}:{self.VIDEO_HEIGHT}[bg];"
+                f"[bg][2:v]overlay=0:0[v]"
             ),
+            "-map", "[v]",
+            "-map", "1:a",
             "-c:v", self.VIDEO_CODEC,
             "-preset", self.PRESET,
             "-crf", self.CRF,

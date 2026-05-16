@@ -16,7 +16,7 @@ video:
     height: 1920
     fps: 25
     crf: 23
-    hook_duration_seconds: 40
+    hook_duration_seconds: 12
     fade_duration_seconds: 1
 
 image:
@@ -27,24 +27,19 @@ image:
   guidance_scale: 0.0
 
 youtube:
-  daily_quota_limit: 10000
-  # Cost per operation (YouTube API v3 units)
-  upload_cost: 1600
-  playlist_insert_cost: 50
-  # Max videos per day (long + short combined)
-  max_uploads_per_day: 6
   category_id: "10"  # Music
   default_language: "tr"
   made_for_kids: false
 
 ollama:
-  base_url: "http://localhost:11434"
+  base_url: "http://127.0.0.1:11434"
   timeout_seconds: 120
   max_retries: 3
   retry_delay_seconds: 2
 
 suno:
   client: "manual"
+  model_version: "chirp-fenix"
 
 storage:
   outputs_dir: "outputs"

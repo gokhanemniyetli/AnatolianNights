@@ -4,6 +4,13 @@ config/secrets.yaml
 config/youtube_client_secrets.json
 config/youtube_token.json
 config/suno_session.json
+config/suno_jwt.txt
+config/suno_browser_profile/
+config/youtube_browser_profile/
+config/youtube_browser_profile_short/
+data/youtube_token.json
+data/*.db.bak*
+anadolu-local-transfer.*
 
 # Python
 __pycache__/
