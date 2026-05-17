@@ -85,7 +85,7 @@ class BrowserSunoClient:
         """Submit to Suno. Returns clip_id (use as task_id)."""
         if suno_lyrics and suno_lyrics.strip():
             logger.warning("Simple mode zorunlu: suno_lyrics yok sayılıyor.")
-        return asyncio.run(self._async_generate(style_prompt, ""))
+        return asyncio.run(self._async_generate_via_ui(style_prompt, ""))
 
     def get_status(self, task_id: str) -> dict:
         """Poll Suno API. Returns {"status": "pending"|"complete"|"failed", "audio_url": str|None}."""
@@ -501,9 +501,8 @@ class BrowserSunoClient:
                     const lyricsVisible = [...document.querySelectorAll("textarea")]
                         .filter(visible)
                         .some(el => /lyric/i.test(el.placeholder || "") || /lyric/i.test(el.getAttribute("aria-label") || ""));
-                    const customButton = controls().find(el => /custom|advanced/i.test(textOf(el)));
-                    if (lyricsVisible && customButton) {
-                        fireClick(customButton);
+                    if (lyricsVisible && simpleButton) {
+                        fireClick(simpleButton);
                         await sleep(1200);
                     }
 
@@ -531,69 +530,8 @@ class BrowserSunoClient:
                 logger.info("Suno UI setup: %s", setup_state)
                 if setup_state.get("model") != "v5.5":
                     raise RuntimeError(f"Suno UI v5.5 modeli doğrulanamadı: {setup_state}")
-                if suno_lyrics.strip():
-                    await page.evaluate(
-                        """() => {
-                            const button = [...document.querySelectorAll("button")]
-                                .find(e => (e.innerText || "").trim() === "Advanced"
-                                    || e.getAttribute("aria-label") === "Advanced");
-                            if (!button) {
-                                return false;
-                            }
-                            for (const type of ["pointerdown", "mousedown", "pointerup", "mouseup", "click"]) {
-                                button.dispatchEvent(new MouseEvent(type, {
-                                    bubbles: true,
-                                    cancelable: true,
-                                    view: window,
-                                }));
-                            }
-                            return true;
-                        }"""
-                    )
-                    await page.wait_for_timeout(3000)
-                    form_state = await page.evaluate(
-                        """([lyrics, style]) => {
-                            const visible = el => {
-                                const rect = el.getBoundingClientRect();
-                                const computed = getComputedStyle(el);
-                                return rect.width > 0 && rect.height > 0
-                                    && computed.display !== "none"
-                                    && computed.visibility !== "hidden";
-                            };
-                            const setValue = (target, value) => {
-                                target.scrollIntoView({ block: "center" });
-                                target.focus();
-                                const setter = Object.getOwnPropertyDescriptor(
-                                    window.HTMLTextAreaElement.prototype,
-                                    "value"
-                                ).set;
-                                setter.call(target, value);
-                                target.dispatchEvent(new InputEvent("input", {
-                                    bubbles: true,
-                                    inputType: "insertText",
-                                    data: value,
-                                }));
-                                target.dispatchEvent(new Event("change", { bubbles: true }));
-                            };
-                            const textareas = [...document.querySelectorAll("textarea")]
-                                .filter(visible)
-                                .sort((a, b) => a.getBoundingClientRect().y - b.getBoundingClientRect().y);
-                            if (textareas.length < 2) {
-                                return { ok: false, reason: "advanced textareas not found", count: textareas.length };
-                            }
-                            setValue(textareas[0], lyrics);
-                            setValue(textareas[1], style);
-                            return {
-                                ok: true,
-                                lyricsPlaceholder: textareas[0].placeholder,
-                                stylePlaceholder: textareas[1].placeholder,
-                            };
-                        }""",
-                        [suno_lyrics[:5000], style_prompt[:1000]],
-                    )
-                else:
-                    form_state = await page.evaluate(
-                        """prompt => {
+                form_state = await page.evaluate(
+                    """prompt => {
                         const visible = el => {
                             const rect = el.getBoundingClientRect();
                             const style = getComputedStyle(el);
@@ -634,13 +572,12 @@ class BrowserSunoClient:
                         target.dispatchEvent(new Event("change", { bubbles: true }));
                         return { ok: true, placeholder: target.placeholder, value: target.value };
                         }""",
-                        style_prompt[:2800],
-                    )
+                    style_prompt[:850],
+                )
                 if not form_state.get("ok"):
                     raise RuntimeError(f"Suno UI prompt alanı bulunamadı: {form_state}")
-                if not suno_lyrics.strip():
-                    await page.locator("textarea:visible").first.fill(style_prompt[:2800])
-                    await page.wait_for_timeout(800)
+                await page.locator("textarea:visible").first.fill(style_prompt[:850])
+                await page.wait_for_timeout(800)
 
                 await page.wait_for_timeout(1500)
                 create_target = await page.evaluate(

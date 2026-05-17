@@ -41,7 +41,7 @@ ollama:
 
 suno:
   client: "manual"
-  model_version: "chirp-fenix"
+  model_version: "v5.5"
 
 storage:
   outputs_dir: "outputs"
