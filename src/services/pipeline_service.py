@@ -179,7 +179,9 @@ class PipelineService:
 
         suno_lyrics = (suno_status.get("suno_lyrics") or "").strip()
         if suno_lyrics:
+            song.suno_lyrics = suno_lyrics
             song.lyrics = suno_lyrics
+            file_storage.write_lyrics(city.slug, song.id, suno_lyrics)
 
         song.audio_path = str(file_storage.rel(downloaded))
         song.status = SongStatus.AUDIO_IMPORTED

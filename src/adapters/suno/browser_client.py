@@ -710,6 +710,7 @@ class BrowserSunoClient:
             clip.get("lyric"),
             metadata.get("lyrics"),
             metadata.get("lyric"),
+            metadata.get("prompt"),
         ):
             if isinstance(value, str):
                 lyrics = BrowserSunoClient._clean_suno_lyrics(value)
