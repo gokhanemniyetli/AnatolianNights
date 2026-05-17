@@ -6,6 +6,7 @@ A cycle = generate K songs (default 1) for the top cities.
 import logging
 import time
 
+from src.config.settings import settings
 from src.scheduler.orchestrator import Orchestrator
 
 logger = logging.getLogger(__name__)
@@ -22,6 +23,14 @@ class CycleRunner:
         Run one cycle: generate up to K songs.
         Returns list of created song_ids.
         """
+        if self.k > settings.pipeline.max_daily_uploads:
+            logger.warning(
+                "Requested k=%d exceeds max_daily_uploads=%d; limiting this cycle.",
+                self.k,
+                settings.pipeline.max_daily_uploads,
+            )
+            self.k = settings.pipeline.max_daily_uploads
+
         created = []
         for i in range(self.k):
             logger.info("Cycle: generating song %d/%d", i + 1, self.k)
@@ -31,9 +40,16 @@ class CycleRunner:
             else:
                 logger.warning("Song generation %d/%d failed or skipped", i + 1, self.k)
                 break
-            # Brief pause between generations to avoid memory pressure
             if i < self.k - 1:
-                time.sleep(2)
+                wait_seconds = max(settings.pipeline.publish_interval_minutes, 0) * 60
+                if wait_seconds:
+                    logger.info(
+                        "Waiting %d minutes before next upload to avoid back-to-back publishing...",
+                        settings.pipeline.publish_interval_minutes,
+                    )
+                    time.sleep(wait_seconds)
+                else:
+                    time.sleep(2)
 
         logger.info("Cycle complete. Songs created: %s", created)
         return created

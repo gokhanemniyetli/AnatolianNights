@@ -45,5 +45,8 @@ DAHA ÖNCE KULLANILAN (BUNLARI TEKRARLAMA):
 - Başlıklar: {generation_history.get('used_titles', [])}
 
 Bu şehir için YENİ ve FARKLI bir türkü konsepti oluştur.
+Öncelik duygu/insan hikayesi olsun; yöresel yerler, yemekler, doğa ve tarihi dokular sadece sahne ve imge olarak kalsın.
+Bu kez ana tema olarak şu ailelerden birini seç ve bunu açıkça işle: aşk/sevda, gurbet, ayrılık, kavuşma, düğün, ana-baba özlemi, göç, hasat, yas, umut, bekleyiş, sitem, emek, bereket.
+Başlığı sadece dağ, göl, yol, sır, kale, ova, nehir gibi bir nesne/yer adı yapma.
 """
         return self.call(user_prompt)

@@ -58,6 +58,8 @@ class PipelineSettings(BaseSettings):
     quality_threshold: float = Field(default=_yaml.get("pipeline", {}).get("quality_threshold", 8.0))
     max_lyric_retries: int = Field(default=_yaml.get("pipeline", {}).get("max_lyric_retries", 3))
     default_k: int = Field(default=_yaml.get("pipeline", {}).get("default_k", 1))
+    max_daily_uploads: int = Field(default=_yaml.get("pipeline", {}).get("max_daily_uploads", 4))
+    publish_interval_minutes: int = Field(default=_yaml.get("pipeline", {}).get("publish_interval_minutes", 180))
     dry_run: bool = Field(default=False, alias="DRY_RUN")
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)

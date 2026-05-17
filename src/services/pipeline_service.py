@@ -71,33 +71,43 @@ class PipelineService:
                 status = song.status
                 if status == SongStatus.PENDING:
                     song = self._stage_concept(song, song_svc, history_svc, city, cultural_profile)
+                    session.commit()
                 elif status == SongStatus.CONCEPT_READY:
                     song = self._stage_suno_prompt(song, song_svc, cultural_profile)
+                    session.commit()
                 elif status == SongStatus.QUALITY_REJECTED:
                     if (song.lyric_attempt or 0) >= settings.pipeline.max_lyric_retries:
                         song_svc.permanently_reject(song, "Max lyric retries reached")
+                        session.commit()
                         break
                     song_svc.reset_for_retry(song)
                     song = self._stage_suno_prompt(song, song_svc, cultural_profile)
+                    session.commit()
                 elif status == SongStatus.LYRICS_READY:
                     song = self._stage_suno_prompt(song, song_svc, cultural_profile)
+                    session.commit()
                 elif status == SongStatus.QUALITY_APPROVED:
                     # QUALITY_APPROVED is set when lyrics pass; advance to SUNO_READY
                     song = self._stage_suno_prompt(song, song_svc, cultural_profile)
+                    session.commit()
                 elif status == SongStatus.SUNO_READY:
                     if settings.suno.client.lower() == "browser":
                         song = self._stage_suno_wait(song, song_svc, city)
+                        session.commit()
                     else:
                         # manual mode — operator must run import-audio
                         logger.info("Song %s is SUNO_READY. Waiting for audio import.", song.id)
                         break
                 elif status == SongStatus.AUDIO_IMPORTED:
                     song = self._stage_image(song, song_svc, city, cultural_profile)
+                    session.commit()
                 elif status == SongStatus.IMAGE_READY:
                     song = self._stage_video(song, song_svc)
+                    session.commit()
                 elif status == SongStatus.VIDEO_READY:
                     if not self.dry_run:
                         song = self._stage_upload(song, song_svc, session, city)
+                        session.commit()
                     else:
                         logger.info("[DRY-RUN] Skipping upload for song %s", song.id)
                     break
@@ -224,7 +234,13 @@ class PipelineService:
         duration = get_audio_duration(audio_path)
 
         # Subtitles
-        self._subtitle_builder.build(song.lyrics, duration, srt_path)
+        subtitle_text = song.lyrics or self._fallback_subtitle_text(song)
+        if not song.lyrics:
+            logger.warning(
+                "[%s] Suno did not return lyrics; using fallback title/concept captions.",
+                song.id,
+            )
+        self._subtitle_builder.build(subtitle_text, duration, srt_path)
         song.subtitles_path = str(file_storage.rel(srt_path))
 
         # Thumbnail
@@ -254,6 +270,26 @@ class PipelineService:
         song.short_video_path = str(file_storage.rel(short_path))
 
         return song_svc.advance(song)  # → VIDEO_READY
+
+    def _fallback_subtitle_text(self, song: Song) -> str:
+        concept = song.get_concept() or {}
+        parts = [
+            song.title or "Anadolu Türküleri Ezgileri",
+            self._get_city_name(song),
+            concept.get("theme") or "",
+            concept.get("story") or "",
+            concept.get("mood") or "",
+        ]
+        lines: list[str] = []
+        for part in parts:
+            text = str(part).strip()
+            if not text:
+                continue
+            for sentence in text.replace(";", ".").split("."):
+                line = sentence.strip()
+                if line:
+                    lines.append(line[:90])
+        return "\n".join(lines[:12] or [song.title or "Anadolu Türküleri Ezgileri"])
 
     def _stage_upload(self, song, song_svc, session, city):
         logger.info("[%s] Stage: upload", song.id)
