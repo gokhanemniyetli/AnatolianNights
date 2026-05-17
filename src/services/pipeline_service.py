@@ -234,10 +234,11 @@ class PipelineService:
         duration = get_audio_duration(audio_path)
 
         # Subtitles
-        subtitle_text = song.lyrics or self._fallback_subtitle_text(song)
-        if not song.lyrics:
+        subtitle_text = song.lyrics or ""
+        if len(self._content_lines(subtitle_text)) < 4:
+            subtitle_text = self._fallback_subtitle_text(song)
             logger.warning(
-                "[%s] Suno did not return lyrics; using fallback title/concept captions.",
+                "[%s] Suno did not return usable lyrics; using fallback title/concept captions.",
                 song.id,
             )
         self._subtitle_builder.build(subtitle_text, duration, srt_path)
@@ -290,6 +291,14 @@ class PipelineService:
                 if line:
                     lines.append(line[:90])
         return "\n".join(lines[:12] or [song.title or "Anadolu Türküleri Ezgileri"])
+
+    @staticmethod
+    def _content_lines(text: str) -> list[str]:
+        return [
+            line.strip()
+            for line in (text or "").splitlines()
+            if line.strip() and not line.strip().startswith("[")
+        ]
 
     def _stage_upload(self, song, song_svc, session, city):
         logger.info("[%s] Stage: upload", song.id)

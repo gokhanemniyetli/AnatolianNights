@@ -62,6 +62,8 @@ Başlık ve etiketler Türkçe, sade ve doğal olsun.
     def _format_description(self, song_title: str, city_name: str, lyrics: str) -> str:
         clean_lyrics = self._format_lyrics_for_description(lyrics)
         intro = f"{song_title} - {city_name} yöresinden yeni bir türkü."
+        if not clean_lyrics:
+            return intro
         return f"{intro}\n\nŞarkı Sözleri:\n\n{clean_lyrics}".strip()
 
     @classmethod

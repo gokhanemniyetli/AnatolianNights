@@ -16,6 +16,7 @@ import asyncio
 import json
 import logging
 import os
+import re
 import subprocess
 import time
 from pathlib import Path
@@ -768,14 +769,44 @@ class BrowserSunoClient:
     def _extract_suno_lyrics(clip: dict) -> str:
         metadata = clip.get("metadata") or {}
         for value in (
-            metadata.get("prompt"),
-            clip.get("prompt"),
             clip.get("lyrics"),
             clip.get("lyric"),
+            metadata.get("lyrics"),
+            metadata.get("lyric"),
         ):
-            if isinstance(value, str) and value.strip():
-                return value.strip()
+            if isinstance(value, str):
+                lyrics = BrowserSunoClient._clean_suno_lyrics(value)
+                if lyrics:
+                    return lyrics
         return ""
+
+    @staticmethod
+    def _clean_suno_lyrics(value: str) -> str:
+        text = value.strip()
+        if not text:
+            return ""
+        lower = text.lower()
+        polluted_markers = (
+            "simple_prompt",
+            "bilibili.com",
+            "助手",
+            "当然可以",
+            "```json",
+            "write the lyrics",
+            "do not include",
+            "suno",
+        )
+        if any(marker in lower for marker in polluted_markers):
+            return ""
+        lines = [
+            line.strip()
+            for line in text.splitlines()
+            if line.strip() and not line.strip().startswith("```")
+        ]
+        content_lines = [line for line in lines if not re.match(r"^\[[^\]]+\]$", line)]
+        if len(content_lines) < 4:
+            return ""
+        return "\n".join(lines)
 
     async def _async_wait_and_download(self, task_id: str, destination: Path) -> Path:
         """Poll until complete, then download WAV."""
