@@ -1386,20 +1386,48 @@ class YouTubeStudioUploader:
             pass
 
     def _set_public(self, page) -> None:
-        patterns = [
-            re.compile(r"^Public$", re.I),
-            re.compile(r"^Herkese açık$", re.I),
-        ]
-        for pattern in patterns:
-            try:
-                page.get_by_text(pattern).click(timeout=30_000)
-                return
-            except PlaywrightTimeoutError:
-                continue
+        if self._click_visibility_option(page, [r"^Public$", r"^Herkese açık$"]):
+            return
 
         screenshot = "/private/tmp/youtube_studio_visibility_failed.png"
         page.screenshot(path=screenshot, full_page=True)
         raise TimeoutError(f"Could not select Public visibility. Screenshot: {screenshot}")
+
+    def _click_visibility_option(self, page, names: list[str]) -> bool:
+        target = page.evaluate(
+            """
+            (patterns) => {
+              const regexes = patterns.map((pattern) => new RegExp(pattern, 'i'));
+              const candidates = [...document.querySelectorAll(
+                'tp-yt-paper-radio-button, ytcp-ve, label, [role="radio"], [role="option"], div'
+              )]
+                .map((el) => ({ el, box: el.getBoundingClientRect() }))
+                .filter(({el, box}) => {
+                  const text = (el.innerText || el.textContent || el.getAttribute('aria-label') || '').replace(/\\s+/g, ' ').trim();
+                  const disabled = el.disabled || el.getAttribute('aria-disabled') === 'true';
+                  return !disabled
+                    && box.width > 0
+                    && box.height > 0
+                    && regexes.some((re) => re.test(text));
+                })
+                .sort((a, b) => {
+                  const aRadio = /radio/i.test(a.el.tagName || '') || a.el.getAttribute('role') === 'radio';
+                  const bRadio = /radio/i.test(b.el.tagName || '') || b.el.getAttribute('role') === 'radio';
+                  if (aRadio !== bRadio) return aRadio ? -1 : 1;
+                  return (a.box.top - b.box.top) || (a.box.left - b.box.left);
+                });
+              if (!candidates.length) return null;
+              const box = candidates[0].box;
+              return {x: box.left + Math.min(24, box.width / 2), y: box.top + box.height / 2};
+            }
+            """,
+            names,
+        )
+        if not target:
+            return False
+        page.mouse.click(target["x"], target["y"])
+        page.wait_for_timeout(1_000)
+        return True
 
     def _publish(self, page) -> None:
         self._click_named_button(page, [r"Publish", r"Yayınla", r"Save", r"Kaydet"], timeout=900_000)
