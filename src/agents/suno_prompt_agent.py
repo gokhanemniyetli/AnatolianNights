@@ -38,20 +38,23 @@ class SunoPromptAgent(BaseAgent):
             system_prompt=_SYSTEM_PROMPT,
         )
 
-    def generate(self, concept: dict, lyrics: str, cultural_profile: dict) -> dict:
+    def generate(self, concept: dict, cultural_profile: dict) -> dict:
         """
         Returns dict with key: simple_prompt (str)
         """
-        place_names = cultural_profile.get("place_names", [])[:3]
+        place_names = cultural_profile.get("place_names", [])[:6]
+        foods = cultural_profile.get("foods", [])[:4]
+        crafts = cultural_profile.get("crafts", [])[:4]
+        landmarks = cultural_profile.get("landmarks", [])[:6]
         themes = concept.get("themes", []) if isinstance(concept, dict) else []
-        themes = themes[:3] if isinstance(themes, list) else []
+        themes = themes[:4] if isinstance(themes, list) else []
 
         user_prompt = f"""
 SONG CONCEPT:
 {json.dumps(concept, ensure_ascii=False, indent=2)}
 
-    CITY/REGION:
-    {json.dumps({'city': cultural_profile.get('city', ''), 'region': cultural_profile.get('region', '')}, ensure_ascii=False)}
+CITY/REGION:
+{json.dumps({'city': cultural_profile.get('city', ''), 'region': cultural_profile.get('region', '')}, ensure_ascii=False)}
 
 ALLOWED INSTRUMENTS (region-specific):
 {json.dumps(cultural_profile.get('instruments', {}).get('primary', []), ensure_ascii=False)}
@@ -59,11 +62,14 @@ ALLOWED INSTRUMENTS (region-specific):
 AVOID INSTRUMENTS (region-specific):
 {json.dumps(cultural_profile.get('instruments', {}).get('avoid', []), ensure_ascii=False)}
 
-    PRIORITY PLACE/THEME HINTS (use at most 1-3 total words):
-    {json.dumps({'place_names': place_names, 'themes': themes}, ensure_ascii=False)}
+LOCAL DETAIL OPTIONS (choose only the ones that fit the concept):
+{json.dumps({'place_names': place_names, 'landmarks': landmarks, 'foods': foods, 'crafts': crafts, 'themes': themes}, ensure_ascii=False)}
 
-    Write exactly one Turkish simple-mode prompt sentence for Suno.
-    No lyrics. No lists. No alternatives.
+Write exactly one detailed Turkish simple-mode command for Suno.
+Suno must write the lyrics itself; do not provide lyrics.
+Make the subject specific enough that another song from the same city would feel different.
+Include the city/dialect, narrator, central story, mood, tempo, 1-3 local images, and region-appropriate instruments.
+No lists. No alternatives.
 """
         result = self.call(user_prompt)
         simple_prompt = str(result.get("simple_prompt", "")).strip()

@@ -8,6 +8,7 @@ upload but the same account can upload through studio.youtube.com.
 import json
 import logging
 import re
+import time
 from pathlib import Path
 
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
@@ -142,6 +143,39 @@ class YouTubeStudioUploader:
             finally:
                 context.close()
 
+    def create_playlist(
+        self,
+        title: str,
+        description: str = "",
+        language: str = "Turkish",
+    ) -> None:
+        """Create a playlist through YouTube Studio's web UI."""
+        if not title.strip():
+            raise ValueError("Playlist title is required.")
+
+        with sync_playwright() as pw:
+            self.profile_dir.mkdir(parents=True, exist_ok=True)
+            context = pw.chromium.launch_persistent_context(
+                str(self.profile_dir),
+                headless=self.headless,
+                viewport={"width": 1440, "height": 1000},
+                accept_downloads=True,
+                args=["--disable-blink-features=AutomationControlled"],
+            )
+            page = context.pages[0] if context.pages else context.new_page()
+            page.set_default_timeout(self.timeout_ms)
+
+            try:
+                logger.info("Creating YouTube Studio playlist via web UI: %s", title)
+                page.goto("https://studio.youtube.com", wait_until="domcontentloaded")
+                self._wait_for_login_if_needed(page)
+                self._open_new_playlist_dialog(page)
+                self._fill_new_playlist_dialog(page, title, description, language)
+                self._save_state(context)
+                logger.info("YouTube Studio playlist creation submitted: %s", title)
+            finally:
+                context.close()
+
     def _upload_with_page(
         self,
         page,
@@ -211,6 +245,256 @@ class YouTubeStudioUploader:
         screenshot = "/private/tmp/youtube_studio_open_upload_failed.png"
         page.screenshot(path=screenshot, full_page=True)
         raise TimeoutError(f"YouTube Studio upload dialog could not be opened. Screenshot: {screenshot}")
+
+    def _open_create_menu(self, page) -> None:
+        create_patterns = [
+            re.compile(r"^(Create|Oluştur)$", re.I),
+            re.compile(r"(Create|Oluştur)", re.I),
+        ]
+        for pattern in create_patterns:
+            try:
+                page.get_by_role("button", name=pattern).click(timeout=15_000)
+                page.wait_for_timeout(800)
+                return
+            except PlaywrightTimeoutError:
+                continue
+
+        screenshot = "/private/tmp/youtube_studio_create_menu_failed.png"
+        page.screenshot(path=screenshot, full_page=True)
+        raise TimeoutError(f"YouTube Studio Create menu could not be opened. Screenshot: {screenshot}")
+
+    def _open_new_playlist_dialog(self, page) -> None:
+        self._open_create_menu(page)
+        patterns = [
+            re.compile(r"^(New playlist|Yeni oynatma listesi)$", re.I),
+            re.compile(r"(New playlist|Yeni oynatma listesi|Oynatma listesi oluştur)", re.I),
+        ]
+        for pattern in patterns:
+            try:
+                page.get_by_text(pattern).click(timeout=15_000)
+                page.get_by_text(
+                    re.compile(r"(Create a new playlist|Yeni oynatma listesi oluştur)", re.I)
+                ).first.wait_for(timeout=30_000)
+                return
+            except PlaywrightTimeoutError:
+                continue
+
+        screenshot = "/private/tmp/youtube_studio_new_playlist_failed.png"
+        page.screenshot(path=screenshot, full_page=True)
+        raise TimeoutError(f"YouTube Studio New playlist dialog could not be opened. Screenshot: {screenshot}")
+
+    def _fill_new_playlist_dialog(
+        self,
+        page,
+        title: str,
+        description: str,
+        language: str,
+    ) -> None:
+        boxes = page.locator("ytcp-social-suggestions-textbox #textbox")
+        boxes.first.wait_for(timeout=60_000)
+        self._replace_textbox(boxes.nth(0), title[:150])
+        if boxes.count() > 1 and description:
+            self._replace_textbox(boxes.nth(1), description[:5000])
+
+        self._try_select_playlist_language(page, language)
+        action_patterns = [r"^Create$", r"^Oluştur$", r"^Kaydet$", r"^Save$"]
+        if not self._click_modal_footer_action(page, action_patterns):
+            logger.debug("Modal footer action click failed; falling back to generic action finder.")
+        if not self._wait_for_new_playlist_created(page):
+            self._click_dialog_action_button(page, action_patterns)
+        if not self._wait_for_new_playlist_created(page):
+            self._click_named_button(
+                page,
+                action_patterns,
+                timeout=60_000,
+            )
+        if not self._wait_for_new_playlist_created(page):
+            screenshot = "/private/tmp/youtube_studio_create_playlist_failed.png"
+            page.screenshot(path=screenshot, full_page=True)
+            raise TimeoutError(f"Playlist create dialog did not close. Screenshot: {screenshot}")
+
+    def _wait_for_new_playlist_created(self, page, timeout_ms: int = 30_000) -> bool:
+        success_re = re.compile(
+            r"(Playlist created|Oynatma listesi oluşturuldu|Your playlist|Oynatma listeniz|Playlist videos|Oynatma listesi videoları)",
+            re.I,
+        )
+        deadline = time.monotonic() + (timeout_ms / 1000)
+        while time.monotonic() < deadline:
+            if "/playlist" in page.url:
+                return True
+            try:
+                body_text = page.locator("body").inner_text(timeout=2_000)
+            except Exception:
+                body_text = ""
+            if success_re.search(body_text):
+                return True
+            if not self._new_playlist_dialog_visible(page):
+                return True
+            page.wait_for_timeout(1_000)
+        return False
+
+    def _new_playlist_dialog_visible(self, page) -> bool:
+        try:
+            return bool(
+                page.evaluate(
+                    """
+                    () => [...document.querySelectorAll('*')].some((el) => {
+                      const text = (el.innerText || el.textContent || '').trim();
+                      const box = el.getBoundingClientRect();
+                      return box.width > 0 && box.height > 0
+                        && /(Create a new playlist|Yeni oynatma listesi oluştur)/i.test(text);
+                    })
+                    """
+                )
+            )
+        except Exception:
+            return False
+
+    def _click_modal_footer_action(self, page, names: list[str]) -> bool:
+        target = page.evaluate(
+            """
+            (patterns) => {
+              const regexes = patterns.map((pattern) => new RegExp(pattern, 'i'));
+              const dialogs = [...document.querySelectorAll('[role="dialog"], ytcp-dialog, tp-yt-paper-dialog')]
+                .map((el) => ({el, box: el.getBoundingClientRect()}))
+                .filter(({box}) => box.width > 0 && box.height > 0)
+                .sort((a, b) => (b.box.width * b.box.height) - (a.box.width * a.box.height));
+              const dialog = dialogs[0]?.el || document.body;
+              const dbox = dialog.getBoundingClientRect();
+              const controls = [...dialog.querySelectorAll('button, ytcp-button, ytcp-button-shape, [role="button"]')]
+                .map((el) => ({ el, box: el.getBoundingClientRect() }))
+                .filter(({el, box}) => {
+                  const text = (el.innerText || el.textContent || el.getAttribute('aria-label') || '').trim();
+                  const disabled = el.disabled || el.getAttribute('aria-disabled') === 'true';
+                  return !disabled
+                    && box.width > 0
+                    && box.height > 0
+                    && box.top > dbox.top + dbox.height * 0.65
+                    && regexes.some((re) => re.test(text));
+                })
+                .sort((a, b) => (b.box.bottom - a.box.bottom) || (b.box.right - a.box.right));
+              if (!controls.length) return null;
+              const box = controls[0].box;
+              return {x: box.left + box.width / 2, y: box.top + box.height / 2};
+            }
+            """,
+            names,
+        )
+        if not target:
+            return False
+        page.mouse.click(target["x"], target["y"])
+        page.wait_for_timeout(1_000)
+        return True
+
+    def _try_select_playlist_language(self, page, language: str) -> None:
+        language_patterns = [
+            re.compile(r"(Title and description|Başlık ve açıklama)", re.I),
+            re.compile(r"^(Language|Dil)$", re.I),
+        ]
+        target_patterns = [
+            re.compile(rf"^{re.escape(language)}$", re.I),
+            re.compile(r"^Turkish$", re.I),
+            re.compile(r"^Türkçe$", re.I),
+        ]
+
+        try:
+            page.get_by_text(re.compile(r"^(Language|Dil)$", re.I)).first.scroll_into_view_if_needed(
+                timeout=5_000
+            )
+        except Exception:
+            pass
+
+        opened = self._click_first_visible_selector(
+            page,
+            [
+                "ytcp-form-language-input ytcp-dropdown-trigger",
+                "ytcp-form-language-input [role='button']",
+                "ytcp-form-language-input",
+            ],
+        )
+        if not opened:
+            for pattern in language_patterns:
+                try:
+                    label = page.get_by_text(pattern).first
+                    label.wait_for(timeout=5_000)
+                    label.scroll_into_view_if_needed(timeout=5_000)
+                    if self._click_dropdown_near_text(page, pattern.pattern):
+                        opened = True
+                        break
+                except Exception:
+                    continue
+
+        if not opened:
+            logger.warning("Playlist language dropdown was not found; leaving default language.")
+            return
+        page.wait_for_timeout(1_000)
+
+        for pattern in target_patterns:
+            try:
+                page.get_by_text(pattern).first.click(timeout=8_000)
+                page.wait_for_timeout(1_000)
+                return
+            except PlaywrightTimeoutError:
+                continue
+
+        logger.warning("Turkish playlist language option was not found; leaving default language.")
+        try:
+            page.keyboard.press("Escape")
+            page.wait_for_timeout(500)
+        except Exception:
+            pass
+
+    def _click_first_visible_selector(self, page, selectors: list[str]) -> bool:
+        for selector in selectors:
+            try:
+                locator = page.locator(selector).first
+                if locator.count():
+                    locator.click(timeout=5_000, force=True)
+                    return True
+            except Exception:
+                continue
+        return False
+
+    def _click_dropdown_near_text(self, page, label_pattern: str) -> bool:
+        return bool(
+            page.evaluate(
+                """
+                (labelPattern) => {
+                  const labelRe = new RegExp(labelPattern, 'i');
+                  const labels = [...document.querySelectorAll('*')]
+                    .filter((el) => {
+                      const text = (el.innerText || el.textContent || '').trim();
+                      const box = el.getBoundingClientRect();
+                      return box.width > 0 && box.height > 0 && text.length < 80 && labelRe.test(text);
+                    })
+                    .sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
+
+                  for (const label of labels) {
+                    const labelBox = label.getBoundingClientRect();
+                    const controls = [...document.querySelectorAll(
+                      'ytcp-dropdown-trigger, tp-yt-paper-dropdown-menu, ytcp-select, button, [role="button"]'
+                    )]
+                      .map((el) => ({el, box: el.getBoundingClientRect()}))
+                      .filter(({el, box}) => {
+                        const disabled = el.disabled || el.getAttribute('aria-disabled') === 'true';
+                        const visible = box.width > 0 && box.height > 0;
+                        const below = box.top >= labelBox.top - 15 && box.top <= labelBox.bottom + 95;
+                        const aligned = Math.abs(box.left - labelBox.left) < 80 || box.left <= labelBox.right + 40;
+                        return visible && !disabled && below && aligned;
+                      })
+                      .sort((a, b) => (b.box.width * b.box.height) - (a.box.width * a.box.height));
+                    if (controls.length) {
+                      controls[0].el.scrollIntoView({block: 'center', inline: 'center'});
+                      controls[0].el.click();
+                      return true;
+                    }
+                  }
+                  return false;
+                }
+                """,
+                label_pattern,
+            )
+        )
 
     def _wait_for_login_if_needed(self, page) -> None:
         login_markers = [

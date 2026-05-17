@@ -6,18 +6,18 @@ based on its current status. Each stage method is idempotent.
 import logging
 from pathlib import Path
 
+from googleapiclient.errors import HttpError
+
 from src.adapters.suno import get_suno_client
 from src.adapters.youtube import YouTubeClient, YouTubeStudioUploader
 from src.agents import (
     ConceptAgent,
     ImagePromptAgent,
-    LyricAgent,
     MetadataAgent,
     SunoPromptAgent,
 )
 from src.config.settings import settings
 from src.image import ImageGenerator
-from src.quality.quality_checker import QualityChecker
 from src.services.city_service import CityService
 from src.services.history_service import HistoryService
 from src.services.song_service import SongService
@@ -41,8 +41,6 @@ class PipelineService:
     def __init__(self, dry_run: bool = False):
         self.dry_run = dry_run
         self._concept_agent = ConceptAgent()
-        self._lyric_agent = LyricAgent()
-        self._quality_checker = QualityChecker()
         self._suno_prompt_agent = SunoPromptAgent()
         self._image_prompt_agent = ImagePromptAgent()
         self._metadata_agent = MetadataAgent()
@@ -74,13 +72,13 @@ class PipelineService:
                 if status == SongStatus.PENDING:
                     song = self._stage_concept(song, song_svc, history_svc, city, cultural_profile)
                 elif status == SongStatus.CONCEPT_READY:
-                    song = self._stage_lyrics(song, song_svc, history_svc, city, cultural_profile)
+                    song = self._stage_suno_prompt(song, song_svc, cultural_profile)
                 elif status == SongStatus.QUALITY_REJECTED:
                     if (song.lyric_attempt or 0) >= settings.pipeline.max_lyric_retries:
                         song_svc.permanently_reject(song, "Max lyric retries reached")
                         break
                     song_svc.reset_for_retry(song)
-                    song = self._stage_lyrics(song, song_svc, history_svc, city, cultural_profile)
+                    song = self._stage_suno_prompt(song, song_svc, cultural_profile)
                 elif status == SongStatus.LYRICS_READY:
                     song = self._stage_suno_prompt(song, song_svc, cultural_profile)
                 elif status == SongStatus.QUALITY_APPROVED:
@@ -117,35 +115,13 @@ class PipelineService:
         concept = self._concept_agent.generate(city.name, cultural_profile, history_dict)
         song.set_concept(concept)
         song.title = concept.get("title", "")
+        history_svc.record_song(city.id, concept, self._concept_history_hooks(concept, cultural_profile))
         return song_svc.advance(song)  # → CONCEPT_READY
-
-    def _stage_lyrics(self, song, song_svc, history_svc, city, cultural_profile):
-        logger.info("[%s] Stage: lyrics", song.id)
-        concept = song.get_concept()
-        lyric_result = self._lyric_agent.generate(concept, city.name, cultural_profile)
-        lyrics = lyric_result.get("lyrics", "")
-        song.lyrics = lyrics
-
-        # Quality check
-        qr = self._quality_checker.check(lyrics, city.name, concept)
-        song.set_quality_report(qr)
-        song.quality_score = qr.get("score")
-
-        if qr["is_approved"]:
-            song.status = SongStatus.QUALITY_APPROVED
-            history_svc.record_song(city.id, concept, lyric_result.get("keywords", []))
-            logger.info("[%s] Lyrics approved (score=%.1f)", song.id, qr.get("score", 0))
-        else:
-            song.status = SongStatus.QUALITY_REJECTED
-            song.rejected_reason = qr.get("rejected_reason", "")
-            logger.warning("[%s] Lyrics rejected: %s", song.id, song.rejected_reason)
-
-        return song
 
     def _stage_suno_prompt(self, song, song_svc, cultural_profile):
         logger.info("[%s] Stage: suno_prompt", song.id)
         concept = song.get_concept()
-        result = self._suno_prompt_agent.generate(concept, song.lyrics, cultural_profile)
+        result = self._suno_prompt_agent.generate(concept, cultural_profile)
         simple_prompt = (
             result.get("simple_prompt")
             or result.get("style_prompt")
@@ -159,6 +135,9 @@ class PipelineService:
         song.suno_style_prompt = simple_prompt
         song.suno_full_prompt = simple_prompt
         song.suno_lyrics = ""
+        song.lyrics = None
+        song.quality_report = None
+        song.quality_score = None
 
         # Submit to Suno (manual: writes prompt file; browser: submits to API)
         suno_client = get_suno_client()
@@ -168,7 +147,9 @@ class PipelineService:
         file_storage.write_suno_prompt(city_slug=self._get_city_slug(song), song_id=song.id,
                                        style_prompt=song.suno_style_prompt,
                                        suno_lyrics=song.suno_lyrics)
-        return song_svc.advance(song)  # → SUNO_READY
+        song.status = SongStatus.SUNO_READY
+        song_svc.session.flush()
+        return song
 
     def _stage_suno_wait(self, song, song_svc, city):
         """Browser mode: poll Suno until clip is ready, download WAV, advance to AUDIO_IMPORTED."""
@@ -317,7 +298,11 @@ class PipelineService:
             )
             yt.publish_video(vid_id)
             song.youtube_long_video_id = vid_id
-            yt.add_to_playlist(vid_id, playlist_id)
+            if playlist_id:
+                try:
+                    yt.add_to_playlist(vid_id, playlist_id)
+                except HttpError as exc:
+                    logger.warning("Playlist API insert failed after Studio upload; playlist UI selection was already attempted: %s", exc)
             studio.add_end_screen(vid_id)
 
         # Upload Short
@@ -344,19 +329,64 @@ class PipelineService:
 
     # ── Helpers ───────────────────────────────────────────────────────
 
-    def _ensure_city_playlist(self, yt: YouTubeClient, city) -> str:
+    def _ensure_city_playlist(self, yt: YouTubeClient, city) -> str | None:
         if city.playlist_id:
             return city.playlist_id
 
         title = self._city_playlist_title(city)
         description = f"{city.name} yöresinden üretilen Anadolu türküleri."
-        playlist_id = yt.ensure_playlist(title, description)
+        try:
+            playlist_id = yt.ensure_playlist(title, description)
+        except HttpError as exc:
+            if not self._is_youtube_quota_error(exc):
+                raise
+            logger.warning("Playlist API quota/rate limit reached; creating playlist via YouTube Studio web UI.")
+            YouTubeStudioUploader().create_playlist(
+                title=title,
+                description=description,
+                language="Turkish",
+            )
+            try:
+                playlist_id = yt.find_playlist_by_title(title)
+            except HttpError as lookup_exc:
+                logger.warning(
+                    "Playlist was created in Studio, but API lookup failed; upload will select it by title in Studio: %s",
+                    lookup_exc,
+                )
+                playlist_id = None
+
+        if not playlist_id:
+            logger.warning("Playlist id is unavailable for '%s'; continuing with Studio playlist title selection.", title)
+            return None
+
         city.playlist_id = playlist_id
         return playlist_id
 
     @staticmethod
+    def _is_youtube_quota_error(exc: HttpError) -> bool:
+        status = getattr(getattr(exc, "resp", None), "status", None)
+        text = str(exc).lower()
+        return status in {403, 429} and (
+            "quota" in text
+            or "rate_limit" in text
+            or "resource has been exhausted" in text
+            or "daily limit" in text
+        )
+
+    @staticmethod
     def _city_playlist_title(city) -> str:
         return f"{city.name} Türküleri | Anadolu Türküleri Ezgileri"
+
+    @staticmethod
+    def _concept_history_hooks(concept: dict, cultural_profile: dict) -> list[str]:
+        hooks: list[str] = []
+        for key in ("theme", "story", "season", "narrator"):
+            value = concept.get(key)
+            if value:
+                hooks.append(str(value))
+        for place in cultural_profile.get("place_names", [])[:3]:
+            hooks.append(str(place))
+        return hooks
 
     def _get_city_slug(self, song: Song) -> str:
         with get_session() as s:
