@@ -940,14 +940,38 @@ class YouTubeStudioUploader:
                 continue
 
     def _save_video_edit(self, page) -> None:
-        for name in [r"^Save$", r"^Kaydet$", r"Done", r"Bitti"]:
-            try:
-                button = page.get_by_role("button", name=re.compile(name, re.I)).first
-                button.click(timeout=20_000)
-                page.wait_for_timeout(2_000)
-                return
-            except PlaywrightTimeoutError:
-                continue
+        if self._click_enabled_page_action(page, [r"^Save$", r"^Kaydet$", r"^Done$", r"^Bitti$"]):
+            page.wait_for_timeout(3_000)
+            return
+        logger.warning("No enabled Studio page save button was found; changes may already be saved.")
+
+    def _click_enabled_page_action(self, page, names: list[str]) -> bool:
+        target = page.evaluate(
+            """
+            (patterns) => {
+              const regexes = patterns.map((pattern) => new RegExp(pattern, 'i'));
+              const controls = [...document.querySelectorAll('button, ytcp-button, ytcp-button-shape, [role="button"]')]
+                .map((el) => ({ el, box: el.getBoundingClientRect() }))
+                .filter(({el, box}) => {
+                  const text = (el.innerText || el.textContent || el.getAttribute('aria-label') || '').trim();
+                  const disabled = el.disabled || el.getAttribute('aria-disabled') === 'true';
+                  return !disabled
+                    && box.width > 0
+                    && box.height > 0
+                    && regexes.some((re) => re.test(text));
+                })
+                .sort((a, b) => (a.box.top - b.box.top) || (b.box.right - a.box.right));
+              if (!controls.length) return null;
+              const box = controls[0].box;
+              return {x: box.left + box.width / 2, y: box.top + box.height / 2};
+            }
+            """,
+            names,
+        )
+        if not target:
+            return False
+        page.mouse.click(target["x"], target["y"])
+        return True
 
     def _advance_to_visibility(self, page, add_end_screen: bool) -> None:
         self._click_next(page)
@@ -1011,17 +1035,12 @@ class YouTubeStudioUploader:
                 raise TimeoutError(f"End screen edit button not found. Screenshot: {screenshot}")
 
             page.wait_for_timeout(2_000)
-            already_configured = self._end_screen_has_video_and_subscribe(page)
-            if not already_configured:
+            if not self._end_screen_has_video_and_subscribe(page):
                 self._click_end_screen_template_candidate(page)
                 page.wait_for_timeout(2_000)
-            else:
-                self._dismiss_open_dialog(page)
-                logger.info("End screen already has video and subscribe elements.")
-                return
-            self._save_end_screen(page)
             if not self._end_screen_has_video_and_subscribe(page):
                 raise TimeoutError("End screen did not contain a video and subscribe element.")
+            self._save_end_screen(page)
             self._save_video_edit(page)
             logger.info("End screen saved from Studio details page.")
         except Exception as exc:
@@ -1485,6 +1504,30 @@ class YouTubeStudioUploader:
             )
         except PlaywrightTimeoutError:
             pass
+
+        dialog_hrefs = page.evaluate(
+            """
+            () => {
+              const roots = [...document.querySelectorAll('[role="dialog"], ytcp-uploads-dialog, tp-yt-paper-dialog')]
+                .filter((el) => {
+                  const box = el.getBoundingClientRect();
+                  return box.width > 0 && box.height > 0;
+                });
+              const activeRoot = roots.sort((a, b) => {
+                const ab = a.getBoundingClientRect();
+                const bb = b.getBoundingClientRect();
+                return (bb.width * bb.height) - (ab.width * ab.height);
+              })[0] || document.body;
+              return [...activeRoot.querySelectorAll('a[href]')]
+                .map((a) => a.href)
+                .filter((href) => /youtu\\.be\\/|watch\\?v=|shorts\\//.test(href));
+            }
+            """
+        )
+        for href in dialog_hrefs:
+            match = pattern.search(href)
+            if match:
+                return match.group(1)
 
         hrefs = page.locator("a[href]").evaluate_all("(els) => els.map((a) => a.href)")
         for href in hrefs:
