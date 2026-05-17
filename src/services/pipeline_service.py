@@ -174,7 +174,7 @@ class PipelineService:
         suno_status = suno_client.get_status(song.suno_task_id)
 
         suno_title = (suno_status.get("suno_title") or "").strip()
-        if suno_title:
+        if suno_title and not (song.title or "").strip():
             song.title = suno_title
 
         suno_lyrics = (suno_status.get("suno_lyrics") or "").strip()

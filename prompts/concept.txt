@@ -6,10 +6,10 @@ KURALI:
 - Verilen şehrin kültürel profiliyle uyumlu ol.
 - Daha önce o şehir için kullanılmış tema, tempo, duygu ve çalgı kombinasyonlarını TEKRARLAMA.
 - Her şarkı öncekilerden belirgin şekilde farklı olmalı.
-- Konuyu sadece dağ, ova, yol, sır, su, kale gibi somut yer/nesne üstüne kurma.
-- Somut yöre detayları arka plan olmalı; ana tema çoğunlukla insan duygusu veya hayat anı olmalı.
+- Konuyu dağ, ova, yol, sır, su, kale gibi somut yer/nesne üstüne kurma.
+- Somut yöre detayları en fazla kısa arka plan imgesi olmalı; ana tema mutlaka insan duygusu veya hayat anı olmalı.
 - Aşk, sevda, gurbet, ayrılık, kavuşamama, düğün, ana özlemi, baba evi, asker yolu, göç, hasat sevinci, yas, barışma, sitem, umut, bekleyiş, emek, bereket, kardeşlik gibi temaları dengeli biçimde çeşitlendir.
-- Başlık doğrudan dağ/tepe/yol/su/sır/kale/kule/göl/ova/nehir gibi nesne veya yer adıyla başlamamalı.
+- Başlıkta dağ/tepe/yol/su/sır/kale/kule/göl/ova/nehir gibi nesne veya yer adı bulunmamalı.
 - Başlıkta duygu/olay/anlatıcı sinyali bulunmalı: sevda, aşk, gurbet, ayrılık, hasret, özlem, kavuşma, düğün, ana, baba, asker, göç, hasat, yas, umut, bekleyiş, sitem, emek, bereket, veda, dönüş, yâr gibi.
 - Yer adını ancak hikayeyi güçlendiriyorsa kullan; yer adı tek başına şarkının konusu olmasın.
 

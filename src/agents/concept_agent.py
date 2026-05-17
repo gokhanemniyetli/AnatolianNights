@@ -22,6 +22,17 @@ _OBJECT_RE = re.compile(
     re.IGNORECASE,
 )
 
+_FALLBACK_CONCEPTS = [
+    ("Gurbet Hasreti", "gurbet", "Gurbete giden birinin evde bıraktığı yârine ve ailesine duyduğu özlemi anlatır. Yöresel imgeler yalnızca hatıra olarak geçer; ana duygu hasret ve eve dönme isteğidir."),
+    ("Yâr Bekleyişi", "bekleyiş", "Sevdiğinden haber bekleyen bir anlatıcının iç sızısını işler. Türkü, sabır, umut ve kavuşma ihtimalinin verdiği ince heyecan üzerine kurulur."),
+    ("Ana Özlemi", "ana özlemi", "Uzakta kalan bir evladın annesinin sesini, duasını ve baba ocağını özlemesini anlatır. Ana duygu şefkat, pişmanlık ve eve dönme arzusudur."),
+    ("Kavuşma Umudu", "kavuşma", "Ayrı düşen iki sevgilinin bütün zorluğa rağmen yeniden buluşma umudunu anlatır. Türküde ana eksen sevda, sabır ve umut olur."),
+    ("Düğün Sevinci", "düğün", "Bir köy düğününde iki ailenin barışıp sevinci paylaşmasını konu alır. Ana duygu neşe, birlik ve berekettir."),
+    ("Ayrılık Sitemi", "ayrılık", "Söz verip giden bir sevgiliye duyulan kırgınlığı ve içten sitemi anlatır. Türkü, gururlu ama yaralı bir anlatıcının dilinden söylenir."),
+    ("Emek Bereketi", "emek", "Alın teriyle geçinen insanların günlük emeğini ve sofradaki bereketi anlatır. Ana duygu dayanışma, sabır ve helal kazançtır."),
+    ("Asker Hasreti", "hasret", "Askere giden bir gencin ardında kalan yârinin ve ailesinin bekleyişini anlatır. Ana duygu özlem, dua ve dönüş umududur."),
+]
+
 
 class ConceptAgent(BaseAgent):
     def __init__(self):
@@ -71,7 +82,7 @@ Başlığı sadece dağ, göl, yol, sır, kale, kule, ova, nehir gibi bir nesne/
             last_result = result
             if self._is_valid_concept(result):
                 return result
-        return last_result
+        return self._fallback_concept(city_name, generation_history, last_result)
 
     @staticmethod
     def _is_valid_concept(concept: dict) -> bool:
@@ -82,6 +93,29 @@ Başlığı sadece dağ, göl, yol, sır, kale, kule, ova, nehir gibi bir nesne/
         has_emotion = bool(_EMOTION_RE.search(combined))
         object_title = bool(_OBJECT_RE.search(title))
         emotion_in_title = bool(_EMOTION_RE.search(title))
-        if object_title and not emotion_in_title:
+        if object_title:
             return False
         return has_emotion
+
+    @staticmethod
+    def _fallback_concept(city_name: str, generation_history: dict, last_result: dict) -> dict:
+        used_titles = {str(item).casefold() for item in generation_history.get("used_titles", [])}
+        selected = next(
+            (item for item in _FALLBACK_CONCEPTS if item[0].casefold() not in used_titles),
+            _FALLBACK_CONCEPTS[0],
+        )
+        title, theme, story = selected
+        instruments = last_result.get("instruments") if isinstance(last_result, dict) else None
+        avoid = last_result.get("avoid") if isinstance(last_result, dict) else None
+        return {
+            "title": title,
+            "theme": theme,
+            "story": f"{city_name} yöresinde geçen bu türkü, {story}",
+            "mood": "içli, doğal, samimi",
+            "tempo": "orta-yavaş geleneksel türkü",
+            "vocal": "emotional Turkish folk vocal",
+            "instruments": instruments if isinstance(instruments, list) and instruments else ["bağlama", "kaval"],
+            "avoid": avoid if isinstance(avoid, list) else [],
+            "season": "zamansız",
+            "narrator": "duygusunu doğrudan anlatan kişi",
+        }
