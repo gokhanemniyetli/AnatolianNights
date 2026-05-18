@@ -343,8 +343,8 @@ class PipelineService:
                 thumbnail_path=thumb_path,
                 playlist_title=self._city_playlist_title(city),
             )
-            yt.publish_video(vid_id)
             song.youtube_long_video_id = vid_id
+            self._publish_after_studio_upload(yt, vid_id)
             if playlist_id:
                 try:
                     yt.add_to_playlist(vid_id, playlist_id)
@@ -360,8 +360,8 @@ class PipelineService:
                 title=meta.get("short_title", meta.get("title", "")),
                 description=meta.get("short_description", ""),
             )
-            yt.publish_video(short_id)
             song.youtube_short_video_id = short_id
+            self._publish_after_studio_upload(yt, short_id)
             if song.youtube_long_video_id:
                 try:
                     studio.set_related_video(
@@ -375,6 +375,22 @@ class PipelineService:
         return song_svc.advance(song)  # → UPLOADED
 
     # ── Helpers ───────────────────────────────────────────────────────
+
+    @staticmethod
+    def _publish_after_studio_upload(yt: YouTubeClient, video_id: str) -> None:
+        try:
+            yt.publish_video(video_id)
+        except HttpError as exc:
+            status = getattr(getattr(exc, "resp", None), "status", None)
+            text = str(exc).lower()
+            if status == 403 and "forbidden" in text:
+                logger.warning(
+                    "YouTube API publish returned 403 for %s after Studio upload; "
+                    "continuing because Studio already selected Public and clicked Publish.",
+                    video_id,
+                )
+                return
+            raise
 
     def _ensure_city_playlist(self, yt: YouTubeClient, city) -> str | None:
         if city.playlist_id:
