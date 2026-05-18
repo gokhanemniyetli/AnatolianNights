@@ -344,6 +344,7 @@ class PipelineService:
                 playlist_title=self._city_playlist_title(city),
             )
             song.youtube_long_video_id = vid_id
+            self._verify_uploaded_channel(yt, vid_id)
             self._publish_after_studio_upload(yt, vid_id)
             if playlist_id:
                 try:
@@ -361,6 +362,7 @@ class PipelineService:
                 description=meta.get("short_description", ""),
             )
             song.youtube_short_video_id = short_id
+            self._verify_uploaded_channel(yt, short_id)
             self._publish_after_studio_upload(yt, short_id)
             if song.youtube_long_video_id:
                 try:
@@ -391,6 +393,19 @@ class PipelineService:
                 )
                 return
             raise
+
+    @staticmethod
+    def _verify_uploaded_channel(yt: YouTubeClient, video_id: str) -> None:
+        expected_channel_id = (settings.youtube.channel_id or "").strip()
+        if not expected_channel_id:
+            return
+        actual_channel_id = yt.get_video_channel_id(video_id)
+        if actual_channel_id and actual_channel_id != expected_channel_id:
+            raise PermissionError(
+                f"YouTube Studio uploaded video {video_id} to channel {actual_channel_id}, "
+                f"but configured channel is {expected_channel_id}. "
+                "Stop using this browser profile until it is switched to the correct channel."
+            )
 
     def _ensure_city_playlist(self, yt: YouTubeClient, city) -> str | None:
         if city.playlist_id:

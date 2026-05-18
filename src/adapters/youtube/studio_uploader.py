@@ -14,6 +14,8 @@ from pathlib import Path
 from playwright.sync_api import TimeoutError as PlaywrightTimeoutError
 from playwright.sync_api import sync_playwright
 
+from src.config.settings import settings
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,10 +25,12 @@ class YouTubeStudioUploader:
         profile_dir: str | Path = "config/youtube_browser_profile",
         headless: bool = False,
         timeout_ms: int = 900_000,
+        expected_channel_id: str | None = None,
     ):
         self.profile_dir = Path(profile_dir)
         self.headless = headless
         self.timeout_ms = timeout_ms
+        self.expected_channel_id = (expected_channel_id or settings.youtube.channel_id or "").strip()
 
     def upload_video(
         self,
@@ -100,11 +104,9 @@ class YouTubeStudioUploader:
                     short_video_id,
                     related_video_id,
                 )
-                page.goto(
-                    f"https://studio.youtube.com/video/{short_video_id}/edit",
-                    wait_until="domcontentloaded",
-                )
+                page.goto(self._studio_url(f"/video/{short_video_id}/edit"), wait_until="domcontentloaded")
                 self._wait_for_login_if_needed(page)
+                self._ensure_expected_channel_context(page)
                 self._set_related_video_from_edit_page(
                     page,
                     related_video_id,
@@ -133,11 +135,9 @@ class YouTubeStudioUploader:
 
             try:
                 logger.info("Opening YouTube Studio details page for end screen: %s", video_id)
-                page.goto(
-                    f"https://studio.youtube.com/video/{video_id}/edit",
-                    wait_until="domcontentloaded",
-                )
+                page.goto(self._studio_url(f"/video/{video_id}/edit"), wait_until="domcontentloaded")
                 self._wait_for_login_if_needed(page)
+                self._ensure_expected_channel_context(page)
                 self._add_end_screen_from_details_page(page)
                 self._save_state(context)
             finally:
@@ -167,8 +167,9 @@ class YouTubeStudioUploader:
 
             try:
                 logger.info("Creating YouTube Studio playlist via web UI: %s", title)
-                page.goto("https://studio.youtube.com", wait_until="domcontentloaded")
+                page.goto(self._studio_url(), wait_until="domcontentloaded")
                 self._wait_for_login_if_needed(page)
+                self._ensure_expected_channel_context(page)
                 self._open_new_playlist_dialog(page)
                 self._fill_new_playlist_dialog(page, title, description, language)
                 self._save_state(context)
@@ -189,7 +190,9 @@ class YouTubeStudioUploader:
         related_video_title: str | None,
     ) -> str:
         logger.info("Opening YouTube Studio web uploader...")
-        page.goto("https://studio.youtube.com", wait_until="domcontentloaded")
+        page.goto(self._studio_url(), wait_until="domcontentloaded")
+        self._wait_for_login_if_needed(page)
+        self._ensure_expected_channel_context(page)
         self._open_upload_dialog(page)
 
         logger.info("Selecting video file: %s", video_path)
@@ -211,6 +214,91 @@ class YouTubeStudioUploader:
         video_id = self._extract_video_id(page)
         logger.info("YouTube Studio upload completed: %s", video_id)
         return video_id
+
+    def _studio_url(self, path: str = "") -> str:
+        if self.expected_channel_id:
+            return f"https://studio.youtube.com/channel/{self.expected_channel_id}{path}"
+        return f"https://studio.youtube.com{path}"
+
+    def _ensure_expected_channel_context(self, page) -> None:
+        if not self.expected_channel_id:
+            return
+
+        expected_fragment = f"/channel/{self.expected_channel_id}"
+        try:
+            page.wait_for_load_state("domcontentloaded", timeout=60_000)
+        except PlaywrightTimeoutError:
+            pass
+
+        if expected_fragment in page.url and not self._wrong_channel_or_access_error(page):
+            return
+
+        page.goto(self._studio_url(), wait_until="domcontentloaded")
+        self._wait_for_login_if_needed(page)
+        try:
+            page.wait_for_url(re.compile(rf".*/channel/{re.escape(self.expected_channel_id)}(?:/.*)?$"), timeout=60_000)
+        except PlaywrightTimeoutError:
+            pass
+
+        if expected_fragment in page.url and not self._wrong_channel_or_access_error(page):
+            return
+
+        if self._wrong_channel_or_access_error(page) and not self.headless:
+            self._wait_for_expected_channel_switch(page)
+            if expected_fragment in page.url and not self._wrong_channel_or_access_error(page):
+                return
+
+        screenshot = "/private/tmp/youtube_studio_wrong_channel.png"
+        try:
+            page.screenshot(path=screenshot, full_page=True)
+        except Exception:
+            pass
+        raise PermissionError(
+            "YouTube Studio is not using the configured channel "
+            f"{self.expected_channel_id}. Current URL: {page.url}. "
+            "Switch the browser profile to the correct channel before uploading. "
+            f"Screenshot: {screenshot}"
+        )
+
+    def _wrong_channel_or_access_error(self, page) -> bool:
+        try:
+            text = page.locator("body").inner_text(timeout=5_000)
+        except Exception:
+            text = ""
+        return bool(
+            re.search(
+                r"(Bu sayfayı görüntüleme izniniz yok|You don't have permission|You do not have permission|"
+                r"Erişimi olan bir hesapla oturum açmalısınız|sign in with an account that has access)",
+                text,
+                re.I,
+            )
+        )
+
+    def _wait_for_expected_channel_switch(self, page) -> None:
+        logger.warning(
+            "YouTube Studio browser profile is not on the configured channel %s. "
+            "Use the opened browser to switch/sign in to the correct channel; waiting...",
+            self.expected_channel_id,
+        )
+        for pattern in [r"(Hesap değiştir|Switch account)", r"(Oturum aç|Sign in)"]:
+            try:
+                page.get_by_text(re.compile(pattern, re.I)).first.click(timeout=5_000)
+                break
+            except Exception:
+                continue
+
+        deadline = time.monotonic() + (self.timeout_ms / 1000)
+        expected_fragment = f"/channel/{self.expected_channel_id}"
+        while time.monotonic() < deadline:
+            try:
+                if expected_fragment not in page.url:
+                    page.goto(self._studio_url(), wait_until="domcontentloaded")
+                self._wait_for_login_if_needed(page)
+                page.wait_for_timeout(2_000)
+                if expected_fragment in page.url and not self._wrong_channel_or_access_error(page):
+                    return
+            except Exception:
+                page.wait_for_timeout(2_000)
 
     def _open_upload_dialog(self, page) -> None:
         self._wait_for_login_if_needed(page)

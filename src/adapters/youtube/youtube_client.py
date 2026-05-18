@@ -131,6 +131,15 @@ class YouTubeClient:
         ).execute()
         logger.info("Updated metadata for video %s", video_id)
 
+    def get_video_channel_id(self, video_id: str) -> str:
+        """Return the owning channel ID for a YouTube video."""
+        service = self._get_service()
+        response = service.videos().list(part="snippet", id=video_id).execute()
+        items = response.get("items", [])
+        if not items:
+            return ""
+        return items[0].get("snippet", {}).get("channelId", "") or ""
+
     def publish_video(self, video_id: str) -> None:
         """Set an existing YouTube video to public."""
         if self.dry_run:
