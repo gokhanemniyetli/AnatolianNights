@@ -20,7 +20,9 @@ logger = logging.getLogger(__name__)
 class ShortRenderer:
     SHORT_WIDTH = 1080
     SHORT_HEIGHT = 1920
-    MAX_DURATION_SECONDS = 12
+    # YouTube can round a 12.0s MP4 up to PT13S after processing. Keep the
+    # rendered file below the user-facing 12 second cap.
+    MAX_DURATION_SECONDS = 11
     VIDEO_CODEC = "libx264"
     AUDIO_CODEC = "aac"
     CRF = "23"

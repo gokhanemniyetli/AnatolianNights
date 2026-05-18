@@ -104,9 +104,10 @@ class YouTubeStudioUploader:
                     short_video_id,
                     related_video_id,
                 )
-                page.goto(self._studio_url(f"/video/{short_video_id}/edit"), wait_until="domcontentloaded")
+                page.goto(self._studio_url(), wait_until="domcontentloaded")
                 self._wait_for_login_if_needed(page)
                 self._ensure_expected_channel_context(page)
+                page.goto(self._video_edit_url(short_video_id), wait_until="domcontentloaded")
                 self._set_related_video_from_edit_page(
                     page,
                     related_video_id,
@@ -135,9 +136,10 @@ class YouTubeStudioUploader:
 
             try:
                 logger.info("Opening YouTube Studio details page for end screen: %s", video_id)
-                page.goto(self._studio_url(f"/video/{video_id}/edit"), wait_until="domcontentloaded")
+                page.goto(self._studio_url(), wait_until="domcontentloaded")
                 self._wait_for_login_if_needed(page)
                 self._ensure_expected_channel_context(page)
+                page.goto(self._video_edit_url(video_id), wait_until="domcontentloaded")
                 self._add_end_screen_from_details_page(page)
                 self._save_state(context)
             finally:
@@ -219,6 +221,12 @@ class YouTubeStudioUploader:
         if self.expected_channel_id:
             return f"https://studio.youtube.com/channel/{self.expected_channel_id}{path}"
         return f"https://studio.youtube.com{path}"
+
+    def _video_edit_url(self, video_id: str) -> str:
+        # YouTube Studio channel-scoped URLs work for channel pages and upload,
+        # but individual video edit pages return a generic error when prefixed
+        # with /channel/{id}. Set the channel context first, then use this URL.
+        return f"https://studio.youtube.com/video/{video_id}/edit"
 
     def _ensure_expected_channel_context(self, page) -> None:
         if not self.expected_channel_id:

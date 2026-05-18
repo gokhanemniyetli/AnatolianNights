@@ -346,6 +346,8 @@ class PipelineService:
             song.youtube_long_video_id = vid_id
             self._verify_uploaded_channel(yt, vid_id)
             self._publish_after_studio_upload(yt, vid_id)
+            song_svc.session.flush()
+            session.commit()
             if playlist_id:
                 try:
                     yt.add_to_playlist(vid_id, playlist_id)
@@ -364,6 +366,8 @@ class PipelineService:
             song.youtube_short_video_id = short_id
             self._verify_uploaded_channel(yt, short_id)
             self._publish_after_studio_upload(yt, short_id)
+            song_svc.session.flush()
+            session.commit()
             if song.youtube_long_video_id:
                 try:
                     studio.set_related_video(

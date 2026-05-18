@@ -18,7 +18,7 @@ video:
     height: 1920
     fps: 25
     crf: 23
-    hook_duration_seconds: 12
+    hook_duration_seconds: 11
     fade_duration_seconds: 1
 
 image:
