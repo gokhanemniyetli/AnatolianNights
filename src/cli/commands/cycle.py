@@ -3,7 +3,7 @@ cycle commands — run-cycle, dry-run
 """
 
 import time
-from datetime import date
+from datetime import date, datetime, timedelta
 
 import click
 from rich.console import Console
@@ -62,10 +62,12 @@ def _next_resumable_song_id(city_slug: str | None = None) -> int | None:
         SongStatus.IMAGE_READY.value,
         SongStatus.VIDEO_READY.value,
     ]
+    cutoff = datetime.now() - timedelta(hours=6)
     with get_session() as session:
         query = (
             session.query(Song.id)
             .filter(Song.status.in_(resumable_statuses))
+            .filter(Song.created_at >= cutoff)
             .order_by(Song.created_at.asc())
         )
         if city_slug:
