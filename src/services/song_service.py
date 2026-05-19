@@ -3,6 +3,7 @@ SongService — creates and advances songs through the status state machine.
 """
 
 import logging
+from datetime import datetime, timezone
 
 from sqlalchemy.orm import Session
 
@@ -49,6 +50,8 @@ class SongService:
             raise ValueError(f"No forward transition from {song.status}")
         logger.info("Song %s: %s → %s", song.id, song.status, next_status)
         song.status = next_status
+        if next_status == SongStatus.UPLOADED:
+            song.uploaded_at = datetime.now(timezone.utc).replace(tzinfo=None)
         self.session.flush()
         return song
 

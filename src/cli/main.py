@@ -8,7 +8,7 @@ import logging
 import click
 from rich.logging import RichHandler
 
-from src.cli.commands.cycle import dry_run_cycle, run_cycle
+from src.cli.commands.cycle import dry_run_cycle, run_cycle, run_scheduler
 from src.cli.commands.generate import generate_city, generate_next, resume_song
 from src.cli.commands.render import render_video
 from src.cli.commands.review import import_audio, review_song
@@ -57,6 +57,7 @@ cli.add_command(upload_youtube_web)
 cli.add_command(publish_youtube_id)
 cli.add_command(sync_youtube_ui)
 cli.add_command(run_cycle)
+cli.add_command(run_scheduler)
 cli.add_command(dry_run_cycle)
 cli.add_command(list_songs)
 cli.add_command(song_stats)
