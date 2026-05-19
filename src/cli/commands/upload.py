@@ -72,7 +72,7 @@ def upload_youtube(song_id: str, dry_run: bool):
 @click.command("upload-youtube-web")
 @click.argument("song_id")
 @click.option("--kind", type=click.Choice(["long", "short"]), default="long", show_default=True)
-@click.option("--profile-dir", default="config/youtube_browser_profile", show_default=True)
+@click.option("--profile-dir", default="config/youtube_browser_profile_short", show_default=True)
 def upload_youtube_web(song_id: str, kind: str, profile_dir: str):
     """Upload a VIDEO_READY song through YouTube Studio web UI."""
     with get_session() as session:
@@ -202,7 +202,7 @@ def publish_youtube_id(song_id: str, video_id: str, kind: str):
 
 @click.command("sync-youtube-ui")
 @click.argument("song_id")
-@click.option("--profile-dir", default="config/youtube_browser_profile", show_default=True)
+@click.option("--profile-dir", default="config/youtube_browser_profile_short", show_default=True)
 def sync_youtube_ui(song_id: str, profile_dir: str):
     """Apply Studio-only UI settings for an already uploaded song."""
     with get_session() as session:

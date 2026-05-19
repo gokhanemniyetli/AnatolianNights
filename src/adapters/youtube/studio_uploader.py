@@ -7,6 +7,7 @@ upload but the same account can upload through studio.youtube.com.
 
 import json
 import logging
+import os
 import re
 import time
 from pathlib import Path
@@ -22,12 +23,13 @@ logger = logging.getLogger(__name__)
 class YouTubeStudioUploader:
     def __init__(
         self,
-        profile_dir: str | Path = "config/youtube_browser_profile",
+        profile_dir: str | Path = "config/youtube_browser_profile_short",
         headless: bool = False,
         timeout_ms: int = 900_000,
         expected_channel_id: str | None = None,
     ):
-        self.profile_dir = Path(profile_dir)
+        configured_profile = os.getenv("YOUTUBE_STUDIO_PROFILE_DIR")
+        self.profile_dir = Path(configured_profile or profile_dir)
         self.headless = headless
         self.timeout_ms = timeout_ms
         self.expected_channel_id = (expected_channel_id or settings.youtube.channel_id or "").strip()
