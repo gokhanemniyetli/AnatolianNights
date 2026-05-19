@@ -75,6 +75,24 @@ def _next_resumable_song_id(city_slug: str | None = None) -> int | None:
         return query.limit(1).scalar()
 
 
+def _is_active_hour(now: datetime, start_hour: int, end_hour: int) -> bool:
+    if start_hour == end_hour:
+        return True
+    if start_hour < end_hour:
+        return start_hour <= now.hour < end_hour
+    return now.hour >= start_hour or now.hour < end_hour
+
+
+def _seconds_until_active_window(now: datetime, start_hour: int, end_hour: int) -> float:
+    if _is_active_hour(now, start_hour, end_hour):
+        return 0
+
+    next_start = now.replace(hour=start_hour, minute=0, second=0, microsecond=0)
+    if now >= next_start:
+        next_start += timedelta(days=1)
+    return (next_start - now).total_seconds()
+
+
 @click.command("run-scheduler")
 @click.option("--city", default=None, help="Limit scheduled runs to a specific city slug")
 @click.option(
@@ -89,7 +107,27 @@ def _next_resumable_song_id(city_slug: str | None = None) -> int | None:
     type=int,
     help="Maximum successful uploads per day. Defaults to pipeline.max_daily_uploads.",
 )
-def run_scheduler(city: str | None, interval_minutes: int | None, max_daily: int | None):
+@click.option(
+    "--active-start-hour",
+    default=9,
+    show_default=True,
+    type=click.IntRange(0, 23),
+    help="Hour when automatic scheduled attempts may start.",
+)
+@click.option(
+    "--active-end-hour",
+    default=1,
+    show_default=True,
+    type=click.IntRange(0, 23),
+    help="Hour when automatic scheduled attempts stop. Supports overnight windows.",
+)
+def run_scheduler(
+    city: str | None,
+    interval_minutes: int | None,
+    max_daily: int | None,
+    active_start_hour: int,
+    active_end_hour: int,
+):
     """Run one song attempt every configured interval until stopped."""
     interval = interval_minutes if interval_minutes is not None else settings.pipeline.publish_interval_minutes
     daily_limit = max_daily if max_daily is not None else settings.pipeline.max_daily_uploads
@@ -97,11 +135,31 @@ def run_scheduler(city: str | None, interval_minutes: int | None, max_daily: int
 
     console.print(
         "[bold cyan]Scheduler started[/] "
-        f"(interval={interval} min, max_daily={daily_limit}, city={city or 'auto'})"
+        f"(interval={interval} min, max_daily={daily_limit}, city={city or 'auto'}, "
+        f"active_hours={active_start_hour:02d}:00-{active_end_hour:02d}:00)"
     )
 
     while True:
         started = time.monotonic()
+        now = datetime.now()
+        inactive_sleep_seconds = _seconds_until_active_window(
+            now,
+            active_start_hour,
+            active_end_hour,
+        )
+        if inactive_sleep_seconds:
+            console.print(
+                f"[yellow]Scheduler inactive outside "
+                f"{active_start_hour:02d}:00-{active_end_hour:02d}:00; "
+                f"next attempt in {inactive_sleep_seconds / 3600:.1f} hours.[/]"
+            )
+            try:
+                time.sleep(inactive_sleep_seconds)
+            except KeyboardInterrupt:
+                console.print("[yellow]Scheduler stopped.[/]")
+                raise
+            continue
+
         today = date.today().isoformat()
         uploaded_today = _uploaded_count_for_day(today)
 
