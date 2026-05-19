@@ -3,7 +3,7 @@ pipeline:
   max_lyric_retries: 3
   default_k: 1
   max_daily_uploads: 10
-  publish_interval_minutes: 180
+  publish_interval_minutes: 30
   dry_run: false
 
 video:
