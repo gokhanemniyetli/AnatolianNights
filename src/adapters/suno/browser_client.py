@@ -37,6 +37,7 @@ _CDN_BASE = "https://cdn1.suno.ai"
 # Generation poll settings
 _POLL_INTERVAL_S = 15       # seconds between status checks
 _POLL_TIMEOUT_S = 600       # 10 minutes max wait
+_GENERATE_RETRY_DELAYS_S = (120, 300)
 
 # Real Chrome paths (macOS)
 _CHROME_PATHS = [
@@ -85,7 +86,33 @@ class BrowserSunoClient:
         """Submit to Suno. Returns clip_id (use as task_id)."""
         if suno_lyrics and suno_lyrics.strip():
             logger.warning("Simple mode zorunlu: suno_lyrics yok sayılıyor.")
-        return asyncio.run(self._async_generate_via_ui(style_prompt, ""))
+        last_exc: Exception | None = None
+        for attempt in range(len(_GENERATE_RETRY_DELAYS_S) + 1):
+            try:
+                return asyncio.run(self._async_generate_via_ui(style_prompt, ""))
+            except RuntimeError as exc:
+                last_exc = exc
+                message = str(exc).lower()
+                retryable = (
+                    "http 503" in message
+                    or "service_unavailable" in message
+                    or "temporarily unavailable" in message
+                )
+                if not retryable or attempt >= len(_GENERATE_RETRY_DELAYS_S):
+                    raise
+                delay = _GENERATE_RETRY_DELAYS_S[attempt]
+                logger.warning(
+                    "Suno generate geçici hata verdi; %s saniye sonra tekrar denenecek "
+                    "(attempt %s/%s): %s",
+                    delay,
+                    attempt + 2,
+                    len(_GENERATE_RETRY_DELAYS_S) + 1,
+                    exc,
+                )
+                time.sleep(delay)
+        if last_exc:
+            raise last_exc
+        raise RuntimeError("Suno generate bilinmeyen nedenle tamamlanamadı.")
 
     def get_status(self, task_id: str) -> dict:
         """Poll Suno API. Returns {"status": "pending"|"complete"|"failed", "audio_url": str|None}."""
