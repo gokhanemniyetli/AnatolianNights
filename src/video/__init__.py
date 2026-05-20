@@ -2,7 +2,7 @@ from src.video.subtitle_builder import SubtitleBuilder
 from src.video.thumbnail_renderer import ThumbnailRenderer
 from src.video.long_video_renderer import LongVideoRenderer
 from src.video.short_renderer import ShortRenderer
-from src.video.audio_utils import get_audio_duration
+from src.video.audio_utils import get_audio_duration, trim_audio_to_max_duration
 
 __all__ = [
     "SubtitleBuilder",
@@ -10,4 +10,5 @@ __all__ = [
     "LongVideoRenderer",
     "ShortRenderer",
     "get_audio_duration",
+    "trim_audio_to_max_duration",
 ]

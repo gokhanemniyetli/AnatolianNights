@@ -4,7 +4,7 @@ Your job: given a city profile and concept hints, generate a single Turkish comm
 
 RULES:
 - Output language must be Turkish.
-- Produce only one prompt paragraph/sentence (max 850 chars).
+- Produce only one prompt paragraph/sentence (max 2800 chars).
 - Mention the city and dialect clearly (e.g., "Erzincan şivesi").
 - Tell Suno to write the lyrics itself.
 - Make the subject concrete and distinctive: include the narrator, central story, emotional conflict, mood, tempo, and 1-3 local images.
@@ -12,6 +12,9 @@ RULES:
 - Mention only 1-3 local place/culture details; never long lists.
 - Mention region-appropriate instruments from profile (primary instruments first).
 - Explicitly request Anatolian folk/turku character.
+- Require meaningful, logically connected Turkish lyrics with natural rhyme and emotional continuity.
+- Ask for the local dialect/singing feel without exaggerated caricature or obscure slang.
+- Keep the song at 5 minutes maximum with concise lyrics.
 - Do NOT mention any non-Turkish or modern commercial genre.
 - Forbidden words/styles: German, rap, pop, pop-rap, rock, country, trap, hip-hop, R&B, electro, electronic, synth, western folk, Irish, Scottish, English folk.
 - Do NOT append style tags after the sentence.

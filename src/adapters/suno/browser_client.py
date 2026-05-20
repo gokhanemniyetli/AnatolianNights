@@ -38,6 +38,7 @@ _CDN_BASE = "https://cdn1.suno.ai"
 _POLL_INTERVAL_S = 15       # seconds between status checks
 _POLL_TIMEOUT_S = 600       # 10 minutes max wait
 _GENERATE_RETRY_DELAYS_S = (120, 300)
+_SIMPLE_PROMPT_MAX_CHARS = 2800
 
 # Real Chrome paths (macOS)
 _CHROME_PATHS = [
@@ -599,11 +600,13 @@ class BrowserSunoClient:
                         target.dispatchEvent(new Event("change", { bubbles: true }));
                         return { ok: true, placeholder: target.placeholder, value: target.value };
                         }""",
-                    style_prompt[:850],
+                    style_prompt[:_SIMPLE_PROMPT_MAX_CHARS],
                 )
                 if not form_state.get("ok"):
                     raise RuntimeError(f"Suno UI prompt alanı bulunamadı: {form_state}")
-                await page.locator("textarea:visible").first.fill(style_prompt[:850])
+                await page.locator("textarea:visible").first.fill(
+                    style_prompt[:_SIMPLE_PROMPT_MAX_CHARS]
+                )
                 await page.wait_for_timeout(800)
 
                 await page.wait_for_timeout(1500)

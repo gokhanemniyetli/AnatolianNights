@@ -19,6 +19,21 @@ _FORBIDDEN_STYLE_TERMS = (
     "english folk",
 )
 
+_LYRIC_QUALITY_GUIDANCE = (
+    "Emotional modern Anatolian folk-inspired song with heartfelt storytelling, "
+    "warm acoustic instruments, emotional male vocals, melodic traditional feeling "
+    "blended with modern production. Use natural, meaningful, emotionally connected "
+    "Turkish lyrics with realistic storytelling. Avoid random word combinations, "
+    "broken grammar, surreal AI-style poetry, and awkward sentence structures. "
+    "Every line should logically continue the previous one. Create authentic "
+    "Anatolian folk emotion and atmosphere, but use clear and natural modern Turkish. "
+    "Do not use exaggerated regional dialects, caricature village speech, or overly "
+    "local slang. Keep the language nationally understandable, human-like, warm, "
+    "and emotionally sincere. Write like a real Turkish folk songwriter, not like "
+    "abstract AI poetry. Maintain natural rhyme, emotional continuity, and smooth "
+    "lyrical flow."
+)
+
 
 class SunoPromptAgent:
     def generate(self, concept: dict, cultural_profile: dict) -> dict:
@@ -37,7 +52,8 @@ class SunoPromptAgent:
             instrument_sentence = " Bu yöreye özgü geleneksel çalgılarla çalınsın."
         simple_prompt = (
             f"{city} yöresine özgü bir türkü olsun. "
-            f"{city} şivesinde söylensin."
+            f"{city} yöresinin ağız ve söyleyiş hissi duyulsun; İstanbul ağzı gibi düz okunmasın, "
+            "ama şive abartılı veya karikatürize olmasın. "
             f"{instrument_sentence} "
             f"Şarkının adı '{title}' olsun. "
             f"Ana konu {theme} olsun; hikaye şu duygu etrafında kurulsun: {story} "
@@ -45,7 +61,9 @@ class SunoPromptAgent:
             "bunlar geçerse sadece kısa arka plan imgesi olarak geçsin. "
             "Aşk, sevda, gurbet, ayrılık, kavuşma, aile özlemi, sitem, umut veya emek gibi insan duygusu önde olsun. "
             "Anadolu türküsü karakterinde, doğal, içten ve geleneksel bir yorum olsun. "
-            "Şarkı sözlerini kendin yaz."
+            "Şarkı en fazla 5 dakika olsun; sözleri gereksiz uzatma, iki veya üç kısa bölüm ve tekrar edilebilir kısa bir nakarat yeterli. "
+            "Şarkı sözlerini kendin yaz. "
+            f"{_LYRIC_QUALITY_GUIDANCE}"
         ).strip()
         lowered = simple_prompt.lower()
         forbidden = [term for term in _FORBIDDEN_STYLE_TERMS if term in lowered]

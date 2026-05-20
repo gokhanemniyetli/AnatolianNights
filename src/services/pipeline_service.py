@@ -30,6 +30,7 @@ from src.video import (
     SubtitleBuilder,
     ThumbnailRenderer,
     get_audio_duration,
+    trim_audio_to_max_duration,
 )
 
 logger = logging.getLogger(__name__)
@@ -171,6 +172,7 @@ class PipelineService:
         suno_client = get_suno_client()
         audio_dest = file_storage.audio_path(city_slug, song.id)  # returns .wav path
         downloaded = suno_client.download_audio(song.suno_task_id, audio_dest)
+        downloaded = trim_audio_to_max_duration(downloaded, 300)
         suno_status = suno_client.get_status(song.suno_task_id)
 
         suno_title = (suno_status.get("suno_title") or "").strip()
