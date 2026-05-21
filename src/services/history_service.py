@@ -8,7 +8,7 @@ import logging
 from rapidfuzz import fuzz
 from sqlalchemy.orm import Session
 
-from src.storage.models import GenerationHistory
+from src.storage.models import GenerationHistory, Song
 
 logger = logging.getLogger(__name__)
 
@@ -66,6 +66,7 @@ class HistoryService:
     def get_history_dict(self, city_id: int) -> dict:
         """Return full history as a plain dict for passing to agents."""
         history = self.get_or_create(city_id)
+        recent_global = self.get_recent_global_history()
         return {
             "used_themes": history.get("used_themes") or [],
             "used_titles": history.get("used_titles") or [],
@@ -74,6 +75,31 @@ class HistoryService:
             "used_instruments": history.get("used_instruments") or [],
             "used_hooks": history.get("used_hooks") or [],
             "used_style_prompts": history.get("used_style_prompts") or [],
+            "recent_global_themes": recent_global["themes"],
+            "recent_global_titles": recent_global["titles"],
+        }
+
+    def get_recent_global_history(self, limit: int = 30) -> dict[str, list[str]]:
+        """Return recent channel-wide titles and themes to prevent cross-city repetition."""
+        songs = (
+            self.session.query(Song)
+            .order_by(Song.id.desc())
+            .limit(limit)
+            .all()
+        )
+        titles: list[str] = []
+        themes: list[str] = []
+        for song in songs:
+            if song.title:
+                titles.append(song.title)
+            concept = song.get_concept()
+            if concept.get("title"):
+                titles.append(str(concept["title"]))
+            if concept.get("theme"):
+                themes.append(str(concept["theme"]))
+        return {
+            "titles": self._dedupe_keep_order(titles),
+            "themes": self._dedupe_keep_order(themes),
         }
 
     # ── Internal ──────────────────────────────────────────────────────
@@ -89,3 +115,16 @@ class HistoryService:
                 logger.debug("Similarity %.0f%% ≥ threshold: '%s' ~ '%s'", score, candidate, item)
                 return True
         return False
+
+    @staticmethod
+    def _dedupe_keep_order(items: list[str]) -> list[str]:
+        seen: set[str] = set()
+        result: list[str] = []
+        for item in items:
+            value = str(item or "").strip()
+            key = value.casefold()
+            if not value or key in seen:
+                continue
+            seen.add(key)
+            result.append(value)
+        return result
