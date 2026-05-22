@@ -14,6 +14,7 @@ logger = logging.getLogger(__name__)
 
 _PROFILES_DIR = Path(__file__).parent.parent.parent / "data" / "cities" / "cultural_profiles"
 _CITIES_JSON = Path(__file__).parent.parent.parent / "data" / "cities" / "cities.json"
+_DIALECT_GUIDANCE_JSON = Path(__file__).parent.parent.parent / "data" / "cities" / "dialect_guidance.json"
 
 
 class CityService:
@@ -90,9 +91,10 @@ class CityService:
         """Load cultural profile from disk. Falls back to empty dict."""
         profile_path = _PROFILES_DIR / f"{slug}.json"
         if profile_path.exists():
-            return json.loads(profile_path.read_text(encoding="utf-8"))
+            profile = json.loads(profile_path.read_text(encoding="utf-8"))
+            return self._with_dialect_guidance(slug, profile)
         logger.warning("No cultural profile found for %s", slug)
-        return {}
+        return self._with_dialect_guidance(slug, {})
 
     def refresh_profile_in_db(self, slug: str) -> bool:
         """Re-read cultural profile from disk and update the City row."""
@@ -103,3 +105,20 @@ class CityService:
         city.set_cultural_profile(profile)
         self.session.flush()
         return True
+
+    @staticmethod
+    def _with_dialect_guidance(slug: str, profile: dict) -> dict:
+        if not _DIALECT_GUIDANCE_JSON.exists():
+            return profile
+        guidance = json.loads(_DIALECT_GUIDANCE_JSON.read_text(encoding="utf-8"))
+        cities = json.loads(_CITIES_JSON.read_text(encoding="utf-8")) if _CITIES_JSON.exists() else []
+        city_info = next((item for item in cities if item.get("slug") == slug), {})
+        region = profile.get("region") or city_info.get("region")
+        regional = guidance.get("regional_defaults", {}).get(region, {})
+        city_specific = guidance.get("city_overrides", {}).get(slug, {})
+        merged = {**regional, **city_specific}
+        if merged:
+            profile["dialect_guidance"] = merged
+        if guidance.get("sources"):
+            profile["dialect_guidance_sources"] = guidance["sources"]
+        return profile

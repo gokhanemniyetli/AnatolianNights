@@ -43,15 +43,35 @@ _FALLBACK_CONCEPTS = [
     ("Baba Ocağı", "eve dönüş", "Yıllar sonra baba ocağına dönen birinin çocukluk hatıralarıyla yüzleşmesini anlatır. Ana duygu dönüş, pişmanlık ve sıcaklık olur."),
     ("Bayram Sabahı", "bayram", "Bayram sabahında ev halkının hazırlığını, büyüklerin duasını ve çocukların sevincini anlatır. Türkü neşeli ama geleneksel bir sıcaklık taşır."),
     ("Emanet Mendil", "emanet sevda", "Sevdiğinden kalan küçük bir emaneti saklayan anlatıcının hatırasını anlatır. Ana duygu sadakat, sevda ve sabırdır."),
+    ("Yayla Dönüşü", "yayla dönüşü", "Yaz yaylasından köye dönen ailelerin telaşını ve içlerinde kalan ferahlığı anlatır. Ana duygu eve varma sevinci, emek ve komşuluk sıcaklığıdır."),
+    ("Harman Sevinci", "hasat bereketi", "Harman sonunda köy meydanında paylaşılan ekmeği ve emeğin karşılığını anlatır. Türküde yorgunluk değil, bereket ve dayanışma öne çıkar."),
+    ("Komşu Kapısı", "komşuluk", "Dar günde birbirinin kapısını çalan komşuların hal hatırını anlatır. Ana duygu dayanışma, vefa ve küçük iyiliklerin büyüklüğüdür."),
+    ("Söz Mendili", "nişan heyecanı", "Nişan günü saklanan bir mendilin iki gencin mahcup sevincine dönüşmesini anlatır. Ana duygu utangaç sevda ve aile rızasıdır."),
+    ("Ocak Başında", "aile sohbeti", "Kış akşamı ocak başında toplanan ailenin eski günleri ve gelecek umudunu konuşmasını anlatır. Ana duygu sıcaklık, aidiyet ve huzurdur."),
 ]
 
-_GENERIC_TITLE_RE = re.compile(
-    r"^(yas|veda|ağıt|hasret|sevda|aşk|umut|gurbet|ayrılık)$",
+_BANNED_TITLE_RE = re.compile(
+    r"^(yas|yas\s*\d+|veda|ağıt|hüzün|hasret|sevda|aşk|umut|gurbet|ayrılık)$",
     re.IGNORECASE,
 )
 
 _OVERUSED_RECENT_RE = re.compile(
     r"\b(yas|veda|ağıt|hüzün)\b|ağlı|ağla|vedal|yaslı|yasam",
+    re.IGNORECASE,
+)
+
+_BANNED_MAIN_THEME_RE = re.compile(
+    r"^(yas|veda|ağıt|hüzün|ölüm|matem|felaket)$",
+    re.IGNORECASE,
+)
+
+_AWKWARD_TITLE_RE = re.compile(
+    r"\b(duygu|hikaye|öykü|konu|tema|sevinci\s+sevinci|hüznü)\b",
+    re.IGNORECASE,
+)
+
+_AWKWARD_STORY_RE = re.compile(
+    r"\bözlemedikleri\b|\bduygu\s+sevinci\b|\bhikayesi\b.*\bhikaye\b",
     re.IGNORECASE,
 )
 
@@ -82,6 +102,22 @@ _THEME_FAMILIES = [
     "nazlı yâr",
     "ev kurma telaşı",
     "ocak başı sohbeti",
+    "harman sevinci",
+    "su başı sohbeti",
+    "çeyiz hazırlığı",
+    "pazar dönüşü",
+    "toy daveti",
+    "yayla dönüşü",
+    "sürmeli sevda",
+    "gelin alma",
+    "el emeği",
+    "ustaya saygı",
+    "çoban türküsü",
+    "bahar karşılaması",
+    "tarla dönüşü",
+    "kardeş barışması",
+    "komşu kapısı",
+    "söz mendili",
 ]
 
 
@@ -125,11 +161,14 @@ GENİŞ TEMA HAVUZU:
 
 Bu şehir için YENİ ve FARKLI bir türkü konsepti oluştur.
 Öncelik duygu/insan hikayesi olsun; yöresel yerler, yemekler, doğa ve tarihi dokular sadece sahne ve imge olarak kalsın.
-Bu kez ana tema olarak GENİŞ TEMA HAVUZU'ndan son kullanılanlara benzemeyen bir aile seç ve bunu açıkça işle.
-Son kayıtlarda çok tekrar ettiği için "yas" ve "veda" ana tema veya başlık olarak kullanma; ancak hikayenin içinde küçük bir duygu tonu olarak geçebilir.
+Bu kez ana tema olarak GENİŞ TEMA HAVUZU'ndan son kullanılanlara benzemeyen TEK bir tema ailesi seç ve bunu açıkça işle.
+Son kayıtlarda çok tekrar ettiği için "yas", "veda", "ağıt", "hüzün", "ölüm" ana tema veya başlık olarak ASLA kullanma; hikayenin ana duygusu da bunlar olmasın.
+Başlığa rakam ekleyerek tekrar çözmeye çalışma; "Yas 1", "Yas2", "Veda 1" gibi başlıklar kesin yasaktır.
+Başlıkta "duygu", "hikaye", "tema", "konu" gibi meta/soyut üretim kelimeleri kullanma; başlık gerçek türkü adı gibi duyulsun.
 Başlığı sadece dağ, göl, yol, sır, kale, kule, ova, nehir gibi bir nesne/yer adı yapma; başlık duygu veya olay anlatmalı.
 Başlık tek kelimelik genel bir ad olmasın; "Yas", "Veda", "Umut", "Hasret", "Sevda" gibi çıplak/generic başlıklar yasaktır.
 Başlık 2-4 kelimelik, doğal ve yeni olmalı: örn. "Kına Gecesi", "Gurbet Mektubu", "Mahcup Sevda" gibi ama verilen geçmişte varsa aynısını kullanma.
+Hikaye 1-2 kısa cümle olsun; birden fazla konuyu üst üste yığma. Ana, kına, bayram, çoban, yurt, sevda gibi farklı konuları aynı hikayede karıştırma.
 """
         last_result: dict = {}
         for attempt in range(3):
@@ -154,7 +193,15 @@ Başlık 2-4 kelimelik, doğal ve yeni olmalı: örn. "Kına Gecesi", "Gurbet Me
         has_emotion = bool(_EMOTION_RE.search(combined))
         object_title = bool(_OBJECT_RE.search(title))
         title_has_signal = bool(_TITLE_SIGNAL_RE.search(title))
-        if object_title or _GENERIC_TITLE_RE.search(title.strip()):
+        if _BANNED_TITLE_RE.search(title.strip()):
+            return False
+        if _BANNED_MAIN_THEME_RE.search(theme.strip()):
+            return False
+        if "," in theme or len(theme.split()) > 3:
+            return False
+        if _AWKWARD_TITLE_RE.search(title):
+            return False
+        if _AWKWARD_STORY_RE.search(story):
             return False
         if len(title.split()) < 2:
             return False

@@ -1,0 +1,2450 @@
+{
+  "sources": [
+    {
+      "title": "Sivas Dili - T.C. Kultur ve Turizm Bakanligi",
+      "url": "https://sivas.ktb.gov.tr/TR-90022/sivas-dili.html",
+      "notes": "Sivas ve yoresi agizlarinin Turkiye Turkcesi agizlari icinde Bati grubu agizlarina dahil edildigini ve ilce bazli alt ayrimlari belirtir."
+    },
+    {
+      "title": "Halk Muzigi - Sivas Il Kultur ve Turizm Mudurlugu",
+      "url": "https://sivas.ktb.gov.tr/TR-76037/halk-muzigi.html",
+      "notes": "Sivas halk muzigi icinde asiklik, deyis ve semah gelenegini vurgular."
+    },
+    {
+      "title": "Halk Oyunlari - Sivas Il Kultur ve Turizm Mudurlugu",
+      "url": "https://sivas.ktb.gov.tr/TR-76036/halk-oyunlari.html",
+      "notes": "Sivas halaylarini ve yorede bilinen oyun/hava adlarini listeler."
+    },
+    {
+      "title": "Zeybekler - Kultur Portali Afyonkarahisar",
+      "url": "https://www.kulturportali.gov.tr/turkiye/afyonkarahisar/kulturatlasi/zeybek911191",
+      "notes": "Afyonkarahisar yoresinde zeybek, kirik hava ve kasik havasi etkilerini aciklar."
+    },
+    {
+      "title": "Turkish Folk Music Forms - Turkish Music Portal",
+      "url": "https://www.turkishmusicportal.org/en/types-of-turkish-music/turkish-folk-music-forms",
+      "notes": "Turku, uzun hava, bozlak, hoyrat, halay, zeybek, semah gibi halk muzigi form adlarini genel cerceveye oturtur."
+    },
+    {
+      "title": "Turkiye Turkcesi Agiz Arastirmalari Calistayi Bildirileri - TDK",
+      "url": "https://tdk.gov.tr/wp-content/uploads/2022/12/son-989-Turkiye-Turkcesi-Agiz-Arastirmalari-Calistayi-Bildirileri.pdf",
+      "notes": "Karahan siniflandirmasina gore Anadolu agizlarinin Dogu, Kuzeydogu ve Bati gruplari olarak ele alindigini destekler."
+    },
+    {
+      "title": "Halk Muzigi - Dogu Karadeniz Kultur Envanteri Projesi",
+      "url": "https://karadeniz.gov.tr/halk-muzigi-8/",
+      "notes": "Dogu Karadeniz halk muziginin ozgun yapisini horon ezgileri, gurbet, yayla gocu, memleket ve is hayati gibi konu eksenleriyle aciklar."
+    },
+    {
+      "title": "Trabzon Horonu - Kultur Portali",
+      "url": "https://www.kulturportali.gov.tr/turkiye/trabzon/kulturatlasi/horon",
+      "notes": "Karadeniz horon geleneginin yayla, yol havasi, kemençe ve davul-zurna esligiyle iliskisini anlatir."
+    },
+    {
+      "title": "Halk Muzigi - Kultur Portali Burdur",
+      "url": "https://www.kulturportali.gov.tr/turkiye/burdur/kulturatlasi/halk-muzigi-1",
+      "notes": "Burdur/Teke yoresinde zeybek turleri, gurbet havalari, bogaz havalari ve Yoruk kulturunu vurgular."
+    },
+    {
+      "title": "Segmen Zeybegi - Kultur Portali Ankara",
+      "url": "https://www.kulturportali.gov.tr/turkiye/ankara/kulturatlasi/segmen-zeybegi",
+      "notes": "Ankara yoresinde segmen ve zeybek tavrinin kullanilabilecegini destekler."
+    }
+  ],
+  "regional_defaults": {
+    "İç Anadolu": {
+      "dialect_group": "Bati grubu Anadolu agizlari; Ic Anadolu soyleyisi",
+      "dialect_prompt": "Istanbul agzi gibi parlak ve duz olmasin; Ic Anadolu'ya yakin, tok, sade, hafif bozlak/halay tavirli bir soyleyis olsun. Yoresel agiz izi duyulsun ama anlasilabilirligi bozacak kadar agirlastirma.",
+      "lyric_markers": [
+        "hele",
+        "gayri",
+        "emmi",
+        "gardaş"
+      ],
+      "forms": [
+        "orta tempo turku",
+        "bozlak etkili uzun hava",
+        "halay tavri"
+      ],
+      "avoid": [
+        "tek kelimelik yas/veda basligi",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali"
+      ]
+    },
+    "Güneydoğu Anadolu": {
+      "dialect_group": "Güneydogu Anadolu agiz etkileri; Turkce icinde Kurtce/Arapca temasli soyleyis renkleri",
+      "dialect_prompt": "Güneydogu'nun tok, yanik, bogazdan gelen soyleyis hissi duyulsun; yerel kelimeleri az ve dogal kullan. Kurtce veya Arapca tam misralar yazma; Turkce anlasilir kalsin.",
+      "lyric_markers": [
+        "heval",
+        "lo",
+        "yar",
+        "gardaş"
+      ],
+      "forms": [
+        "halay tavri",
+        "uzun hava etkisi",
+        "agir turku"
+      ],
+      "avoid": [
+        "karikaturize sark soylemi",
+        "arabesklesme",
+        "uzun nesir hikayesi"
+      ]
+    },
+    "Ege": {
+      "dialect_group": "Bati grubu Anadolu agizlari; Ege/Yoruk ve zeybek tavri",
+      "dialect_prompt": "Ege'nin zeybek tavirli, gururlu ve acik soyleyisi duyulsun. Yoresel soyleyis izini hafif ver; kaba taklit veya komedi agzi yapma.",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "9/8 zeybek",
+        "agir zeybek",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye"
+      ]
+    },
+    "Karadeniz": {
+      "dialect_group": "Karadeniz agizlari; sahil ve ic kesim tavirlari",
+      "dialect_prompt": "Karadeniz soyleyisinin hizli, kivrak ve yer yer keskin vurgusu duyulsun; ancak her sehre tulum/kemençe yazma, profil hangi calgiyi veriyorsa onu kullan.",
+      "lyric_markers": [
+        "uşak",
+        "ha bu",
+        "da",
+        "yar"
+      ],
+      "forms": [
+        "horon tavri",
+        "kirik hava",
+        "agir turku"
+      ],
+      "avoid": [
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim"
+      ]
+    },
+    "Doğu Anadolu": {
+      "dialect_group": "Dogu grubu Anadolu agizlari; uzun hava, bar ve agir turku tavri",
+      "dialect_prompt": "Dogu Anadolu'nun yanik, genizden ve bogazdan gelen uzun hava tavri duyulsun. Yerel vurgu olsun ama Turkce anlasilir kalsin.",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "uzun hava",
+        "bar tavri",
+        "agir turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "arabesk abartisi",
+        "uzun nesir hikayesi"
+      ]
+    },
+    "Akdeniz": {
+      "dialect_group": "Bati grubu ve Toros/Yoruk agiz etkileri",
+      "dialect_prompt": "Toros/Yoruk soyleyisinin acik, sicak ve hareketli tavri duyulsun. Agzi hafif sezdir; karikaturize etme.",
+      "lyric_markers": [
+        "yayla",
+        "efe",
+        "hele",
+        "yar"
+      ],
+      "forms": [
+        "teke tavri",
+        "halay tavri",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye"
+      ]
+    },
+    "Marmara": {
+      "dialect_group": "Bati grubu, Trakya/Rumeli ve Marmara gecis agizlari",
+      "dialect_prompt": "Marmara veya Trakya etkisi varsa soyleyis daha kivrak, temiz ve yerel vurgulu olsun; Istanbul standart agzina tamamen yaslanma.",
+      "lyric_markers": [
+        "be ya",
+        "bre",
+        "yar",
+        "gayri"
+      ],
+      "forms": [
+        "karsilama",
+        "kirik hava",
+        "orta tempo turku"
+      ],
+      "avoid": [
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye"
+      ]
+    }
+  },
+  "city_overrides": {
+    "adana": {
+      "dialect_group": "Cukurova agzi; Turkmen/Yoruk ve Güneydogu temasli sicak soyleyis",
+      "dialect_prompt": "Adana icin Cukurova tavri duyulsun: tok, sicak, halay ve bozlak etkili okuma; Istanbul gibi duz ve steril olmasin. Profil notu: Çukurova ağzı; yörük söylemi, zaman zaman 'be' ve 'hey' nidaları, açık hece vurgusu",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 halay",
+        "9/8 zeybek havası",
+        "halay tavri",
+        "Cukurova bozlagi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "adiyaman": {
+      "dialect_group": "Bati grubu 7. alt grup icinde Güneydogu etkili Adiyaman yoresi agzi",
+      "dialect_prompt": "Adiyaman yoresinin sicak Güneydogu soyleyisi duyulsun; Fırat/Nemrut imgeleri arka planda kalsin. Agzi hafif ver, anlasilir Turkceden kopma.",
+      "lyric_markers": [
+        "lo",
+        "gardaş",
+        "hele"
+      ],
+      "forms": [
+        "halay tavri",
+        "uzun hava etkili turku",
+        "orta tempo turku",
+        "serbest uzun hava",
+        "9/8 halay"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "karikatur agiz",
+        "uzun hikaye",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "karikaturize sark soylemi",
+        "arabesklesme"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "afyonkarahisar": {
+      "dialect_group": "Bati grubu Anadolu agizlari; Ic Ege zeybek tavri",
+      "dialect_prompt": "Afyonkarahisar icin zeybek tavri on planda olsun: gururlu, agir, efe duruslu ve cura/baglama merkezli. Yoresel agiz hafif duyulsun; Istanbul gibi duz okunmasin.",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri"
+      ],
+      "forms": [
+        "9/8 zeybek",
+        "agir zeybek",
+        "kirik hava",
+        "serbest uzun hava",
+        "2/4 oyun havası"
+      ],
+      "avoid": [
+        "duz Istanbul turkusu",
+        "uzun hikaye",
+        "pop nakarat",
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "agri": {
+      "dialect_group": "Dogu grubu Anadolu agzi; bar ve uzun hava tavri",
+      "dialect_prompt": "Agri icin Dogu Anadolu uzun hava ve bar tavri duyulsun; yanik, tok, bogazdan gelen soyleyis olsun. Profil notu: Doğu Anadolu ağzı; Türkçe-Kürtçe geçiş; dağ ve kar metaforları",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 ağır türkü",
+        "uzun hava",
+        "bar tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "amasya": {
+      "dialect_group": "Bati grubu Karadeniz-Ic Anadolu gecis agzi",
+      "dialect_prompt": "Amasya icin Karadeniz-Ic Anadolu gecis soyleyisi, sade ve yerel baglama tavri duyulsun. Profil notu: Karadeniz ağzı; 'a' sesinin 'e'ye kayması, coşkulu söylem, deniz ve dağ imgeleri",
+      "lyric_markers": [
+        "hele",
+        "uşak",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "7/8 horon",
+        "2/4 Karadeniz oyun havası",
+        "orta tempo turku",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "ankara": {
+      "dialect_group": "Bati grubu Ic Anadolu agzi; segmen ve Ankara tavri",
+      "dialect_prompt": "Ankara icin segmen tavri, tok Ic Anadolu soyleyisi ve hafif zeybek durusu duyulsun. Profil notu: Orta Anadolu ağzı; aşık edebiyatı söylemi, bozkır metaforları, yalın ve derin dil",
+      "lyric_markers": [
+        "hele",
+        "emmi",
+        "gardaş",
+        "gayri"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "segmen zeybegi",
+        "orta tempo turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "antalya": {
+      "dialect_group": "Teke ve Yoruk agiz etkileri; Akdeniz kiyisi ve Toros gecisi",
+      "dialect_prompt": "Antalya icin Teke/Yoruk tavri duyulsun; kivrak ama dogal, yerel soyleyis hafif kalsin. Profil notu: Yörük ağzı; doğallık ön planda, sade Anadolu Türkçesi, dağ ve doğa metaforları",
+      "lyric_markers": [
+        "efe",
+        "yayla",
+        "hele",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 yörük türküsü",
+        "7/8 halay",
+        "teke tavri",
+        "zeybek etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "artvin": {
+      "dialect_group": "Kuzeydogu/Karadeniz agzi; horon ve bar gecisi",
+      "dialect_prompt": "Artvin icin horon ve bar gecis tavri duyulsun; kivrak ama yanik yerel soyleyis olsun. Profil notu: Karadeniz ağzı; Artvin lehçesi, coşkulu söylem, dağ ve dere metaforları",
+      "lyric_markers": [
+        "uşak",
+        "ha bu",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "7/8 horon",
+        "5/8 dans",
+        "serbest uzun hava",
+        "horon tavri",
+        "bar tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "aydin": {
+      "dialect_group": "Ege/Yoruk agzi; Menderes ve zeybek tavri",
+      "dialect_prompt": "Aydin icin zeybek tavri ve Menderes yoresi soyleyisi duyulsun; efe durusu olsun, Istanbul gibi duz olmasin. Profil notu: Ege ağzı; 'efe' söylemi, zeybek yiğitliği, doğa ve bereket imgeleri",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 zeybek",
+        "4/4 Menderes türküsü",
+        "agir zeybek",
+        "Menderes turkusu"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "balikesir": {
+      "dialect_group": "Ege-Marmara gecis agzi; zeybek ve bengi tavri",
+      "dialect_prompt": "Balikesir icin zeybek/bengi tavri, Ege-Marmara gecis soyleyisi duyulsun. Profil notu: Ege ağzı; zeybek söylemi, dağ ve deniz imgeleri, Rumeli tonlaması zaman zaman",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 zeybek",
+        "4/4 türkü",
+        "zeybek",
+        "bengi tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "bilecik": {
+      "dialect_group": "Marmara-Ic Ege gecis agzi; zeybek/kirik hava tavri",
+      "dialect_prompt": "Bilecik icin Marmara-Ic Ege gecis soyleyisi, zeybek ya da kirik hava tavri duyulsun. Profil notu: Sade İstanbul Türkçesine yakın; tarih ve köklere gönderme, yalın ve temiz dil",
+      "lyric_markers": [
+        "bre",
+        "efe",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "zeybek etkisi",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "bingol": {
+      "dialect_group": "Dogu Anadolu agzi; Zaza/Kurtce temasli Turkce soyleyis rengi",
+      "dialect_prompt": "Bingol icin yanik Dogu soyleyisi ve halay/uzun hava tavri duyulsun; Zaza/Kurtce izleri cok hafif kalsin. Profil notu: Doğu Anadolu ağzı; Alevi semah söylemi, dağ ve su metaforları",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 semah türküsü",
+        "halay tavri",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "bitlis": {
+      "dialect_group": "Dogu Anadolu agzi; Van golu havzasi ve halay tavri",
+      "dialect_prompt": "Bitlis icin yanik Dogu Anadolu soyleyisi, halay ve uzun hava etkisi duyulsun. Profil notu: Doğu Anadolu ağzı; vadi ve tarihi yapı metaforları",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 ağır türkü",
+        "halay tavri",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "bolu": {
+      "dialect_group": "Bati Karadeniz agzi; koy turkusu ve kirik hava tavri",
+      "dialect_prompt": "Bolu icin Bati Karadeniz sade koy turkusu tavri duyulsun; agzi hafif sezdir. Profil notu: Batı Karadeniz ağzı; doğa metaforları, sade ve dingin dil",
+      "lyric_markers": [
+        "hele",
+        "uşak",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "7/8 horon",
+        "3/4 lirik türkü",
+        "kirik hava",
+        "orta tempo turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "burdur": {
+      "dialect_group": "Teke yoresi agzi; Yoruk kulturunden gelen bogaz ve zeybek tavri",
+      "dialect_prompt": "Burdur icin Teke yoresi, bogaz havasi ve zeybek etkisi sezilsin; agzi karikaturize etme. Profil notu: Sade Anadolu Türkçesi; doğa ve göl imgeleri yoğun, yalın anlatım",
+      "lyric_markers": [
+        "efe",
+        "yayla",
+        "hele",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "teke zortlatmasi",
+        "bogaz havasi etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "bursa": {
+      "dialect_group": "Marmara ve Balkan/Yoruk gecis agzi",
+      "dialect_prompt": "Bursa icin Marmara-Yoruk ve Balkan gecis soyleyisi duyulsun; yerel ama temiz turku tavri olsun. Profil notu: Temiz İstanbul Türkçesi; Osmanlı mirasına gönderme, zarif ve ölçülü söylem",
+      "lyric_markers": [
+        "bre",
+        "efe",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "9/8 oyun havası",
+        "kirik hava",
+        "karsilama"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "canakkale": {
+      "dialect_group": "Marmara-Ege gecis agzi; zeybek ve karsilama tavri",
+      "dialect_prompt": "Canakkale icin Ege-Marmara gecis tavri, zeybek/karsilama etkisi duyulsun. Profil notu: Sade Türkçe; destan söylemi, askerlik ve vatan metaforları, derin duygusallık",
+      "lyric_markers": [
+        "bre",
+        "efe",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "destan makamı",
+        "4/4 türkü",
+        "zeybek",
+        "karsilama"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "cankiri": {
+      "dialect_group": "Bati grubu Ic Anadolu/Kuzey gecis agzi",
+      "dialect_prompt": "Cankiri icin tok Ic Anadolu soyleyisi ve kuzey gecis rengi duyulsun; sade, yerel, baglama merkezli olsun. Profil notu: Orta Anadolu ağzı; yalın söylem, bozkır imgesi, sade duygu aktarımı",
+      "lyric_markers": [
+        "hele",
+        "emmi",
+        "gardaş",
+        "gayri"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "orta tempo turku",
+        "halay tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "corum": {
+      "dialect_group": "Karadeniz-Ic Anadolu gecis agzi; halay ve turku tavri",
+      "dialect_prompt": "Corum icin Ic Anadolu-Karadeniz gecis soyleyisi ve halay/turku tavri duyulsun. Profil notu: Orta-Karadeniz geçiş ağzı; tarih metaforları, sade dil",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "7/8 horon",
+        "halay tavri",
+        "orta tempo turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "denizli": {
+      "dialect_group": "Ic Ege/Teke gecis agzi; zeybek ve Yoruk etkisi",
+      "dialect_prompt": "Denizli icin Ic Ege zeybek tavri, Yoruk acik soyleyisi ve yerel vurgu duyulsun. Profil notu: Ege ağzı; efe söylemi, dağ ve ova metaforları, sıcak anlatım",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 zeybek",
+        "4/4 Menderes türküsü",
+        "zeybek",
+        "teke etkili kirik hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "diyarbakir": {
+      "dialect_group": "Guneydogu agzi; hoyrat, uzun hava ve halay tavri",
+      "dialect_prompt": "Diyarbakir icin hoyrat/uzun hava ve halay tavri duyulsun; tok, yanik, yerel ama anlasilir soyleyis olsun. Profil notu: Güneydoğu ağzı; Kürtçe-Türkçe geçiş; sur ve Dicle metaforları",
+      "lyric_markers": [
+        "lo",
+        "heval",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "dengbej serbest",
+        "hoyrat etkisi",
+        "halay tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "karikaturize sark soylemi",
+        "arabesklesme",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "edirne": {
+      "dialect_group": "Trakya/Rumeli agzi; karsilama ve hora tavri",
+      "dialect_prompt": "Edirne icin Trakya/Rumeli kivrakligi, karsilama/hora tavri ve yerel soyleyis duyulsun. Profil notu: Trakya ağzı; Rumeli söylemi zaman zaman, sade ve akıcı Türkçe, muhaciret teması",
+      "lyric_markers": [
+        "be ya",
+        "bre",
+        "yar",
+        "gayri"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "Trakya oyun havası",
+        "karsilama",
+        "hora tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "elazig": {
+      "dialect_group": "Dogu grubu; Harput agzi ve makamli turku tavri",
+      "dialect_prompt": "Elazig icin Harput tavri, makamli soyleyis ve icli uzun hava etkisi duyulsun. Profil notu: Doğu Anadolu ağzı; Harput lehçesi; gül, bülbül ve Hazar metaforları",
+      "lyric_markers": [
+        "hele",
+        "can",
+        "yar",
+        "gardaş"
+      ],
+      "forms": [
+        "serbest uzun hava hüseyni",
+        "9/8 halay",
+        "4/4 Harput türküsü",
+        "Harput turkusu",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "erzincan": {
+      "dialect_group": "Dogu Anadolu agzi; Turkmen/Alevi deyis ve uzun hava tavri",
+      "dialect_prompt": "Erzincan icin Turkmen-deyis tavri, yanik uzun hava ve sade yerel soyleyis duyulsun. Profil notu: Sade, doğal Türkçe. Erzincan yöresi ağzından izler taşıyabilir ama çok ağır ağız kullanma.",
+      "lyric_markers": [
+        "hele",
+        "can",
+        "yar",
+        "lo"
+      ],
+      "forms": [
+        "5/8 Türkmen havası",
+        "9/8 oyun havası",
+        "serbest uzun hava",
+        "deyis",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "trap",
+        "rap"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "erzurum": {
+      "dialect_group": "Dogu grubu Anadolu agzi; bar ve dadaş tavri",
+      "dialect_prompt": "Erzurum icin bar tavri ve dadaş soyleyisi duyulsun; tok, gururlu ve bogazdan gelen bir vokal olsun. Profil notu: Doğu Anadolu ağzı; yiğitlik ve kış metaforları, güçlü söylem",
+      "lyric_markers": [
+        "hele",
+        "can",
+        "lo",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay-bar",
+        "5/8 bar",
+        "bar tavri",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "eskisehir": {
+      "dialect_group": "Bati grubu Ic Anadolu agzi; Turkmen/Yoruk ve zeybek gecisi",
+      "dialect_prompt": "Eskisehir icin Ic Anadolu sadeligi ile zeybek/kirik hava etkisi duyulsun. Profil notu: Orta Anadolu ağzı; genç ve taze söylem, Frigya mirası metaforları, sade dil",
+      "lyric_markers": [
+        "hele",
+        "efe",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "9/8 oyun havası",
+        "kirik hava",
+        "zeybek etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "gaziantep": {
+      "dialect_group": "Guneydogu/Barak agzi; halay ve uzun hava tavri",
+      "dialect_prompt": "Gaziantep icin Barak ve Antep halay tavri duyulsun; sicak, tok, yerel soyleyis olsun. Profil notu: Güneydoğu ağzı; şehir ve çarşı metaforları, coşkulu dil",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "9/8 halay",
+        "4/4 oyun havası",
+        "serbest uzun hava",
+        "Barak tavri",
+        "halay tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "karikaturize sark soylemi",
+        "arabesklesme",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "giresun": {
+      "dialect_group": "Dogu Karadeniz agzi; horon ve kemençe tavri",
+      "dialect_prompt": "Giresun icin horon tavri ve Dogu Karadeniz kivrak soyleyisi duyulsun; her seyi hizli yapmadan turku duygusunu koru. Profil notu: Karadeniz ağzı; deniz ve fındık metaforları, coşkulu söylem",
+      "lyric_markers": [
+        "uşak",
+        "ha bu",
+        "da",
+        "yar"
+      ],
+      "forms": [
+        "7/8 horon",
+        "serbest uzun hava",
+        "2/4 Karadeniz türküsü",
+        "horon tavri",
+        "Karadeniz turkusu"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "gumushane": {
+      "dialect_group": "Karadeniz-Dogu Anadolu gecis agzi; horon ve uzun hava etkisi",
+      "dialect_prompt": "Gumushane icin Karadeniz ile Dogu gecis soyleyisi, horon ve yanik turku tavri duyulsun. Profil notu: Karadeniz ağzı; dağ ve maden metaforları, güçlü söylem",
+      "lyric_markers": [
+        "uşak",
+        "hele",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "7/8 horon",
+        "2/4 Karadeniz türküsü",
+        "horon tavri",
+        "uzun hava etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "hakkari": {
+      "dialect_group": "Dogu Anadolu agzi; daglik yore ve halay/uzun hava tavri",
+      "dialect_prompt": "Hakkari icin dag yoresi yanik soyleyisi ve halay/uzun hava tavri duyulsun; karikaturize etme. Profil notu: Kürtçe ağırlıklı söylem; dağ ve coğrafya metaforları, dengbej tarzı",
+      "lyric_markers": [
+        "lo",
+        "heval",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "kırık hava",
+        "halay tavri",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "hatay": {
+      "dialect_group": "Amanos-Akdeniz agzi; Arapca temasli Turkce soyleyis rengi",
+      "dialect_prompt": "Hatay icin Akdeniz ve Antakya cok kulturli soyleyisi hafif duyulsun; Arapca tam misra yazmadan makamli, sicak bir turku olsun. Profil notu: Hatay ağzı; zaman zaman Arapça kelimeler, sıcak ve akıcı söylem, 'habibi' yerine Türkçe sevgi sözcükleri",
+      "lyric_markers": [
+        "hele",
+        "yar",
+        "can",
+        "gardaş"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 halay",
+        "maqam tabanlı türkü",
+        "makam tabanli turku",
+        "halay tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "isparta": {
+      "dialect_group": "Teke/Ege-Akdeniz gecis agzi; zeybek ve Yoruk etkisi",
+      "dialect_prompt": "Isparta icin Teke ve zeybek tavri duyulsun; soyleyis acik, yerel ve gururlu olsun. Profil notu: Sade Anadolu Türkçesi; gül ve çiçek metaforları yoğun, zarif ve temiz dil",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "zeybek",
+        "teke tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "mersin": {
+      "dialect_group": "Cukurova-Toros Yoruk agzi; Akdeniz gecis soyleyisi",
+      "dialect_prompt": "Mersin icin Toros/Yoruk ve Cukurova sicakligi duyulsun; yerel vurgu olsun ama anlasilir Turkce kalsin. Profil notu: Silifke yöresi ağzı; ritmik söylem, hızlı hece atlamaları zaman zaman, doğal Akdeniz dili",
+      "lyric_markers": [
+        "yayla",
+        "hele",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "Silifke türkü ritmi",
+        "4/4 halay",
+        "halay tavri",
+        "Yoruk turkusu"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "istanbul": {
+      "dialect_group": "Istanbul agzi; ancak kanal icin standart pop diksiyonundan kacinilmali",
+      "dialect_prompt": "Istanbul icin sehirli standart diksiyona saplanma; Rumeli/Anadolu yakasi halk turkusu rengi ve eski Istanbul halk ezgisi tavri duyulsun. Profil notu: Temiz İstanbul Türkçesi; yüksek sözcük seçimi, şiirsel metaforlar, zarif anlatım",
+      "lyric_markers": [
+        "bre",
+        "yar",
+        "can",
+        "gayri"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "fasıl ritmi",
+        "4/4 şarkı biçimi",
+        "Rumeli karsilamasi",
+        "fasilli turku etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "izmir": {
+      "dialect_group": "Ege agzi; zeybek ve karsilama etkileri",
+      "dialect_prompt": "Izmir icin Ege zeybek tavri ve acik, gururlu soyleyis duyulsun; sehirli pop diksiyonuna kacma. Profil notu: Ege ağzı; özgür ve kendine güvenen söylem, deniz ve körfez imgeleri, 'efe' ruhu",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 zeybek",
+        "4/4 Ege türküsü",
+        "zeybek",
+        "karsilama"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kars": {
+      "dialect_group": "Dogu/Kuzeydogu gecis agzi; Azeri/Terekeme etkili bar tavri",
+      "dialect_prompt": "Kars icin Azeri-Terekeme rengi ve bar tavri hafif duyulsun; Turkce anlasilir kalsin. Profil notu: Kars ağzı; aşıklık dili, Dede Korkut motifler, bozkır ve kış imgeler",
+      "lyric_markers": [
+        "ay bala",
+        "can",
+        "lo",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 türkü",
+        "bar tavri",
+        "Azeri etkili turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kastamonu": {
+      "dialect_group": "Bati Karadeniz agzi; kasik/karsilama ve agir turku tavri",
+      "dialect_prompt": "Kastamonu icin Bati Karadeniz yerel soyleyisi, kasik/karsilama veya agir turku tavri duyulsun. Profil notu: Batı Karadeniz ağzı; sade ve köklü söylem, dağ ve orman metaforları",
+      "lyric_markers": [
+        "hele",
+        "uşak",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "7/8 horon",
+        "2/4 oyun havası",
+        "kasik havasi",
+        "karsilama"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kayseri": {
+      "dialect_group": "Bati grubu Ic Anadolu agzi; Erciyes ve bozlak/halay tavri",
+      "dialect_prompt": "Kayseri icin tok, net Ic Anadolu soyleyisi; bozlak/halay etkisi ve baglama tavri duyulsun. Profil notu: Orta Anadolu ağzı; Erciyes ve bozkır metaforları, güçlü söylem, sade ama derin dil",
+      "lyric_markers": [
+        "hele",
+        "emmi",
+        "gardaş",
+        "gayri"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "9/8 halay",
+        "bozlak etkisi",
+        "halay tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kirklareli": {
+      "dialect_group": "Trakya/Rumeli agzi; karsilama ve hora tavri",
+      "dialect_prompt": "Kirklareli icin Trakya karsilama/hora tavri, kivrak ve yerel soyleyis duyulsun. Profil notu: Trakya ağzı; Rumeli söylemi, yalın dil, göç ve özlem temaları",
+      "lyric_markers": [
+        "be ya",
+        "bre",
+        "yar",
+        "gayri"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "Trakya oyun havası",
+        "karsilama",
+        "hora tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kirsehir": {
+      "dialect_group": "Bati grubu Ic Anadolu agzi; bozlak ve abdallik/asik gelenegi",
+      "dialect_prompt": "Kirsehir icin bozlak ve abdallik tavri duyulsun; yanik ama sade soyleyis olsun. Profil notu: Orta Anadolu ağzı; aşık şiiri dili, felsefi derinlik, 'gönül' ve 'toprak' metaforları, bozlak makamı",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "bozlak",
+        "4/4 türkü",
+        "uzun hava",
+        "orta tempo turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kocaeli": {
+      "dialect_group": "Marmara-Bati Karadeniz gecis agzi",
+      "dialect_prompt": "Kocaeli icin Marmara-Bati Karadeniz gecis soyleyisi duyulsun; standart Istanbul gibi puruzsuz olmasin. Profil notu: Sade İstanbul Türkçesi; yalın dil, emek ve gurbet temaları",
+      "lyric_markers": [
+        "hele",
+        "bre",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "kirik hava",
+        "karsilama"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "konya": {
+      "dialect_group": "Bati grubu Ic Anadolu agzi; kasik havasi ve bozlak etkisi",
+      "dialect_prompt": "Konya icin kasik havasi veya tok Ic Anadolu turkusu tavri duyulsun; sade ve yerel soyleyis olsun. Profil notu: Sade, yalın Türkçe. Mevlana etkisi duygu derinliğine yansıyabilir ama dini söylemde abartılmamalı.",
+      "lyric_markers": [
+        "hele",
+        "emmi",
+        "gardaş",
+        "gayri"
+      ],
+      "forms": [
+        "serbest ney havası",
+        "4/4 orta tempo türkü",
+        "9/8 Orta Anadolu oyun havası",
+        "kasik havasi",
+        "bozlak etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "trap"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kutahya": {
+      "dialect_group": "Ic Ege agzi; zeybek, kasik ve kirik hava tavri",
+      "dialect_prompt": "Kutahya icin Ic Ege soyleyisi ve zeybek/kasik havasi tavri sezilsin. Profil notu: Ege ağzı; zeybek ve zanaat imgesi, dağ metaforları, yalın anlatım",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 zeybek",
+        "4/4 türkü",
+        "kasik havasi",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "malatya": {
+      "dialect_group": "Bati-Dogu gecis agzi; Arguvan/deyis ve uzun hava tavri",
+      "dialect_prompt": "Malatya icin Arguvan/deyis tavri ve yanik uzun hava etkisi duyulsun. Profil notu: Doğu Anadolu ağzı; kayısı ve ova metaforları, sade dil",
+      "lyric_markers": [
+        "hele",
+        "can",
+        "yar",
+        "gardaş"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "9/8 halay",
+        "Arguvan tavri",
+        "deyis"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "manisa": {
+      "dialect_group": "Ege/Yoruk agzi; zeybek tavri",
+      "dialect_prompt": "Manisa icin zeybek tavri, efe durusu ve Ege soyleyisi duyulsun. Profil notu: Ege ağzı; bağ ve toprak metaforları, coşkulu söylem, zeybek ruhu",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 zeybek",
+        "4/4 bağ türküsü",
+        "agir zeybek",
+        "bag turkusu"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kahramanmaras": {
+      "dialect_group": "Maras/Toros agzi; bozlak, halay ve asik tavri",
+      "dialect_prompt": "Kahramanmaras icin tok Maras soyleyisi, asik tavri ve halay/bozlak etkisi duyulsun. Profil notu: Maraş ağzı; destan söylemi, yiğit ve kahraman metaforları, sert ünsüzler",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "lo",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 halay",
+        "9/8 oyun havası",
+        "halay tavri",
+        "bozlak etkili turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "mardin": {
+      "dialect_group": "Guneydogu agzi; Arapca/Kurtce/Suryani temasli soyleyis rengi",
+      "dialect_prompt": "Mardin icin cok kulturli Guneydogu rengi hafif duyulsun; tam baska dilde misra yazma, Turkce anlasilir kalsin. Profil notu: Güneydoğu ağzı; taş ve ova metaforları, çok kültürlü söylem",
+      "lyric_markers": [
+        "lo",
+        "heval",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 ağır türkü",
+        "halay tavri",
+        "uzun hava etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "karikaturize sark soylemi",
+        "arabesklesme",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "mugla": {
+      "dialect_group": "Guney Ege/Yoruk agzi; zeybek ve Teke gecisi",
+      "dialect_prompt": "Mugla icin Guney Ege zeybek ve Yoruk tavri duyulsun; sicak, acik, yerel soyleyis olsun. Profil notu: Ege ağzı; deniz metaforları, ferah söylem, yalın dil",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 zeybek",
+        "4/4 Ege türküsü",
+        "zeybek",
+        "teke etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "mus": {
+      "dialect_group": "Dogu Anadolu agzi; halay ve uzun hava tavri",
+      "dialect_prompt": "Mus icin Dogu Anadolu yanik soyleyisi, halay ve uzun hava etkisi duyulsun. Profil notu: Doğu Anadolu ağzı; ova ve tarih metaforları, Alevi söylemi",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 semah türküsü",
+        "halay tavri",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "nevsehir": {
+      "dialect_group": "Bati grubu Kapadokya/Ic Anadolu agzi",
+      "dialect_prompt": "Nevsehir icin Kapadokya-Ic Anadolu soyleyisi, sade baglama tavri ve yerel vurgu duyulsun. Profil notu: Orta Anadolu ağzı; kaya ve yer altı metaforları, yalın dil",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "orta tempo turku",
+        "bozlak etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "nigde": {
+      "dialect_group": "Bati grubu Ic Anadolu/Toros gecis agzi",
+      "dialect_prompt": "Nigde icin Ic Anadolu ile Toros gecis soyleyisi duyulsun; tok, sade, yerel olsun. Profil notu: Orta Anadolu ağzı; yalın söylem, bozkır ve dağ imgesi",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "orta tempo turku",
+        "bozlak etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "ordu": {
+      "dialect_group": "Dogu Karadeniz agzi; horon ve Karadeniz turkusu tavri",
+      "dialect_prompt": "Ordu icin horon tavri ve Karadeniz soyleyisi duyulsun; kemençe/turku rengi olsun ama karikaturize etme. Profil notu: Karadeniz ağzı; deniz ve fındık metaforları, coşkulu söylem",
+      "lyric_markers": [
+        "uşak",
+        "ha bu",
+        "da",
+        "yar"
+      ],
+      "forms": [
+        "7/8 horon",
+        "serbest uzun hava",
+        "2/4 Karadeniz türküsü",
+        "horon tavri",
+        "Karadeniz turkusu"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "rize": {
+      "dialect_group": "Dogu Karadeniz/Laz-Hemşin temasli agiz rengi; horon tavri",
+      "dialect_prompt": "Rize icin Dogu Karadeniz horon tavri, tulum/kemençe rengi ve kivrak soyleyis duyulsun; anlasilmaz agiz yapma. Profil notu: Karadeniz ağzı; Hemşin lehçesi izleri, çay ve dağ metaforları",
+      "lyric_markers": [
+        "uşak",
+        "ha bu",
+        "da",
+        "yar"
+      ],
+      "forms": [
+        "7/8 horon",
+        "5/8 dans",
+        "serbest uzun hava",
+        "horon tavri",
+        "tulum tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "sakarya": {
+      "dialect_group": "Marmara-Karadeniz gecis agzi; Manav ve gocmen etkileri",
+      "dialect_prompt": "Sakarya icin Marmara-Karadeniz gecis soyleyisi, karsilama/kirik hava tavri duyulsun. Profil notu: Sade Türkçe; destan tonlaması zaman zaman, yalın duygu aktarımı",
+      "lyric_markers": [
+        "hele",
+        "bre",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "karsilama",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "samsun": {
+      "dialect_group": "Karadeniz agzi; horon/oyun havasi ve gecis tavri",
+      "dialect_prompt": "Samsun icin Karadeniz gecis soyleyisi, horon ya da oyun havasi etkisi duyulsun. Profil notu: Karadeniz ağzı; tarihsel ve deniz metaforları, güçlü söylem",
+      "lyric_markers": [
+        "uşak",
+        "ha bu",
+        "hele",
+        "yar"
+      ],
+      "forms": [
+        "7/8 horon",
+        "serbest uzun hava",
+        "2/4 oyun havası",
+        "horon tavri",
+        "oyun havasi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "siirt": {
+      "dialect_group": "Güneydogu Anadolu agiz etkisi; Botan yoresi, Kurtce-Arapca temasli Turkce soyleyis rengi",
+      "dialect_prompt": "Siirt yoresi hissi ver: Botan vadisi gibi yerel imgeler az kullanilsin, soyleyis yanik ve tok olsun. 'heval', 'lo', 'gardaş' gibi izleri en fazla bir iki yerde kullan; tam Kurtce/Arapca misra yazma.",
+      "lyric_markers": [
+        "heval",
+        "lo",
+        "gardaş"
+      ],
+      "forms": [
+        "agir halay",
+        "uzun hava etkili turku",
+        "davul-zurna halay tavri",
+        "serbest uzun hava",
+        "9/8 halay"
+      ],
+      "avoid": [
+        "yas basligi",
+        "veda basligi",
+        "karikaturize sark soylemi",
+        "uzun hikaye",
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "sinop": {
+      "dialect_group": "Bati Karadeniz agzi; karsilama/kirik hava tavri",
+      "dialect_prompt": "Sinop icin Bati Karadeniz denizci ve koy turkusu tavri duyulsun; sade yerel soyleyis olsun. Profil notu: Karadeniz ağzı; deniz metaforları, sade ve hüzünlü söylem",
+      "lyric_markers": [
+        "uşak",
+        "hele",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "7/8 horon",
+        "2/4 deniz türküsü",
+        "karsilama",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "sivas": {
+      "dialect_group": "Bati grubu Anadolu agizlari; Sivas merkez/Yildizeli/Hafik/Zara ile Susehri, Kangal, Divrigi, Gurun alt agiz ayrimlari",
+      "dialect_prompt": "Sivas agzi sezilsin: tok Ic Anadolu soyleyisi, yer yer asik/deyis tavri, baglama merkezli icli okuma. 'hele', 'emmi', 'gardaş', 'gayri' gibi izleri cok az kullan; Istanbul diksiyonu gibi puruzsuz okuma.",
+      "lyric_markers": [
+        "hele",
+        "emmi",
+        "gardaş",
+        "gayri"
+      ],
+      "forms": [
+        "deyis",
+        "semah",
+        "agir halay",
+        "bozlak etkili turku",
+        "serbest uzun hava (bozlak)"
+      ],
+      "avoid": [
+        "yas basligi",
+        "veda basligi",
+        "tek kelimelik baslik",
+        "uzun olay hikayesi",
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "tekirdag": {
+      "dialect_group": "Trakya/Rumeli agzi; karsilama ve hora tavri",
+      "dialect_prompt": "Tekirdag icin Trakya karsilama/hora tavri ve kivrak yerel soyleyis duyulsun. Profil notu: Trakya ağzı; Rumeli söylemi, bağ ve deniz metaforları, akıcı dil",
+      "lyric_markers": [
+        "be ya",
+        "bre",
+        "yar",
+        "gayri"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "Trakya oyun havası",
+        "karsilama",
+        "hora tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "tokat": {
+      "dialect_group": "Karadeniz-Ic Anadolu gecis agzi; halay/semah ve turku tavri",
+      "dialect_prompt": "Tokat icin Ic Anadolu-Karadeniz gecis soyleyisi, halay veya semah tavri duyulsun. Profil notu: Karadeniz-İç Anadolu geçiş ağzı; bağ ve bahçe metaforları, sade dil",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "7/8 horon",
+        "halay tavri",
+        "semah tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "trabzon": {
+      "dialect_group": "Dogu Karadeniz agzi; horon, kemençe ve yayla tavri",
+      "dialect_prompt": "Trabzon icin horon tavri, kemençe rengi ve Dogu Karadeniz vurgusu duyulsun; agzi abartma. Profil notu: Karadeniz ağzı izleri taşıyabilir. Bazı yerel ifadeler doğal gelir ama abartılmamalı.",
+      "lyric_markers": [
+        "uşak",
+        "ha bu",
+        "da",
+        "yar"
+      ],
+      "forms": [
+        "7/8 horon ritmi",
+        "serbest uzun hava",
+        "hızlı 2/4 horon",
+        "horon tavri",
+        "kemençe tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "tunceli": {
+      "dialect_group": "Dogu Anadolu; Zaza/Kurmanci ve Alevi deyis-semah temasli soyleyis",
+      "dialect_prompt": "Tunceli icin deyis/semah tavri ve yanik Dogu soyleyisi duyulsun; yerel izler cok hafif ve saygili kullanilsin. Profil notu: Doğu Anadolu ağzı; Alevi nefes dili; pınar ve dağ kutsallığı",
+      "lyric_markers": [
+        "hele",
+        "can",
+        "yar",
+        "lo"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "semah ritmi",
+        "4/4 nefes",
+        "deyis",
+        "semah tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "sanliurfa": {
+      "dialect_group": "Guneydogu agzi; Urfa hoyrati, sira gecesi ve uzun hava tavri",
+      "dialect_prompt": "Urfa icin hoyrat, sira gecesi ve yanik uzun hava tavri duyulsun; makamli ve icli soyleyis olsun. Profil notu: Güneydoğu ağzından izler taşıyabilir ama çok ağır olmayacak. Divan edebiyatı etkisi hafifçe olabilir.",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 ağır türkü",
+        "9/8 Güneydoğu oyun havası",
+        "hoyrat",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "karikaturize sark soylemi",
+        "arabesklesme",
+        "arabesk balon pop",
+        "trap"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "usak": {
+      "dialect_group": "Ic Ege agzi; zeybek ve bozlak gecisi",
+      "dialect_prompt": "Usak icin Ic Ege zeybek tavri ve tok yerel soyleyis duyulsun. Profil notu: Ege ağzı; emek ve toprak metaforları, yalın söylem",
+      "lyric_markers": [
+        "efe",
+        "bre",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 zeybek",
+        "4/4 türkü",
+        "zeybek",
+        "agir turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "asiri romantik arabesk",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "van": {
+      "dialect_group": "Dogu Anadolu agzi; bar/halay ve uzun hava tavri",
+      "dialect_prompt": "Van icin Dogu Anadolu uzun hava ve bar/halay tavri duyulsun; bogazdan gelen yanik okuma olsun. Profil notu: Doğu Anadolu ağzı; göl ve tarihi yapı metaforları, derin söylem",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 Van türküsü",
+        "bar tavri",
+        "halay tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "yozgat": {
+      "dialect_group": "Bati grubu Ic Anadolu agzi; bozlak ve surmeli tavri",
+      "dialect_prompt": "Yozgat icin bozlak/surmeli tavri duyulsun; yanik, tok ve yerel soyleyis olsun. Profil notu: Bozok ağzı; sert ünsüzler, yaylak metaforları, aşık söylemi",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "bozlak",
+        "surmeli tavri",
+        "agir turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "zonguldak": {
+      "dialect_group": "Bati Karadeniz agzi; maden ve agir turku tavri",
+      "dialect_prompt": "Zonguldak icin Bati Karadeniz/maden yoresi tok ve agir soyleyisi duyulsun. Profil notu: Batı Karadeniz ağzı; maden ve deniz metaforları, ağır söylem",
+      "lyric_markers": [
+        "hele",
+        "uşak",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "7/8 horon",
+        "ağır türkü",
+        "agir turku",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "aksaray": {
+      "dialect_group": "Bati grubu Ic Anadolu agzi; bozlak/halay gecisi",
+      "dialect_prompt": "Aksaray icin sade Ic Anadolu soyleyisi, bozlak ya da halay etkisi duyulsun. Profil notu: Orta Anadolu ağzı; yol ve vadi metaforları, yalın dil",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "bozlak etkisi",
+        "halay tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "bayburt": {
+      "dialect_group": "Kuzeydogu Anadolu/Karadeniz gecis agzi; bar ve uzun hava tavri",
+      "dialect_prompt": "Bayburt icin Kuzeydogu bar tavri ve yanik uzun hava etkisi duyulsun. Profil notu: Karadeniz-Doğu Anadolu geçiş ağzı; yayla ve dağ metaforları",
+      "lyric_markers": [
+        "hele",
+        "can",
+        "lo",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 ağır türkü",
+        "bar tavri",
+        "uzun hava",
+        "agir turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "karaman": {
+      "dialect_group": "Bati grubu Ic Anadolu/Toroslardaki Oguz-Turkmen agzi",
+      "dialect_prompt": "Karaman icin Oguz-Turkmen ve Toros gecis soyleyisi duyulsun; anlasilir ama yerel kalsin. Profil notu: Orta Anadolu ağzı; güzel Türkçeye özen, sade ve temiz dil, tarih metaforları",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "orta tempo turku",
+        "Yoruk turkusu"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kirikkale": {
+      "dialect_group": "Bati grubu Ic Anadolu agzi; Keskin bozlak/semah etkisi",
+      "dialect_prompt": "Kirikkale icin Keskin ve Ic Anadolu tavri, bozlak ya da semah etkisi duyulsun. Profil notu: Orta Anadolu ağzı; emek ve köy metaforları, yalın söylem",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "gayri",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "bozlak etkisi",
+        "semah tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "asiri hikaye anlatimi",
+        "Istanbul pop vokali",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "batman": {
+      "dialect_group": "Guneydogu agzi; Botan/Dicle havzasi ve halay tavri",
+      "dialect_prompt": "Batman icin Guneydogu halay ve yanik turku tavri duyulsun; yerel izler hafif kalsin. Profil notu: Güneydoğu ağzı; tarihi yapı ve Dicle metaforları",
+      "lyric_markers": [
+        "lo",
+        "heval",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 türkü",
+        "halay tavri",
+        "uzun hava etkisi"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "karikaturize sark soylemi",
+        "arabesklesme",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "sirnak": {
+      "dialect_group": "Guneydogu/Dogu gecis agzi; halay ve uzun hava tavri",
+      "dialect_prompt": "Sirnak icin dag yoresi halay ve uzun hava tavri duyulsun; karikaturize sark soylemi yapma. Profil notu: Güneydoğu ağzı; Kürtçe-Türkçe geçiş; dağ ve nehir metaforları",
+      "lyric_markers": [
+        "lo",
+        "heval",
+        "can",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 türkü",
+        "halay tavri",
+        "uzun hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "karikaturize sark soylemi",
+        "arabesklesme",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "bartin": {
+      "dialect_group": "Bati Karadeniz agzi; karsilama ve koy turkusu tavri",
+      "dialect_prompt": "Bartin icin Bati Karadeniz yerel soyleyisi, karsilama/kirik hava tavri duyulsun. Profil notu: Batı Karadeniz ağzı; nehir ve deniz metaforları, sade söylem",
+      "lyric_markers": [
+        "hele",
+        "uşak",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "3/4 lirik türkü",
+        "karsilama",
+        "kirik hava",
+        "agir turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "ardahan": {
+      "dialect_group": "Kuzeydogu/Dogu agzi; Kars-Ardahan bar ve Azeri/Terekeme rengi",
+      "dialect_prompt": "Ardahan icin Kars-Ardahan bar tavri ve hafif Azeri/Terekeme rengi duyulsun. Profil notu: Kars-Ardahan ağzı; soğuk ve göç metaforları",
+      "lyric_markers": [
+        "can",
+        "lo",
+        "yar",
+        "ay bala"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 ağır türkü",
+        "bar tavri",
+        "Azeri etkili turku",
+        "agir turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "igdir": {
+      "dialect_group": "Dogu/Kuzeydogu agzi; Azeri etkili soyleyis",
+      "dialect_prompt": "Igdir icin Azeri etkili Dogu soyleyisi hafif duyulsun; Turkce anlasilir kalsin. Profil notu: Iğdır ağzı; Azeri Türkçesi etkileri; Ağrı ve Aras metaforları",
+      "lyric_markers": [
+        "can",
+        "ay bala",
+        "yar",
+        "lo"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "9/8 halay",
+        "4/4 türkü",
+        "Azeri etkili turku",
+        "bar tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "arabesk abartisi",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "yalova": {
+      "dialect_group": "Marmara gecis agzi; gocmen/Yoruk etkili soyleyis",
+      "dialect_prompt": "Yalova icin Marmara gecis soyleyisi, karsilama veya kirik hava tavri duyulsun. Profil notu: Temiz Türkçe; deniz ve doğa metaforları, sade anlatım",
+      "lyric_markers": [
+        "bre",
+        "hele",
+        "yar",
+        "gayri"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "2/4 oyun havası",
+        "karsilama",
+        "kirik hava"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "standart Istanbul anlatimi",
+        "pop sarki dili",
+        "asiri uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "karabuk": {
+      "dialect_group": "Bati Karadeniz agzi; Safranbolu/koy turkusu tavri",
+      "dialect_prompt": "Karabuk icin Bati Karadeniz sade koy turkusu ve agir kirik hava tavri duyulsun. Profil notu: Batı Karadeniz ağzı; tarihi ev ve emek metaforları",
+      "lyric_markers": [
+        "hele",
+        "uşak",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "3/4 lirik türkü",
+        "agir turku",
+        "kirik hava",
+        "orta tempo turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "kilis": {
+      "dialect_group": "Guneydogu/Barak-Cukurova gecis agzi",
+      "dialect_prompt": "Kilis icin Barak ve Guneydogu halay tavri duyulsun; sicak ve tok bir soyleyis olsun. Profil notu: Güneydoğu ağzı; Arapça etkileri; zeytin ve ova metaforları",
+      "lyric_markers": [
+        "lo",
+        "hele",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "9/8 halay",
+        "4/4 oyun havası",
+        "serbest uzun hava",
+        "Barak tavri",
+        "halay tavri"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "karikaturize sark soylemi",
+        "arabesklesme",
+        "arabesk",
+        "pop ritmi"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "osmaniye": {
+      "dialect_group": "Cukurova ve Amanos/Turkmen agzi",
+      "dialect_prompt": "Osmaniye icin Cukurova halay tavri ve Turkmen soyleyisi sezilsin; Istanbul diksiyonuna yaslanma. Profil notu: Çukurova ve yörük ağzı karışımı; yalın ve sade dil, doğa betimlemeleri",
+      "lyric_markers": [
+        "hele",
+        "gardaş",
+        "lo",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "4/4 türkü",
+        "halay",
+        "halay tavri",
+        "agir turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "Istanbul pop vokali",
+        "yerel sozcuk yigilmasi",
+        "uzun hikaye",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    },
+    "duzce": {
+      "dialect_group": "Bati Karadeniz-Marmara gecis agzi",
+      "dialect_prompt": "Duzce icin Bati Karadeniz-Marmara gecis soyleyisi duyulsun; sade, yerel ve baglama merkezli olsun. Profil notu: Batı Karadeniz ağzı; ova ve fındık metaforları, sade söylem",
+      "lyric_markers": [
+        "hele",
+        "uşak",
+        "gardaş",
+        "yar"
+      ],
+      "forms": [
+        "serbest uzun hava",
+        "3/4 lirik türkü",
+        "kirik hava",
+        "karsilama",
+        "orta tempo turku"
+      ],
+      "avoid": [
+        "Istanbul diksiyonu",
+        "tek kelimelik yas/veda basligi",
+        "uzun nesir hikayesi",
+        "karikaturize agiz",
+        "butun Karadeniz'i Trabzon gibi soylemek",
+        "anlasilmaz agiz",
+        "tek tip ritim",
+        "arabesk"
+      ],
+      "source_note": "Existing city cultural profile plus dialect_guidance sources; city-level form list uses the local rhythm/profile data where available."
+    }
+  }
+}

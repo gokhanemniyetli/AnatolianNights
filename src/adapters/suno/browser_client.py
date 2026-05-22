@@ -40,6 +40,20 @@ _POLL_TIMEOUT_S = 600       # 10 minutes max wait
 _GENERATE_RETRY_DELAYS_S = (120, 300)
 _SIMPLE_PROMPT_MAX_CHARS = 2800
 
+
+def _env_int(name: str, default: int) -> int:
+    value = os.getenv(name) or _ENV.get(name)
+    if not value:
+        return default
+    try:
+        return int(value)
+    except ValueError:
+        logger.warning("%s=%r geçersiz; varsayılan %s kullanılacak.", name, value, default)
+        return default
+
+
+_CAPTCHA_WAIT_TIMEOUT_S = _env_int("SUNO_CAPTCHA_WAIT_TIMEOUT_SECONDS", 900)
+
 # Real Chrome paths (macOS)
 _CHROME_PATHS = [
     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome",
@@ -496,6 +510,7 @@ class BrowserSunoClient:
             try:
                 await page.goto(f"{_SUNO_HOME}/create", wait_until="domcontentloaded")
                 await page.wait_for_timeout(8000)
+                await self._wait_for_manual_captcha_if_present(page)
                 setup_state = await page.evaluate(
                     """async modelLabel => {
                     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -644,28 +659,39 @@ class BrowserSunoClient:
                 create_target = create_target.get("target") if create_target else None
                 if not create_target:
                     raise RuntimeError("Suno UI Create butonu bulunamadı.")
-                await page.mouse.click(
-                    create_target["x"] + create_target["width"] / 2,
-                    create_target["y"] + create_target["height"] / 2,
-                )
+                await self._wait_for_manual_captcha_if_present(page)
 
-                try:
-                    data = await asyncio.wait_for(generate_future, timeout=240)
-                except TimeoutError as exc:
-                    screenshot_path = Path("/private/tmp/suno_generate_timeout.png")
-                    await page.screenshot(path=str(screenshot_path), full_page=True)
-                    visible_text = await page.locator("body").inner_text(timeout=5000)
-                    raise TimeoutError(
-                        "Suno generate API yanıtı gelmedi. "
-                        f"Screenshot: {screenshot_path}. "
-                        f"POST log: {request_log[-10:]}. "
-                        f"Visible UI: {visible_text[:800]}"
-                    ) from exc
+                data = None
+                for click_attempt in range(2):
+                    await page.mouse.click(
+                        create_target["x"] + create_target["width"] / 2,
+                        create_target["y"] + create_target["height"] / 2,
+                    )
+                    try:
+                        data = await asyncio.wait_for(asyncio.shield(generate_future), timeout=240)
+                        break
+                    except TimeoutError as exc:
+                        if await self._is_captcha_visible(page) and click_attempt == 0:
+                            await self._wait_for_manual_captcha_if_present(page, force_prompt=True)
+                            continue
+
+                        screenshot_path = Path("/private/tmp/suno_generate_timeout.png")
+                        await page.screenshot(path=str(screenshot_path), full_page=True)
+                        visible_text = await page.locator("body").inner_text(timeout=5000)
+                        raise TimeoutError(
+                            "Suno generate API yanıtı gelmedi. "
+                            f"Screenshot: {screenshot_path}. "
+                            f"POST log: {request_log[-10:]}. "
+                            f"Visible UI: {visible_text[:800]}"
+                        ) from exc
             finally:
                 session_state = await context.storage_state()
                 _SESSION_FILE.parent.mkdir(parents=True, exist_ok=True)
                 _SESSION_FILE.write_text(json.dumps(session_state))
                 await context.close()
+
+        if data is None:
+            raise RuntimeError("Suno UI generate tamamlanamadı.")
 
         clips = data.get("clips", []) or data.get("data", [])
         if not clips:
@@ -673,6 +699,65 @@ class BrowserSunoClient:
         clip_id = clips[0]["id"]
         logger.info("Suno UI generation gönderildi — clip_id=%s", clip_id)
         return clip_id
+
+    async def _is_captcha_visible(self, page) -> bool:
+        return bool(
+            await page.evaluate(
+                """() => {
+                const visible = el => {
+                    const rect = el.getBoundingClientRect();
+                    const style = getComputedStyle(el);
+                    return rect.width > 0 && rect.height > 0
+                        && style.display !== "none"
+                        && style.visibility !== "hidden";
+                };
+                const hcaptchaFrame = [...document.querySelectorAll("iframe")]
+                    .some(frame => /hcaptcha/i.test(frame.src || frame.title || frame.name || ""));
+                const bodyText = (document.body?.innerText || "").toLowerCase();
+                const challengeText = bodyText.includes("hcaptcha")
+                    || bodyText.includes("verify you are human")
+                    || bodyText.includes("challenge");
+                return hcaptchaFrame || challengeText
+                    || Boolean([...document.querySelectorAll("[data-hcaptcha-widget-id], .h-captcha")]
+                        .find(visible));
+                }"""
+            )
+        )
+
+    async def _wait_for_manual_captcha_if_present(self, page, force_prompt: bool = False) -> None:
+        if not force_prompt and not await self._is_captcha_visible(page):
+            return
+
+        screenshot_path = Path("/private/tmp/suno_captcha_wait.png")
+        await page.screenshot(path=str(screenshot_path), full_page=True)
+        logger.warning(
+            "Suno CAPTCHA bekliyor. Tarayıcıda CAPTCHA'yı elle çözün; "
+            "ekran görüntüsü: %s",
+            screenshot_path,
+        )
+
+        loop = asyncio.get_running_loop()
+        try:
+            await loop.run_in_executor(
+                None,
+                input,
+                "Suno CAPTCHA'yı tarayıcıda çözdükten sonra burada Enter'a basın: ",
+            )
+        except EOFError as exc:
+            raise RuntimeError(
+                "Suno CAPTCHA manuel çözüm bekliyor, ancak komut interaktif terminalde "
+                "çalışmıyor. Komutu terminalden tekrar çalıştırın."
+            ) from exc
+
+        deadline = time.monotonic() + _CAPTCHA_WAIT_TIMEOUT_S
+        while await self._is_captcha_visible(page):
+            if time.monotonic() >= deadline:
+                raise TimeoutError(
+                    "Suno CAPTCHA manuel çözümden sonra hâlâ görünür durumda. "
+                    f"Screenshot: {screenshot_path}"
+                )
+            logger.info("CAPTCHA hâlâ görünür; çözümün Suno UI'a yansıması bekleniyor.")
+            await page.wait_for_timeout(3000)
 
     async def _async_get_status(self, task_id: str) -> dict:
         if not self._jwt:

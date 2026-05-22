@@ -56,15 +56,43 @@ Başlık ve etiketler Türkçe, sade ve doğal olsun.
             lyrics,
         )
         result["short_title"] = song_title[:100]
-        result["short_description"] = f"{song_title} - {city_name} yöresinden kısa türkü."[:150]
+        result["short_description"] = self._format_short_description(song_title, city_name)
         return result
 
     def _format_description(self, song_title: str, city_name: str, lyrics: str) -> str:
         clean_lyrics = self._format_lyrics_for_description(lyrics)
         intro = f"{song_title} - {city_name} yöresinden yeni bir türkü."
+        hashtags = self._format_hashtags(song_title, city_name)
         if not clean_lyrics:
-            return intro
-        return f"{intro}\n\nŞarkı Sözleri:\n\n{clean_lyrics}".strip()
+            return f"{intro}\n\n{hashtags}".strip()
+        return f"{intro}\n\nŞarkı Sözleri:\n\n{clean_lyrics}\n\n{hashtags}".strip()
+
+    def _format_short_description(self, song_title: str, city_name: str) -> str:
+        hashtags = " ".join(self._hashtags(song_title, city_name)[:3])
+        description = f"{song_title} - {city_name} yöresinden kısa türkü. {hashtags}"
+        return description[:150].strip()
+
+    def _format_hashtags(self, song_title: str, city_name: str) -> str:
+        return " ".join(self._hashtags(song_title, city_name))
+
+    @classmethod
+    def _hashtags(cls, song_title: str, city_name: str) -> list[str]:
+        city_tag = cls._hashtag(city_name)
+        title_tag = cls._hashtag(song_title)
+        tags = [
+            city_tag,
+            title_tag,
+            "#Türkü",
+            "#AnadoluTürküleri",
+            "#HalkMüziği",
+            "#TürkHalkMüziği",
+        ]
+        return [tag for index, tag in enumerate(tags) if tag and tag not in tags[:index]]
+
+    @staticmethod
+    def _hashtag(text: str) -> str:
+        tag = re.sub(r"[^\wçğıöşüÇĞİÖŞÜ]+", "", text or "", flags=re.UNICODE)
+        return f"#{tag}" if tag else ""
 
     @classmethod
     def _format_lyrics_for_description(cls, lyrics: str) -> str:
