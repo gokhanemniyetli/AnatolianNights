@@ -19,7 +19,7 @@ from src.cli.commands.upload import publish_youtube_id, sync_youtube_ui, upload_
 @click.group()
 @click.option("--debug", is_flag=True, default=False, help="Enable debug logging")
 def cli(debug: bool):
-    """Anadolu Türküleri Ezgileri — automated folk music pipeline."""
+    """AnatolianNights — automated folk music pipeline."""
     level = logging.DEBUG if debug else logging.INFO
     logging.basicConfig(
         level=level,

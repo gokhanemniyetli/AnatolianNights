@@ -1,4 +1,4 @@
-# Anadolu Türküleri Ezgileri — Proje Planı
+# AnatolianNights — Proje Planı
 
 ## Proje Özeti
 81 Türk şehri için tam otomatik türkü üretim hattı.  
