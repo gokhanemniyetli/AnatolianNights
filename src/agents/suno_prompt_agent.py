@@ -1,5 +1,7 @@
 """SunoPromptAgent — builds one deterministic simple-mode Suno description."""
 
+import re
+
 _FORBIDDEN_STYLE_TERMS = (
     "german",
     "rap",
@@ -42,14 +44,18 @@ class SunoPromptAgent:
         """
         city = str(cultural_profile.get("city") or concept.get("city") or "").strip()
         title = str(concept.get("title") or "").strip()
-        theme = str(concept.get("theme") or "").strip()
-        story = str(concept.get("story") or "").strip()
+        theme = str(concept.get("theme") or concept.get("tema") or concept.get("konu") or "").strip()
+        story = str(concept.get("story") or concept.get("hikaye") or concept.get("duygu") or "").strip()
         instruments = cultural_profile.get("instruments", {}).get("primary", [])[:2]
         dialect = cultural_profile.get("dialect_guidance", {}) or {}
         dialect_prompt = str(dialect.get("dialect_prompt") or "").strip()
         lyric_markers = [str(item).strip() for item in dialect.get("lyric_markers", []) if str(item).strip()]
         forms = [str(item).strip() for item in dialect.get("forms", []) if str(item).strip()]
-        avoid = [str(item).strip() for item in dialect.get("avoid", []) if str(item).strip()]
+        avoid = [
+            re.sub(r"(?<!\w)pop(?!\w)", "ticari", str(item).strip(), flags=re.IGNORECASE)
+            for item in dialect.get("avoid", [])
+            if str(item).strip()
+        ]
         instrument_text = ", ".join(str(item) for item in instruments if str(item).strip())
         if instrument_text:
             instrument_sentence = f" Bu yöreye özgü {instrument_text} gibi çalgılarla çalınsın."
@@ -105,7 +111,11 @@ class SunoPromptAgent:
             f"{_LYRIC_QUALITY_GUIDANCE}"
         ).strip()
         lowered = simple_prompt.lower()
-        forbidden = [term for term in _FORBIDDEN_STYLE_TERMS if term in lowered]
+        forbidden = [
+            term
+            for term in _FORBIDDEN_STYLE_TERMS
+            if re.search(rf"(?<!\w){re.escape(term)}(?!\w)", lowered)
+        ]
         if forbidden:
             raise ValueError(
                 "Suno prompt contains forbidden modern/western style terms: "
@@ -114,3 +124,38 @@ class SunoPromptAgent:
         result: dict[str, str] = {}
         result["simple_prompt"] = simple_prompt
         return result
+
+    def generate_for_playlist(self, concept: dict, concept_profile: dict) -> dict:
+        """Build a Suno simple-mode prompt for a non-city playlist concept."""
+        playlist_title = str(concept_profile.get("concept_title") or concept.get("playlist_concept") or "").strip()
+        title = str(concept.get("title") or "").strip()
+        theme = str(concept.get("theme") or concept.get("tema") or concept.get("konu") or "").strip()
+        story = str(concept.get("story") or concept.get("hikaye") or "").strip()
+        style_profile = concept_profile.get("style_profile", {}) or {}
+        research = concept_profile.get("research", {}) or {}
+        style_notes = research.get("style_notes", []) or []
+        story_angles = research.get("story_angles", []) or []
+        instruments = style_profile.get("instruments", ["bağlama"])
+        avoid = style_profile.get("avoid", [])
+        instrument_text = ", ".join(str(item) for item in instruments if str(item).strip())
+        style_text = "; ".join(str(item) for item in style_notes[:5] if str(item).strip())
+        angle_text = ", ".join(str(item) for item in story_angles[:6] if str(item).strip())
+        avoid_sentence = " Özellikle kaçın: " + ", ".join(avoid[:5]) + "." if avoid else ""
+
+        simple_prompt = (
+            f"{playlist_title} konseptine ait özgün bir Türkçe türkü üret. "
+            f"Şarkının adı '{title}' olsun. "
+            f"Ana konu {theme} olsun; hikaye şu duygu etrafında kurulsun: {story} "
+            f"Tarz notları: {style_text} "
+            f"Çalgı/tını hedefi: {instrument_text}. "
+            f"Hikaye seçenekleri bu evrenden beslensin ama tekrar etmesin: {angle_text}. "
+            "Sözler doğal, anlaşılır ve insan hikayesi merkezli Türkçe olsun. "
+            "Şarkı kısa olsun: en fazla 3 dörtlük yaz, her dörtlükten sonra aynı kısa nakarat gelsin. "
+            "Toplam söz 16-24 dizeyi geçmesin. "
+            "Süre hedefi 3 dakika civarı, kesinlikle 4 dakikayı aşmayacak yapı olsun. "
+            "Playlist konseptinin tavrı belirgin duyulsun; şehir tanıtımı veya ansiklopedik anlatım yapma. "
+            "Sözleri kendin yaz; kaynak metni kopyalama. "
+            f"{avoid_sentence} "
+            f"{_LYRIC_QUALITY_GUIDANCE}"
+        ).strip()
+        return {"simple_prompt": simple_prompt}

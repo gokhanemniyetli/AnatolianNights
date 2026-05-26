@@ -1,0 +1,48 @@
+{
+  "title": "Ege Türküleri",
+  "query": "Ege Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T01:31:47Z",
+  "summary": "Ege Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Ege Türküleri konseptine bağlı kalır.",
+    "Zeybek, efe, ova, zeytinlik ve deniz imgesi doğal bir arka plan sağlar."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "EGE'NİN MÜZİK KÜLTÜRÜ VE TÜRK HALK MÜZİĞİ - e-gzt ADÜ",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fgzt.adu.edu.tr%2Fhaber%2Fege%2Dnin%2Dmuzik%2Dkulturu%2Dve%2Dturk%2Dhalk%2Dmuzigi%2D8137&rut=b796b36716198fd3d2a5117157c6bc35ee1680e85ad31647c42345696b872374",
+      "snippet": "Türk halk müziği , her yörenin kendine has okuma tavr ı ile icra edilen folklorik bir sanattır. Her coğrafyanın sanatı ise kendine özgüdür. Kendine has tavr ı ile Ege türküleri , geçmişten bugüne farklı seslerde hayat bulmaya devam etmektedir."
+    },
+    {
+      "title": "Ege yöresi türküleri ve hikayeleri - Sorumatik",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fsorumatik.co%2Ft%2Fege%2Dyoresi%2Dturkuleri%2Dve%2Dhikayeleri%2F338000&rut=9b3c84131a03ceab820cc3ba29efafae83d2d26eaf74594895971dd4db22f555",
+      "snippet": "Ege Bölgesi, Türkiye'nin batısında yer alan zengin kültürel mirasa sahip önemli bir coğrafyadır. Bu bölgenin türküleri , zengin duygusal içerikleri, melodik çeşitliliği ve yöresel hikayeleriyle Türk halk müziğinde özel bir yere sahiptir."
+    },
+    {
+      "title": "Ege Ozanları ve Türküleri",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.turkusozleri.com%2Fturku%2Darsivi%2Fege%2Dozanlari%2Dve%2Dturkuleri%2F&rut=c0038f5039f9f317831f181e1a1392da7dd1d3d2b21308dd09e756746ea68e60",
+      "snippet": "Elbette daha fazla Ege ozanları ve türküleri bulunmaktadır. Eğer tüm Türk halk müziği sanatçılarına ve eserlerine ulaşmak istiyorsanız, web sitemiz üzerinden arama yaparak türkülere erişim sağlayabilirsiniz."
+    },
+    {
+      "title": "Ege Bölgesi Halk Müziği Kültürü ve Türküleri",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.efeakademi.com%2Fege%2Dbolgesi%2Dhalk%2Dmuzigi%2Dkulturu%2Dve%2Dturkuleri&rut=8b6c5389e65d1ec0aebf30bbdb3c398d04eab3b434ea96295cc9ee1884514d54",
+      "snippet": "Bu kitap; geleneksel Türk halk müziğinde (GTHM) bölgelerle/yörelerle özdeşleşmiş olan türkülerdeki çeşitli özelliklerin tespiti/tasnifine odaklanmaktadır. Araştırmada; Ege Bölgesi örneklem olarak ele alınmış ve bölgedeki usûllü/sözlü türkülerdeki müzikal özelliklerin belirlenmesi amaçlanmıştır."
+    },
+    {
+      "title": "Türk Halk Müziği | Yapısı, Türleri ve Kültürel Özellikleri",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.tellimuzik.com%2Fturk%2Dhalk%2Dmuzigi%2F&rut=01f5afa3cd98742d41d513622a7e6664d11c7eec339399f76b7df89aa8594711",
+      "snippet": "Türk Halk Müziği hakkında temel bilgiler. Yapısı, türleri, yöresel ö zellikleri , enstrümanları ve geleneksel müzik kültürünün temel unsurlarını öğrenin."
+    }
+  ]
+}

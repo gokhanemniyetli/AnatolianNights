@@ -1,0 +1,49 @@
+{
+  "title": "Akdeniz Türküleri",
+  "query": "Akdeniz Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T01:46:05Z",
+  "summary": "Akdeniz Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Akdeniz Türküleri konseptine bağlı kalır.",
+    "Ağırbaşlı zeybek tavrı, dokuz zamanlı his ve efe vakarını öne çıkar.",
+    "Serbest uzun hava tavrı, geniş nefesli vokal ve içli anlatım öne çıkar."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "Microsoft Word - 02.doc - DergiPark",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fdergipark.org.tr%2Ftr%2Fdownload%2Farticle%2Dfile%2F750147&rut=e1e889beb6199977355af06e6a20b0dd515f4cee00a19f54e0937d2dc70014b3",
+      "snippet": "İlk bölümde, Tarsus halk müziğinin yöresel ö zellikleri , söz, usul, ses genliği, müzik ve makam yapısı ile halk çalgıları üzerinde duran yazar; ikinci bölümde çoğunluğu kendisi tarafından derlenmiş ve notaya alınmış 23 türkü, sözleri ve notalarıyla birlikte verilmiştir."
+    },
+    {
+      "title": "Akdeniz türküleri ve çıkış hikayeleri - Sorumatik",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fsorumatik.co%2Ft%2Fakdeniz%2Dturkuleri%2Dve%2Dcikis%2Dhikayeleri%2F500986&rut=5ee337f7662c60ffa37d66f6584051d610882f1fc3ae72faa701f3c943ecccc7",
+      "snippet": "Akdeniz türküleri Anadolu'nun güneyinde, özellikle Akdeniz bölgesinde ortaya çıkan, bölgenin kültürel özelliklerini yansıtan halk ezgileridir. Bu türküler hem melodik yapıları hem de söz içerikleriyle Anadolu müziği içinde kendine özgü bir yere sahiptir."
+    },
+    {
+      "title": "Halk Müziği - Doğu Karadeniz Kültür Envanteri Projesi",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fkaradeniz.gov.tr%2Fhalk%2Dmuzigi%2D5%2F&rut=d07d606ef1063fc69d049fc850bf2e297c02f84ea7daeab23e282ba476503aed",
+      "snippet": "Davul, tef, kaşık ve iç kesimlerde zil, başlıca vurmalı sazlardır ( Akdeniz , 2018). Ayrıca zurna ve klarnet de yörede kullanılan önemli üflemeli sazlar grubundadır. Klarnetin aynı zamanda Ordu'nun Bayadı köyünde imalatı da yapılmıştır."
+    },
+    {
+      "title": "Akdeniz Bölgesi türküleri nelerdir? - bilgidunyasi.com",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.bilgidunyasi.com%2Fil%2Dve%2Dilceler%2Fakdeniz%2Dbolgesi%2Dturkuleri%2Dnelerdir&rut=cc221a800f9cc39c55d47ef585a64021535f9fc16b4b53c6dfa8172afee16289",
+      "snippet": "Akdeniz Bölgesi türküleri , yerel enstrümanlar ve etkileyici melodilerle zenginleştirilen evrensel temaları işlemektedir. Bu türküler, bölgenin doğal güzelliklerine, tarım ve balıkçılık gibi faaliyetlere ve halkın yaşam tarzına dair birçok detayı içermektedir."
+    },
+    {
+      "title": "Akdeniz Bölgesi Türküleri",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.turkusozleri.com%2Fturku%2Darsivi%2Fakdeniz%2Dbolgesi%2Dturkuleri%2F&rut=105ea6aaf6777d1e329303a851930d2fdd3b1b4622d264b3444e3104e112a969",
+      "snippet": "Akdeniz Bölgesi türküleri ise genel olarak şu özelliklere sahiptir: • 2, 4 veya 9 zamanlı usuller yörede epey yaygındır. • Zeybek, semai, bengi ve teke türü oyun ve müzikler söylenmektedir. • Bozlak türü uzun havalar bu bölgede oldukça yaygındır."
+    }
+  ]
+}

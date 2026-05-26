@@ -1,0 +1,49 @@
+{
+  "title": "Uzun Hava Türküleri",
+  "query": "Uzun Hava Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T03:15:12Z",
+  "summary": "Uzun Hava Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Uzun Hava Türküleri konseptine bağlı kalır.",
+    "Serbest uzun hava tavrı, geniş nefesli vokal ve içli anlatım öne çıkar.",
+    "Kemençe, hızlı kıvraklık, yayla/deniz/dağ imgeleri dengeli kullanılır."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "UZUN HAVA - Türk Halk Müziği Bilgileri",
+      "url": "https://www.turkuler.com/thm/uzunhava.asp",
+      "snippet": "Araştırmacıların, uzun hava adı altında verdikleri bu örnekler, yaratıldıkları ve icra edildikleri bölgelerde değişik isimlerle anılmaktadır. Bunlar genellikle ezgi, aşık, olay, olayla ilgili şahıs, mahalli ağız, yer, ya da yöre , edebi tür, özel terimler, aşiret, vb. gibi adlarla belirtilmektedir."
+    },
+    {
+      "title": "Uzun hava - Vikipedi",
+      "url": "https://tr.wikipedia.org/wiki/Uzun_hava",
+      "snippet": "Uzun hava Türk halk müziğinin önemli bir parçasıdır. Duygusal sözleri ve dokunaklı melodileri ile Türk kültüründe önemli bir yere sahip olan uzun havalar, geleneksel etkinliklerde ve kutlamalarda sık sık çalınır."
+    },
+    {
+      "title": "Türk Halk Müziği - Formlar ve Türler",
+      "url": "https://www.konservatuvarahazirlik.net/2025/11/turk-halk-muzigi-formlar-ve-turler.html",
+      "snippet": "Türkü, sözlü halk müziği eserleri için kullanılan özel bir terimdir. Bazı oyun havaları ve çalgısal ezgiler için yöresel terimler kullanılır. Uzun Havalar (Long Air) Serbest tartımlı (parlando) ezgilerdir. Düzenli ritim özelliği göstermez, bazı geleneksel söyleyiş kalıplarına göre icra edilir."
+    },
+    {
+      "title": "Türk Halk Müziği nedir? Türk Halk Müziği türleri, çalgıları ...",
+      "url": "https://www.hurriyet.com.tr/egitim/turk-halk-muzigi-nedir-turk-halk-muzigi-turleri-calgilari-sanatcilari-ve-ornek-turku-sozleri-41623062",
+      "snippet": "Anadolu, Karadeniz, Balkan yörelerinin kendine özgü türküleri ve dansları vardır. Türk Halk Müziğinin türleri, çalgıları nedir, örnek türkü sözleriyle birlikte derledik."
+    },
+    {
+      "title": "Form Bi̇lgi̇si̇ - Uzun Havalar",
+      "url": "https://www.scribd.com/document/796707517/FORM-B%C4%B0LG%C4%B0S%C4%B0-UZUN-HAVALAR",
+      "snippet": "Uşşak ve Hüseyni Makamlarıyla seslendirilen bir uzun hava türüdür. Çoğunlukla ilk söyleyeni belli değildir. Mayaların icrasında genellikle bağlama, mey, dilsiz kaval eşlik eder. Genelde bir oktavı geçmeyen 5'li seyir içerisinde okunur; fakat Harput yöresinde bir oktavı aşabilir."
+    }
+  ]
+}

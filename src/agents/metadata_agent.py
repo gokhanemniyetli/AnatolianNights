@@ -2,7 +2,6 @@
 MetadataAgent — generates YouTube title, description, tags, and Shorts metadata.
 """
 
-import json
 import re
 from pathlib import Path
 
@@ -34,21 +33,9 @@ class MetadataAgent(BaseAgent):
         Returns dict with keys:
         title, description, tags, short_title, short_description
         """
-        user_prompt = f"""
-Kanal: Anadolu Türküleri Ezgileri
-Şehir: {city_name}
-Şarkı Adı: {song_title}
-
-KONSEPT:
-{json.dumps(concept, ensure_ascii=False, indent=2)}
-
-ŞARKI SÖZLERİ:
-{lyrics}
-
-YouTube için başlık, açıklama ve etiketler oluştur.
-Başlık ve etiketler Türkçe, sade ve doğal olsun.
-"""
-        result = self.call(user_prompt)
+        result = {
+            "tags": self._hashtags(song_title, city_name),
+        }
         result["title"] = f"{song_title} | {city_name} Yöresi | Anadolu Türküleri Ezgileri"
         result["description"] = self._format_description(
             song_title,
@@ -58,6 +45,35 @@ Başlık ve etiketler Türkçe, sade ve doğal olsun.
         result["short_title"] = song_title[:100]
         result["short_description"] = self._format_short_description(song_title, city_name)
         return result
+
+    def generate_for_playlist(
+        self,
+        song_title: str,
+        playlist_title: str,
+        concept: dict,
+        lyrics: str,
+    ) -> dict:
+        result = {
+            "tags": self._hashtags(song_title, playlist_title),
+        }
+        result["title"] = f"{song_title} | {playlist_title} | Anadolu Türküleri Ezgileri"
+        result["description"] = self._format_playlist_description(song_title, playlist_title, lyrics)
+        result["short_title"] = song_title[:100]
+        result["short_description"] = self._format_playlist_short_description(song_title, playlist_title)
+        return result
+
+    def _format_playlist_description(self, song_title: str, playlist_title: str, lyrics: str) -> str:
+        clean_lyrics = self._format_lyrics_for_description(lyrics)
+        intro = f"{song_title} - {playlist_title} konseptinde yeni bir türkü."
+        hashtags = self._format_hashtags(song_title, playlist_title)
+        if not clean_lyrics:
+            return f"{intro}\n\n{hashtags}".strip()
+        return f"{intro}\n\nŞarkı Sözleri:\n\n{clean_lyrics}\n\n{hashtags}".strip()
+
+    def _format_playlist_short_description(self, song_title: str, playlist_title: str) -> str:
+        hashtags = " ".join(self._hashtags(song_title, playlist_title)[:3])
+        description = f"{song_title} - {playlist_title} kısa türkü. {hashtags}"
+        return description[:150].strip()
 
     def _format_description(self, song_title: str, city_name: str, lyrics: str) -> str:
         clean_lyrics = self._format_lyrics_for_description(lyrics)

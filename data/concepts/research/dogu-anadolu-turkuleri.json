@@ -1,0 +1,47 @@
+{
+  "title": "Doğu Anadolu Türküleri",
+  "query": "Doğu Anadolu Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T00:44:53Z",
+  "summary": "Doğu Anadolu Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Doğu Anadolu Türküleri konseptine bağlı kalır."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "Doğu Anadolu yöresel müziğimiz - Sorumatik",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fsorumatik.co%2Ft%2Fdogu%2Danadolu%2Dyoresel%2Dmuzigimiz%2F225948&rut=a3361a191afac49c3f089b2907d9ad13ace61df83616e5a552370bb8d4bcb537",
+      "snippet": "Bu proje ödevinde, Doğu Anadolu yöresel müziğini derinlemesine incelemek; enstrümanlardan türlere, halk oyunlarından bu müziğin kapsamlı sosyolojik etkilerine kadar birçok konuyu ele almak hedeflenmektedir."
+    },
+    {
+      "title": "Doğu Anadolu müziği - Vikipedi",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Ftr.wikipedia.org%2Fwiki%2FDo%25C4%259Fu_Anadolu_m%25C3%25BCzi%25C4%259Fi&rut=52f3eb96dd9f49df5346986b6ec0f7d3a044fa5dd7234a238e97be49d7efaec5",
+      "snippet": "Doğu Anadolu müziği Mezopotamya'ya kadar uzanan geçmişi bulunmaktadır. Doğu Anadolu Bölgesinde Zazaca ve Kürtçe gibi birçok lehçe ve şive bulunmaktadır Doğu Anadolu bölgesi müzik aletleri, kaval, bağlama, def, tulum, klarnet,mey ve akordeon sazlardır."
+    },
+    {
+      "title": "Doğu Anadolu'nun Müzikal Mirası: Yerli Halkın Zengin İfadesi",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.vangazetesi.com%2Fdogu%2Danadolu%2Dnun%2Dmuzikal%2Dmirasi%2Dyerli%2Dhalkin%2Dzengin%2Difadesi%2F41493%2F&rut=048eacbd3e1c7c3524afa80d23d2f69aca713029ea876f1783bba0d4bf69d7cb",
+      "snippet": "Doğu Anadolu'nun müzik kültürü: Yerli halkın zengin enstrümanları, derin sözleri ve dokunaklı melodileriyle birleşerek eşsiz bir müzikal mirasa sahip."
+    },
+    {
+      "title": "Türk Halk Müzi̇ği̇nde Yöre, Üslûp Ve Tavir Kavramlari",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fdergipark.org.tr%2Fen%2Fpub%2Fturuk%2Farticle%2F162187&rut=16541bef749a07fee0d6f2569bca2838953927eded003448e0ac5ebbd9f1f5e6",
+      "snippet": "Bu çalışmada amaç, Türkiye Türk Halk Müziğindeki Yöre , Üslûp ve Tavır kavramlarını, kaynak tarama yöntemi yanında, alan tecrübelerimize dayanarak inceleyip, bazı önerilerde bulunmaktır."
+    },
+    {
+      "title": "Türk Halk Müziğinde Yöresel Tavır, İcra Özellikleri ve Sanatçı Etkisi",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.gazeteankara.com.tr%2Fwriters%2Fmurat%2Dkarabulut%2Fturk%2Dhalk%2Dmuziginde%2Dyoresel%2Dtavir%2Dicra%2Dozellikleri%2Dve%2Dsanatci%2Detkisi%2D4706&rut=e712599c6cba3db2953c944483fdbb33815848412e260ac3330c092e06cc0605",
+      "snippet": "Türk Halk Müziği , coğrafyanın ve toplumsal hafızanın ürünü olan yöresel tavırların zenginliği üzerine kuruludur. Ancak bu tavırların sanatsal bir form kazanması ve yüksek estetik değere ulaşması, icra ve sazında yetkinliğe ulaşmış usta sanatçılar vasıtasıyla mümkün olmuştur."
+    }
+  ]
+}

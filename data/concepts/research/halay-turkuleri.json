@@ -1,0 +1,50 @@
+{
+  "title": "Halay Türküleri",
+  "query": "Halay Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T04:15:12Z",
+  "summary": "Halay Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Halay Türküleri konseptine bağlı kalır.",
+    "Ağırbaşlı zeybek tavrı, dokuz zamanlı his ve efe vakarını öne çıkar.",
+    "Toplu oyun enerjisi, davul-zurna hissi ve ritmik canlılık korunur.",
+    "Kemençe, hızlı kıvraklık, yayla/deniz/dağ imgeleri dengeli kullanılır."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "Türk Halk Müziği | Yapısı, Türleri ve Kültürel Özellikleri",
+      "url": "https://www.tellimuzik.com/turk-halk-muzigi/",
+      "snippet": "Türk Halk Müziği hakkında temel bilgiler. Yapısı, türleri, yöresel ö zellikleri , enstrümanları ve geleneksel müzik kültürünün temel unsurlarını öğrenin."
+    },
+    {
+      "title": "Türk halk müziği - Vikipedi",
+      "url": "https://tr.wikipedia.org/wiki/T%C3%BCrk_halk_m%C3%BCzi%C4%9Fi",
+      "snippet": "Türk halk müziği , halk oyunları ve halkbilim ile de yakından ilişkilidir. Bunun dışında genel karakteristiğine göre; bektaşi, halay , teke, zeybek gibi türlere ayrılır. Ayrıca il bazında türküler kategorilendirilmiştir."
+    },
+    {
+      "title": "Türk Müzik Tarihi: Türk Halk Müziği Türleri ve Özellikleri",
+      "url": "https://sevgisi.com/turk-muzik-tarihi-turk-halk-muzigi-turleri-ve-ozellikleri/",
+      "snippet": "Türk Halk Müziği , Türkiye'nin yerel kültürlerini ve geleneklerini yansıtan, anonim eserlerden oluşan bir müzik türüdür. Bu makalede, Türk halk müziğinin tarihsel gelişimi, kökenleri, temel ö zellikleri , kullanılan enstrümanlar ve farklı türleri ele alınacaktır."
+    },
+    {
+      "title": "Türk Halk Müziği nedir? Türk Halk Müziği türleri, çalgıları ...",
+      "url": "https://www.hurriyet.com.tr/egitim/turk-halk-muzigi-nedir-turk-halk-muzigi-turleri-calgilari-sanatcilari-ve-ornek-turku-sozleri-41623062",
+      "snippet": "Anadolu, Karadeniz, Balkan yörelerinin kendine özgü türküleri ve dansları vardır. Türk Halk Müziğinin türleri, çalgıları nedir, örnek türkü sözleriyle birlikte derledik."
+    },
+    {
+      "title": "Türk Halk Müziği | Halk Bilimi Uygulama ve Araştırma Merkezi",
+      "url": "https://halkbilim.anadolu.edu.tr/birimler/halk-muzigi",
+      "snippet": "Türk halk müziği , köklerini tarihin derinliklerinden alarak bugüne kadar ulaşan bir kültürel mirastır. Bu müziğin özgün yapısını koruyarak, geleneksel ezgiler ve enstrümanlarla icra edilmesini sağlamak, birimimizin temel çalışmalarından biridir."
+    }
+  ]
+}

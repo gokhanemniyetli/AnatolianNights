@@ -41,6 +41,23 @@ class SongService:
         logger.info("Created song %s for city_id=%d", song.id, city_id)
         return song
 
+    def create_concept_song(self, city_id: int, concept_playlist_id: int) -> Song:
+        song = Song(
+            city_id=city_id,
+            concept_playlist_id=concept_playlist_id,
+            status=SongStatus.PENDING,
+            lyric_attempt=0,
+        )
+        self.session.add(song)
+        self.session.flush()
+        logger.info(
+            "Created song %s for concept_playlist_id=%d anchor_city_id=%d",
+            song.id,
+            concept_playlist_id,
+            city_id,
+        )
+        return song
+
     # ── Status transitions ────────────────────────────────────────────
 
     def advance(self, song: Song) -> Song:

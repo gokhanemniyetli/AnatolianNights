@@ -8,8 +8,8 @@ import logging
 import click
 from rich.logging import RichHandler
 
-from src.cli.commands.cycle import dry_run_cycle, run_cycle, run_scheduler
-from src.cli.commands.generate import generate_city, generate_next, resume_song
+from src.cli.commands.cycle import dry_run_cycle, run_concept_set, run_cycle, run_scheduler
+from src.cli.commands.generate import generate_city, generate_concept, generate_next, resume_song
 from src.cli.commands.render import render_video
 from src.cli.commands.review import import_audio, review_song
 from src.cli.commands.status import list_songs, song_stats
@@ -34,6 +34,7 @@ def db_init():
     from rich.console import Console
     from src.storage.database import get_session, init_db
     from src.services.city_service import CityService
+    from src.services.concept_playlist_service import ConceptPlaylistService
 
     console = Console()
     init_db()
@@ -44,9 +45,15 @@ def db_init():
         inserted = city_svc.seed_cities()
     console.print(f"[green]✓ Seeded {inserted} cities[/]")
 
+    with get_session() as session:
+        concept_svc = ConceptPlaylistService(session)
+        inserted = concept_svc.seed_concepts()
+    console.print(f"[green]✓ Seeded {inserted} concept playlists[/]")
+
 
 # Register all commands
 cli.add_command(generate_city)
+cli.add_command(generate_concept)
 cli.add_command(generate_next)
 cli.add_command(resume_song)
 cli.add_command(review_song)
@@ -57,6 +64,7 @@ cli.add_command(upload_youtube_web)
 cli.add_command(publish_youtube_id)
 cli.add_command(sync_youtube_ui)
 cli.add_command(run_cycle)
+cli.add_command(run_concept_set)
 cli.add_command(run_scheduler)
 cli.add_command(dry_run_cycle)
 cli.add_command(list_songs)

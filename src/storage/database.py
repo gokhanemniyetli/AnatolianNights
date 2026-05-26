@@ -52,6 +52,7 @@ def _migrate_columns() -> None:
     from sqlalchemy import text
     new_columns = [
         ("songs", "suno_task_id", "TEXT"),
+        ("songs", "concept_playlist_id", "INTEGER"),
     ]
     with engine.connect() as conn:
         for table, column, col_type in new_columns:

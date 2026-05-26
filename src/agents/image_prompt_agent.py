@@ -70,3 +70,51 @@ No text in image.
         )
 
         return result
+
+    def generate_for_playlist(self, concept: dict, playlist_title: str, concept_profile: dict) -> dict:
+        """Generate a background prompt for a non-city playlist concept."""
+        visual = concept_profile.get("visual_atmosphere", {}) or {}
+        research = concept_profile.get("research", {}) or {}
+        user_prompt = f"""
+SONG:
+- Playlist concept: {playlist_title}
+- Theme: {concept.get('theme', '')}
+- Mood: {concept.get('mood', '')}
+- Season: {concept.get('season', '')}
+- Story: {concept.get('story', '')}
+
+CONCEPT RESEARCH:
+{json.dumps(research, ensure_ascii=False, indent=2)}
+
+VISUAL ATMOSPHERE:
+- Colors: {visual.get('colors', [])}
+- Landscape: {visual.get('landscape', '')}
+- Season suggestions: {visual.get('season_suggestions', [])}
+- Lighting: {visual.get('lighting', '')}
+
+Generate a 1920x1080 landscape background image prompt for this Turkish folk playlist concept.
+Use only scenery, landmarks, architecture, weather, water, terrain, animals, and atmosphere.
+Do not include people, human figures, musicians, faces, hands, bodies, silhouettes, or musical instruments.
+The first sentence must mention the playlist concept atmosphere and the season or weather.
+No text in image.
+"""
+        result = self.call(user_prompt)
+        forced_opening = (
+            f"Empty cinematic Anatolian landscape for {playlist_title}, no people, no human figures, "
+            "no faces, no hands, no musicians, no musical instruments."
+        )
+        image_prompt = (result.get("image_prompt") or "").strip()
+        if forced_opening.lower() not in image_prompt.lower():
+            result["image_prompt"] = f"{forced_opening} {image_prompt}".strip()
+
+        negative_prompt = (result.get("negative_prompt") or "").strip()
+        extra_negative = (
+            "people, person, human figure, face, hands, body, portrait, crowd, "
+            "musician, singer, dancer, shepherd, villager, fisherman, worker, "
+            "silhouette of a person, baglama, saz, lute, guitar, kaval, flute, "
+            "drum, zurna, musical instrument, malformed faces, extra fingers"
+        )
+        result["negative_prompt"] = (
+            f"{negative_prompt}, {extra_negative}" if negative_prompt else extra_negative
+        )
+        return result

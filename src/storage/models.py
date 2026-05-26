@@ -66,11 +66,52 @@ class City(Base):
         self.cultural_profile = json.dumps(profile, ensure_ascii=False)
 
 
+class ConceptPlaylist(Base):
+    __tablename__ = "concept_playlists"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    title: Mapped[str] = mapped_column(String(150), nullable=False, unique=True)
+    slug: Mapped[str] = mapped_column(String(150), nullable=False, unique=True)
+    group: Mapped[str] = mapped_column(String(100), nullable=False)
+    sort_order: Mapped[int] = mapped_column(Integer, nullable=False)
+    playlist_id: Mapped[str | None] = mapped_column(String(100), nullable=True)
+    research: Mapped[str | None] = mapped_column(Text, nullable=True)  # JSON
+    style_profile: Mapped[str | None] = mapped_column(Text, nullable=True)  # JSON
+    anchor_city_id: Mapped[int | None] = mapped_column(Integer, ForeignKey("cities.id"), nullable=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now())
+    updated_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), onupdate=func.now())
+
+    songs: Mapped[list["Song"]] = relationship("Song", back_populates="concept_playlist")
+    generation_history: Mapped["ConceptGenerationHistory | None"] = relationship(
+        "ConceptGenerationHistory", back_populates="concept_playlist", uselist=False
+    )
+
+    def get_research(self) -> dict:
+        if self.research:
+            return json.loads(self.research)
+        return {}
+
+    def set_research(self, research: dict) -> None:
+        self.research = json.dumps(research, ensure_ascii=False)
+
+    def get_style_profile(self) -> dict:
+        if self.style_profile:
+            return json.loads(self.style_profile)
+        return {}
+
+    def set_style_profile(self, profile: dict) -> None:
+        self.style_profile = json.dumps(profile, ensure_ascii=False)
+
+
 class Song(Base):
     __tablename__ = "songs"
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     city_id: Mapped[int] = mapped_column(Integer, ForeignKey("cities.id"), nullable=False)
+    concept_playlist_id: Mapped[int | None] = mapped_column(
+        Integer, ForeignKey("concept_playlists.id"), nullable=True
+    )
 
     # Concept
     title: Mapped[str | None] = mapped_column(String(300), nullable=True)
@@ -130,6 +171,9 @@ class Song(Base):
     uploaded_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
     city: Mapped["City"] = relationship("City", back_populates="songs")
+    concept_playlist: Mapped["ConceptPlaylist | None"] = relationship(
+        "ConceptPlaylist", back_populates="songs"
+    )
     quality_reports: Mapped[list["QualityReport"]] = relationship(
         "QualityReport", back_populates="song"
     )
@@ -179,6 +223,41 @@ class GenerationHistory(Base):
     )
 
     city: Mapped["City"] = relationship("City", back_populates="generation_history")
+
+    def get(self, field: str) -> list:
+        raw = getattr(self, field, "[]")
+        return json.loads(raw)
+
+    def append(self, field: str, value) -> None:
+        current = self.get(field)
+        current.append(value)
+        setattr(self, field, json.dumps(current, ensure_ascii=False))
+
+
+class ConceptGenerationHistory(Base):
+    __tablename__ = "concept_generation_history"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    concept_playlist_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("concept_playlists.id"), nullable=False, unique=True
+    )
+
+    used_themes: Mapped[str] = mapped_column(Text, default="[]")
+    used_titles: Mapped[str] = mapped_column(Text, default="[]")
+    used_hooks: Mapped[str] = mapped_column(Text, default="[]")
+    used_keywords: Mapped[str] = mapped_column(Text, default="[]")
+    used_instruments: Mapped[str] = mapped_column(Text, default="[]")
+    used_moods: Mapped[str] = mapped_column(Text, default="[]")
+    used_tempos: Mapped[str] = mapped_column(Text, default="[]")
+    used_style_prompts: Mapped[str] = mapped_column(Text, default="[]")
+
+    updated_at: Mapped[datetime] = mapped_column(
+        DateTime, server_default=func.now(), onupdate=func.now()
+    )
+
+    concept_playlist: Mapped["ConceptPlaylist"] = relationship(
+        "ConceptPlaylist", back_populates="generation_history"
+    )
 
     def get(self, field: str) -> list:
         raw = getattr(self, field, "[]")

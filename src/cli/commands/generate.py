@@ -38,6 +38,20 @@ def generate_next(dry_run: bool):
         console.print("[red]✗ Generation failed. Check logs.[/]")
 
 
+@click.command("generate-concept")
+@click.argument("concept_slug")
+@click.option("--dry-run", is_flag=True, default=False, help="Skip publishing")
+def generate_concept(concept_slug: str, dry_run: bool):
+    """Generate a new song for the given concept playlist slug."""
+    console.print(f"[bold cyan]Generating song for concept: {concept_slug}[/]")
+    orch = Orchestrator(dry_run=dry_run)
+    song_id = orch.run_one(concept_slug=concept_slug)
+    if song_id:
+        console.print(f"[green]✓ Song created: {song_id}[/]")
+    else:
+        console.print("[red]✗ Generation failed. Check logs.[/]")
+
+
 @click.command("resume-song")
 @click.argument("song_id")
 @click.option("--dry-run", is_flag=True, default=False, help="Skip publishing step")

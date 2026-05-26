@@ -1,0 +1,47 @@
+{
+  "title": "İç Anadolu Türküleri",
+  "query": "İç Anadolu Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T00:29:49Z",
+  "summary": "İç Anadolu Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça İç Anadolu Türküleri konseptine bağlı kalır."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "İç anadolu müziği hakkında bilgi - Sorumatik",
+      "url": "https://sorumatik.co/t/ic-anadolu-muzigi-hakkinda-bilgi/363481",
+      "snippet": "İç Anadolu Müziği , İç Anadolu Bölgesi'nde yaşayan halkın kültürel değerlerini, günlük yaşamlarını, doğa olaylarını, aşk ve kahramanlık hikayelerini anlatan geleneksel halk müziği türüdür. Bu müzik türü, Türkiye'nin zengin halk müziği coğrafyasının önemli bir parçasını oluşturur."
+    },
+    {
+      "title": "Türk Halk Müzi̇ği̇nde Yöre, Üslûp Ve Tavir Kavramlari",
+      "url": "https://dergipark.org.tr/en/pub/turuk/article/162187",
+      "snippet": "Bu çalışmada amaç, Türkiye Türk Halk Müziğindeki Yöre , Üslûp ve Tavır kavramlarını, kaynak tarama yöntemi yanında, alan tecrübelerimize dayanarak inceleyip, bazı önerilerde bulunmaktır."
+    },
+    {
+      "title": "İç Anadolu Bölgesi Türküleri",
+      "url": "https://www.turkusozleri.com/turku-arsivi/ic-anadolu-bolgesi-turkuleri/",
+      "snippet": "Elbette bu türkülere daha sayısız örnek verilebilir. Çünkü İç Anadolu Bölgesi, en popüler türkülerin yakıldığı bölgedir. Bu türküler, en bilindik ozanlar ve aşıklar tarafından seslendirildiği gibi günümüzde farklı sanatçılar tarafından da yorumlanmaktadır."
+    },
+    {
+      "title": "Türk Halk Müziğinde Yöresel Tavır, İcra Özellikleri ve Sanatçı Etkisi",
+      "url": "https://www.gazeteankara.com.tr/writers/murat-karabulut/turk-halk-muziginde-yoresel-tavir-icra-ozellikleri-ve-sanatci-etkisi-4706",
+      "snippet": "Türk Halk Müziği , coğrafyanın ve toplumsal hafızanın ürünü olan yöresel tavırların zenginliği üzerine kuruludur. Ancak bu tavırların sanatsal bir form kazanması ve yüksek estetik değere ulaşması, icra ve sazında yetkinliğe ulaşmış usta sanatçılar vasıtasıyla mümkün olmuştur."
+    },
+    {
+      "title": "İç Anadolu'nun Türkü Derlemesi - Türkiye Folklor Portalı",
+      "url": "https://folkportal.org.tr/gosteri-sanatlari/ic-anadolunun-turku-derlemesi/.html",
+      "snippet": "Bu türküler sadece o yöre de değil her yerde söyleniyor ve dilden dile bütün Anadolu'yu geziyordu. Sözlü kültür incelemelerinde en önemli şeylerden biri de mısralar da onların yaşamlarından parçalar bulmamız olabilir."
+    }
+  ]
+}

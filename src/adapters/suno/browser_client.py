@@ -571,8 +571,13 @@ class BrowserSunoClient:
                     "v5.5",
                 )
                 logger.info("Suno UI setup: %s", setup_state)
-                if setup_state.get("model") != "v5.5":
+                if setup_state.get("model") not in {"v5.5", "unchanged"}:
                     raise RuntimeError(f"Suno UI v5.5 modeli doğrulanamadı: {setup_state}")
+                if setup_state.get("model") == "unchanged":
+                    logger.warning(
+                        "Suno UI model seçimi doğrulanamadı; mevcut seçili modelle devam ediliyor: %s",
+                        setup_state,
+                    )
                 form_state = await page.evaluate(
                     """prompt => {
                         const visible = el => {

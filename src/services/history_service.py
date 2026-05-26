@@ -8,7 +8,7 @@ import logging
 from rapidfuzz import fuzz
 from sqlalchemy.orm import Session
 
-from src.storage.models import GenerationHistory, Song
+from src.storage.models import ConceptGenerationHistory, GenerationHistory, Song
 
 logger = logging.getLogger(__name__)
 
@@ -30,6 +30,18 @@ class HistoryService:
             self.session.flush()
         return history
 
+    def get_or_create_concept(self, concept_playlist_id: int) -> ConceptGenerationHistory:
+        history = (
+            self.session.query(ConceptGenerationHistory)
+            .filter_by(concept_playlist_id=concept_playlist_id)
+            .first()
+        )
+        if not history:
+            history = ConceptGenerationHistory(concept_playlist_id=concept_playlist_id)
+            self.session.add(history)
+            self.session.flush()
+        return history
+
     # ── Update ────────────────────────────────────────────────────────
 
     def record_song(self, city_id: int, concept: dict, lyrics_keywords: list[str]) -> None:
@@ -45,6 +57,25 @@ class HistoryService:
             history.append("used_hooks", hook)
         self.session.flush()
         logger.debug("Recorded history for city_id=%d", city_id)
+
+    def record_concept_song(
+        self,
+        concept_playlist_id: int,
+        concept: dict,
+        lyrics_keywords: list[str],
+    ) -> None:
+        """Record a generated song's attributes into concept-playlist history."""
+        history = self.get_or_create_concept(concept_playlist_id)
+        history.append("used_themes", concept.get("theme", ""))
+        history.append("used_titles", concept.get("title", ""))
+        history.append("used_tempos", concept.get("tempo", ""))
+        history.append("used_moods", concept.get("mood", ""))
+        for inst in concept.get("instruments", []):
+            history.append("used_instruments", inst)
+        for hook in lyrics_keywords:
+            history.append("used_hooks", hook)
+        self.session.flush()
+        logger.debug("Recorded history for concept_playlist_id=%d", concept_playlist_id)
 
     # ── Similarity checks ─────────────────────────────────────────────
 
@@ -66,6 +97,22 @@ class HistoryService:
     def get_history_dict(self, city_id: int) -> dict:
         """Return full history as a plain dict for passing to agents."""
         history = self.get_or_create(city_id)
+        recent_global = self.get_recent_global_history()
+        return {
+            "used_themes": history.get("used_themes") or [],
+            "used_titles": history.get("used_titles") or [],
+            "used_tempos": history.get("used_tempos") or [],
+            "used_moods": history.get("used_moods") or [],
+            "used_instruments": history.get("used_instruments") or [],
+            "used_hooks": history.get("used_hooks") or [],
+            "used_style_prompts": history.get("used_style_prompts") or [],
+            "recent_global_themes": recent_global["themes"],
+            "recent_global_titles": recent_global["titles"],
+        }
+
+    def get_concept_history_dict(self, concept_playlist_id: int) -> dict:
+        """Return concept-playlist history plus recent channel-wide history."""
+        history = self.get_or_create_concept(concept_playlist_id)
         recent_global = self.get_recent_global_history()
         return {
             "used_themes": history.get("used_themes") or [],

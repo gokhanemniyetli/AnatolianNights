@@ -1,0 +1,48 @@
+{
+  "title": "Bozlak Türküleri",
+  "query": "Bozlak Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T02:15:12Z",
+  "summary": "Bozlak Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Bozlak Türküleri konseptine bağlı kalır.",
+    "Serbest uzun hava tavrı, geniş nefesli vokal ve içli anlatım öne çıkar."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "Bozlaklar: Türk Halk Müziğinin Haykıran Sesi - Evrim Ağacı",
+      "url": "https://evrimagaci.org/blog/bozlaklar-turk-halk-muziginin-haykiran-sesi-21312",
+      "snippet": "Bozlak , sadece bir müzik türü değil, aynı zamanda bir duruş, bir feryat ve bir ağıtın sanatıdır. Bu yazıda, bozlak türkülerinin ne olduğunu, kökenlerini, özelliklerini ve Türk kültüründeki yerini derinlemesine inceleyeceğiz."
+    },
+    {
+      "title": "Türk Halk Müziğindeki Bozlakların Ses Tekniği Açısından İncelenmesi",
+      "url": "https://polen.itu.edu.tr/items/119aca35-2ba3-4a58-8d83-9bbfed097011",
+      "snippet": "Bu icra esnasında duyulan triller, hançere teknikleri ve ağız ve dil ö zellikleri , hem ses tekniği hemde müzikal özellikleri açısından incelendiğinde bozlakları diğer uzun hava türlerinden ayıran en önemli özellikler olarak görülmektedir."
+    },
+    {
+      "title": "Bozlak - Vikipedi",
+      "url": "https://tr.wikipedia.org/wiki/Bozlak",
+      "snippet": "Ankara, Kırıkkale, Kırşehir, Yozgat ve Çorum gibi Orta Anadolu yörelerinde görülür. Usulsüz bir sözel türdür. Bu türü belirleyen ögelerden ilki, kürdi dizisi içerisinde seslendirme yapılmış olmasıdır."
+    },
+    {
+      "title": "Türk Halk Müziği | Yapısı, Türleri ve Kültürel Özellikleri",
+      "url": "https://www.tellimuzik.com/turk-halk-muzigi/",
+      "snippet": "Türk Halk Müziği hakkında temel bilgiler. Yapısı, türleri, yöresel ö zellikleri , enstrümanları ve geleneksel müzik kültürünün temel unsurlarını öğrenin."
+    },
+    {
+      "title": "Bozlak Nedir? - Türk Dili ve Edebiyatı",
+      "url": "https://www.turkedebiyati.org/bozlak-nedir/",
+      "snippet": "Bozlak , Türk halk müziğinde bir uzun hava türünün ve bir ayağın ortak adı. Bozlak kelimesi, \"feryat etmek, haykırmak\" anlamlarını taşır. Bozlak denen uzun havalar, Orta Anadolu'ya özgü sayılırsa da, Türkiye'nin birçok yerinde çeşitli uzun havalara da bu ad verilir."
+    }
+  ]
+}

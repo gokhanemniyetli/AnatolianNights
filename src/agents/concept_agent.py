@@ -184,6 +184,63 @@ Hikaye 1-2 kısa cümle olsun; birden fazla konuyu üst üste yığma. Ana, kın
                 return result
         return self._fallback_concept(city_name, generation_history, last_result)
 
+    def generate_for_playlist(
+        self,
+        playlist_title: str,
+        concept_profile: dict,
+        generation_history: dict,
+    ) -> dict:
+        """Generate a song concept for a non-city playlist concept."""
+        research = concept_profile.get("research", {})
+        style_profile = concept_profile.get("style_profile", {})
+        user_prompt = f"""
+PLAYLIST KONSEPTİ: {playlist_title}
+KONSEPT GRUBU: {concept_profile.get('group', '')}
+
+KAYITLI ARAŞTIRMA:
+{json.dumps(research, ensure_ascii=False, indent=2)}
+
+TARZ PROFİLİ:
+{json.dumps(style_profile, ensure_ascii=False, indent=2)}
+
+DAHA ÖNCE BU KONSEPTTE KULLANILANLAR (BUNLARI TEKRARLAMA):
+- Temalar: {generation_history.get('used_themes', [])}
+- Tempolar: {generation_history.get('used_tempos', [])}
+- Duygular: {generation_history.get('used_moods', [])}
+- Enstrümanlar: {generation_history.get('used_instruments', [])}
+- Başlıklar: {generation_history.get('used_titles', [])}
+
+KANAL GENELİNDE SON KULLANILANLAR (BUNLARI DA TEKRARLAMA):
+- Son temalar: {generation_history.get('recent_global_themes', [])}
+- Son başlıklar: {generation_history.get('recent_global_titles', [])}
+
+Bu playlist konsepti için YENİ ve FARKLI bir türkü konsepti oluştur.
+Şehir merkezli düşünme; ana bağlam playlist konsepti ve onun tavrı/atmosferi olsun.
+Her üretimde farklı bir insan hikayesi seç: gurbet, kavuşma, emek, düğün, yolculuk, aile, çocukluk, sitem, umut, vefa gibi.
+Kayıtlı araştırmadaki tavır, çalgı, ritim ve atmosfer notlarını kullan; ama kaynak metinleri kopyalama.
+Şarkı maksimum 4 dakika hedefiyle kısa türkü yapısına uygun olsun.
+Başlık 2-4 kelimelik doğal bir türkü adı olsun; playlist adını birebir başlık yapma.
+Başlıkta "duygu", "hikaye", "tema", "konu" gibi meta kelimeler kullanma.
+Hikaye 1-2 kısa cümle olsun; tek ana duyguya odaklan.
+"""
+        last_result: dict = {}
+        for attempt in range(3):
+            retry_note = ""
+            if attempt:
+                retry_note = (
+                    "\nÖNCEKİ DENEME REDDEDİLDİ: Başlık/tema generic veya tekrarlıydı. "
+                    "Playlist konseptine uygun ama daha özgün başlık, farklı hikaye ve net tarz seç.\n"
+                )
+            result = self.call(user_prompt + retry_note)
+            last_result = result
+            if self._is_valid_concept(result, generation_history):
+                result["playlist_concept"] = playlist_title
+                return result
+        fallback = self._fallback_concept(playlist_title, generation_history, last_result)
+        fallback["playlist_concept"] = playlist_title
+        fallback["story"] = fallback["story"].replace(f"{playlist_title} yöresinde", f"{playlist_title} konseptinde")
+        return fallback
+
     @staticmethod
     def _is_valid_concept(concept: dict, generation_history: dict | None = None) -> bool:
         title = str(concept.get("title") or "")

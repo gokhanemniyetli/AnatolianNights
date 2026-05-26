@@ -1,0 +1,48 @@
+{
+  "title": "Karadeniz Türküleri",
+  "query": "Karadeniz Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T01:16:22Z",
+  "summary": "Karadeniz Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Karadeniz Türküleri konseptine bağlı kalır.",
+    "Kemençe, hızlı kıvraklık, yayla/deniz/dağ imgeleri dengeli kullanılır."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "Halk Müziği - Doğu Karadeniz Kültür Envanteri Projesi",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fkaradeniz.gov.tr%2Fhalk%2Dmuzigi%2D7%2F&rut=d119ea8abac9dfe6558f9e124b7a6fd1c3dcd4b0abf38a3a4ac1f68eb1cf33a4",
+      "snippet": "Doğuda Trabzon ile batıda ise Ordu ile halk müziği icrasında ve çalınan ezgilerde ortak yönler gelişmiştir. Doğal coğrafi unsurlar halk müziğini etkilemiştir: Kıyı şeridi ve dağlık alanlar arasında farklılıklar görülür."
+    },
+    {
+      "title": "Karadeniz Bölgesi Halk Ezgilerinin Müzikal Yapılarına Yönelik Analiz ...",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fdergipark.org.tr%2Ftr%2Fdownload%2Farticle%2Dfile%2F253523&rut=8b23fa5c4fa934f6e5be5611753c666c4769bd13a864fa2efb7255c8a8a8f53c",
+      "snippet": "Türk Halk Müziğini zengin kılan en önemli özelliği, üslup ya da tavır özelliğidir. Türkünün sesleri kadar, onun söyleniş biçimini belirleyen bu özellikler de önemli rol oynamaktadır. İşte bu özellikler, yöre yöre değişen karakteristik özellikleri belirler."
+    },
+    {
+      "title": "PDF Karadeniz Halk Türkülerinde",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fasrjournal.org%2Ffiles%2Fasrjournal%2F586a1a31%2Dda51%2D46d3%2D8960%2D4fc9bbc6bedc.pdf&rut=a35cdc6cac08661d46aae753e6592844a6ca1cffc40536b241716a1fe7007d92",
+      "snippet": "Anadolu'da ki folklorik ve kültürel yapı mozaiği içerisinde, Karadeniz Bölgesi halk ezgilerinin son hecelerinin neden söylenmediği tespit edilerek ortaya konulmuştur. Bu araştırma sonucunda, Karadeniz Bölgesi"
+    },
+    {
+      "title": "Trt Repertuarında Yer Alan Doğu Karadeniz Yöresi Türkülerinin Folklorik ...",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fpolen.itu.edu.tr%2Fitems%2F4dc13fd3%2D7d54%2D4166%2Da81f%2Dbf1c0f7aa096&rut=eaa50f28b4b6c387d2e2ae97cd27492dcdff5bd7d1515227d5c8d7dca2d2dbf9",
+      "snippet": "Bu türküler söz unsuru açısından incelenmiş, bu inceleme esnasında da folklorik kelimeler ve bu kelimelerin yöresel söyleyiş özellikleri tespit edilmeye çalışılmıştır. Bunun yanında Osmanlıca sözcükler ve Anadolu'da yaygın olarak kullanılan bazı deyimlerle de karşılaşılmıştır."
+    },
+    {
+      "title": "Karadeniz türküleri nelerdir - Sorumatik",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fsorumatik.co%2Ft%2Fkaradeniz%2Dturkuleri%2Dnelerdir%2F450018&rut=b9140e60650401bb15664116f63b11bda613e067cfc6821687289681648887f4",
+      "snippet": "Karadeniz bölgesi, Türkiye'nin en zengin halk müziği repertuarlarından birine sahip olup, türküleri de kendine özgü ezgileri ve sözleriyle dikkat çeker. Karadeniz türküleri , genellikle hareketli ritimleri, özgün kemençe, tulum ve davul gibi enstrümanlarının kullanımıyla tanınır."
+    }
+  ]
+}

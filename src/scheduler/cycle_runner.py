@@ -18,12 +18,12 @@ class CycleRunner:
         self.dry_run = dry_run
         self.orchestrator = Orchestrator(dry_run=dry_run)
 
-    def run_cycle(self, city_slug: str | None = None) -> list[str]:
+    def run_cycle(self, city_slug: str | None = None, concept_slug: str | None = None) -> list[str]:
         """
         Run one cycle: generate up to K songs.
         Returns list of created song_ids.
         """
-        if self.k > settings.pipeline.max_daily_uploads:
+        if settings.pipeline.max_daily_uploads > 0 and self.k > settings.pipeline.max_daily_uploads:
             logger.warning(
                 "Requested k=%d exceeds max_daily_uploads=%d; limiting this cycle.",
                 self.k,
@@ -34,7 +34,7 @@ class CycleRunner:
         created = []
         for i in range(self.k):
             logger.info("Cycle: generating song %d/%d", i + 1, self.k)
-            song_id = self.orchestrator.run_one(city_slug=city_slug)
+            song_id = self.orchestrator.run_one(city_slug=city_slug, concept_slug=concept_slug)
             if song_id:
                 created.append(song_id)
             else:

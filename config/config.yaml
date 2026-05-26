@@ -2,8 +2,8 @@ pipeline:
   quality_threshold: 8.0
   max_lyric_retries: 3
   default_k: 1
-  max_daily_uploads: 10
-  publish_interval_minutes: 30
+  max_daily_uploads: 0
+  publish_interval_minutes: 60
   dry_run: false
 
 video:

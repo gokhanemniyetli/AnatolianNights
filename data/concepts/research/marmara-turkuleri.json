@@ -1,0 +1,48 @@
+{
+  "title": "Marmara Türküleri",
+  "query": "Marmara Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T02:00:09Z",
+  "summary": "Marmara Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Marmara Türküleri konseptine bağlı kalır.",
+    "Kemençe, hızlı kıvraklık, yayla/deniz/dağ imgeleri dengeli kullanılır."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "Türk Halk Müziği | Yapısı, Türleri ve Kültürel Özellikleri",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.tellimuzik.com%2Fturk%2Dhalk%2Dmuzigi%2F&rut=01f5afa3cd98742d41d513622a7e6664d11c7eec339399f76b7df89aa8594711",
+      "snippet": "Türk Halk Müziği hakkında temel bilgiler. Yapısı, türleri, yöresel ö zellikleri , enstrümanları ve geleneksel müzik kültürünün temel unsurlarını öğrenin."
+    },
+    {
+      "title": "Türk Halk Müziğinde Yöresel Tavır, İcra Özellikleri ve Sanatçı Etkisi",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.gazeteankara.com.tr%2Fwriters%2Fmurat%2Dkarabulut%2Fturk%2Dhalk%2Dmuziginde%2Dyoresel%2Dtavir%2Dicra%2Dozellikleri%2Dve%2Dsanatci%2Detkisi%2D4706&rut=e712599c6cba3db2953c944483fdbb33815848412e260ac3330c092e06cc0605",
+      "snippet": "Bu müzik, sadece melodilerden ve sözlerden ibaret olmayıp, her bölgenin tarihini, coğrafyasını ve toplumsal yaşam biçimini yansıtan yöresel tavırlar ve icra üslupları bütünüdür."
+    },
+    {
+      "title": "Marmara Üniversitesi-Fakülte>SubContent",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fllp.marmara.edu.tr%2FDers%2Fturk%2Dhalk%2Dmuzigi%2Ftde4109%2D68043%2D1858&rut=73fa8a81a1fba2d2a4ae49e8fc5f2d231f6631410cf9597200522a241d549650",
+      "snippet": "Öğrenciye halk müziğinin kültür içerisindeki önemini kavratmak, halk müziği terminolojisi, türleri ve işlevleri ile ilgili genel bilgileri öğretmek"
+    },
+    {
+      "title": "PDF ÖZELL İ KLER İ BAKIMINDAN İ NCELENM - omu.edu.tr",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Favys.omu.edu.tr%2Fstorage%2Fapp%2Fpublic%2Fsavas.ozturk%2F133312%2Foyun%2Dmzik%2DTrkerEROLU.pdf&rut=5f67b499f6c38c3a639bb0a9a7b7d21c3e171161aad60364353dccedbf9fc243",
+      "snippet": "Araştırmanın amacı, Türk halk müziği konusunda çalışma yapan her seviyedeki araştırı-cıya kaynak teşkil edebilecek nitelikte Türkiye'ki Türk halk müziğinin coğrafî bölgelere göre dağılımını temel özellikleri bakımından incelemektir."
+    },
+    {
+      "title": "Türk Halk Müziği nedir? Türk Halk Müziği türleri, çalgıları ...",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.hurriyet.com.tr%2Fegitim%2Fturk%2Dhalk%2Dmuzigi%2Dnedir%2Dturk%2Dhalk%2Dmuzigi%2Dturleri%2Dcalgilari%2Dsanatcilari%2Dve%2Dornek%2Dturku%2Dsozleri%2D41623062&rut=d7c3b1bf095d813d82d6ebdf7d5e30a372d8c02569d24aaee1b684389faf4a0c",
+      "snippet": "Anadolu, Karadeniz, Balkan yörelerinin kendine özgü türküleri ve dansları vardır. Türk Halk Müziğinin türleri, çalgıları nedir, örnek türkü sözleriyle birlikte derledik."
+    }
+  ]
+}

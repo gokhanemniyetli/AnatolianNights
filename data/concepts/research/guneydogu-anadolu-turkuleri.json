@@ -1,0 +1,48 @@
+{
+  "title": "Güneydoğu Anadolu Türküleri",
+  "query": "Güneydoğu Anadolu Türküleri Türk halk müziği özellikleri yöre tavır enstrüman",
+  "researched_at": "2026-05-26T00:59:28Z",
+  "summary": "Güneydoğu Anadolu Türküleri konsepti için kayıtlı web araştırması; yöre/tavır, duygu, ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır.",
+  "style_notes": [
+    "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
+    "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
+    "Ana playlist kimliği açıkça Güneydoğu Anadolu Türküleri konseptine bağlı kalır.",
+    "Toplu oyun enerjisi, davul-zurna hissi ve ritmik canlılık korunur."
+  ],
+  "story_angles": [
+    "gurbetten eve dönme isteği",
+    "kavuşamayan iki sevenin bekleyişi",
+    "aile sofrası ve emek",
+    "yolculukta hatırlanan eski söz",
+    "köyden kente taşınan bir hatıra",
+    "düğün, kına veya bayram telaşı",
+    "ustaya, toprağa veya geçmişe vefa"
+  ],
+  "sources": [
+    {
+      "title": "Güneydoğu Anadolu Bölgesi Türküleri",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.turkusozleri.com%2Fturku%2Darsivi%2Fguneydogu%2Danadolu%2Dbolgesi%2Dturkuleri%2F&rut=d6650e5d786c886b549b36e91d2fca325f056b8c035daff08290b5f2662821b3",
+      "snippet": "Güneydoğu Anadolu Bölgesi Türküleri Ö zellikleri . Genel özellikler şöyledir: • Bu bölgede halay türü oyun ve müzikler oldukça yaygındır. Bu nedenle türkülerde hareketlilik yüksektir. • Barak ağzı bu bölgede yaygındır. Ek olarak maya ve peşrev icra geleneği bu bölgede izlerini canlı tutmaktadır."
+    },
+    {
+      "title": "Güneydoğu Anadolu Bölgesi'nin halk müziği ve yöresi nedir?",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fyandex.com.tr%2Fyacevap%2Fc%2Fkultur%2Dve%2Dsanat%2Fq%2Fguneydogu%2Danadolu%2Dbolgesi%2Dnin%2Dhalk%2Dmuzigi%2Dve%2Dyoresi%2Dnedir%2D2150188441&rut=ab558fbb604566da6c1d55431857ebfc013a3e1cf9840104a467951324cf2e18",
+      "snippet": "Konuyla ilgili materyaller Güneydoğu bölgesinde hangi halk oyunları ve türküler vardır? Güneydoğu bölgesinde yaygın olarak oynanan halk oyunları arasında halay ve çevrimsel oyunlar bulunur. Bazı türküler: \"Aktaş Diye Belediğim\"."
+    },
+    {
+      "title": "Türk Halk Müziği İçerik | Anadolu Üniversitesi",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fwww.anadolu.edu.tr%2Fakademik%2Ffakulteler%2Fders%2F238865%2Fturk%2Dhalk%2Dmuzigi%2Fders%2Dicerik&rut=6abd1a2f02880c98778034468b256bd638c481e911fc45d4863ddd3eb2d84c47",
+      "snippet": "TÜRK HALK MÜZ İĞİ Anasayfa Akademik Fakülteler Edebiyat Fakültesi Sanat Tarihi Bölümü Dersler - AKTS Kredileri Türk Halk Müziği İçerik Geri Dön"
+    },
+    {
+      "title": "Güneydoğu Anadolu Bölgesi Halk Oyunları ve Müzik Kültürü",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Fprezi.com%2Fp%2Fzlfzmrliergg%2Fguneydogu%2Danadolu%2Dbolgesi%2Dhalk%2Doyunlar%2Dve%2Dmuzik%2Dkulturu%2F&rut=0db95167b196bdc3d1fd4642e69ed1dbb86a79d1f0a50c579221ca2a1109a59f",
+      "snippet": "Güneydoğu Anadolu Bölgesi'nde öne çıkan halk oyunları sanatçıları, onların biyografileri ve kullanılan müzik aletleri ile yöresel müziklerin derinlemesine incelenmesi."
+    },
+    {
+      "title": "Anadolu Türk Müziği Uygulama ve Araştırma Merkezi",
+      "url": "//duckduckgo.com/l/?uddg=https%3A%2F%2Farasuygmer.ahievran.edu.tr%2Fatmuam%2Fsayfa%2FMuzikKulturu%2Ftr%2F848&rut=18eccf1bb5d0d0d5b0cc871ee24cf8104032076aa814805c97f77488e1778f35",
+      "snippet": "Türklerde müzik, Orta Asya'dan Anadolu'ya kadar yaşanılan süreçte, tarihi ve sosyal değişimle büyümüş ve gelişmiştir. Diğer Türk topluluklarında olduğu gibi dinsel ve büyüsel törenlerde vurmalı çalgılar kullanılmış ve müzik önemli bir boyut kazanmıştır."
+    }
+  ]
+}

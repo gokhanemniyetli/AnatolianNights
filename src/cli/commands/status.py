@@ -8,7 +8,7 @@ from rich.table import Table
 from rich import box
 
 from src.storage.database import get_session
-from src.storage.models import Song, City, SongStatus
+from src.storage.models import Song, City, ConceptPlaylist, SongStatus
 
 console = Console()
 
@@ -26,8 +26,9 @@ def list_songs(filter_status: str | None, city: str | None, limit: int):
     """List songs with their current pipeline status."""
     with get_session() as session:
         query = (
-            session.query(Song, City)
+            session.query(Song, City, ConceptPlaylist)
             .join(City, Song.city_id == City.id)
+            .outerjoin(ConceptPlaylist, Song.concept_playlist_id == ConceptPlaylist.id)
         )
 
         if filter_status:
@@ -43,7 +44,7 @@ def list_songs(filter_status: str | None, city: str | None, limit: int):
             show_lines=False,
         )
         table.add_column("ID", style="dim", max_width=10)
-        table.add_column("City", style="cyan")
+        table.add_column("Context", style="cyan")
         table.add_column("Title", max_width=40)
         table.add_column("Status", style="bold")
         table.add_column("Score")
@@ -64,11 +65,12 @@ def list_songs(filter_status: str | None, city: str | None, limit: int):
             "uploaded": "bright_green",
         }
 
-        for song, song_city in rows:
+        for song, song_city, concept_playlist in rows:
             color = STATUS_COLORS.get(song.status, "white")
+            context_name = concept_playlist.title if concept_playlist else song_city.name
             table.add_row(
                 str(song.id)[:8] + "…",
-                song_city.name,
+                context_name,
                 (song.title or "—")[:40],
                 f"[{color}]{song.status}[/]",
                 f"{song.quality_score:.1f}" if song.quality_score else "—",

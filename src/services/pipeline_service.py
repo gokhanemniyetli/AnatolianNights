@@ -19,11 +19,12 @@ from src.agents import (
 from src.config.settings import settings
 from src.image import ImageGenerator
 from src.services.city_service import CityService
+from src.services.concept_playlist_service import ConceptPlaylistService
 from src.services.history_service import HistoryService
 from src.services.song_service import SongService
 from src.storage.database import get_session
 from src.storage.file_storage import file_storage
-from src.storage.models import Song, SongStatus
+from src.storage.models import ConceptPlaylist, Song, SongStatus
 from src.video import (
     LongVideoRenderer,
     ShortRenderer,
@@ -58,6 +59,7 @@ class PipelineService:
         with get_session() as session:
             song_svc = SongService(session)
             city_svc = CityService(session)
+            concept_playlist_svc = ConceptPlaylistService(session)
             history_svc = HistoryService(session)
 
             song = song_svc.get_by_id(song_id)
@@ -66,15 +68,29 @@ class PipelineService:
 
             city = city_svc.get_by_id(song.city_id)
             cultural_profile = city_svc.load_cultural_profile(city.slug)
+            concept_playlist = song.concept_playlist
+            concept_profile = (
+                concept_playlist_svc.build_profile(concept_playlist)
+                if concept_playlist
+                else None
+            )
 
             # Run stages in sequence until we hit a blocking point
             while True:
                 status = song.status
                 if status == SongStatus.PENDING:
-                    song = self._stage_concept(song, song_svc, history_svc, city, cultural_profile)
+                    song = self._stage_concept(
+                        song,
+                        song_svc,
+                        history_svc,
+                        city,
+                        cultural_profile,
+                        concept_playlist,
+                        concept_profile,
+                    )
                     session.commit()
                 elif status == SongStatus.CONCEPT_READY:
-                    song = self._stage_suno_prompt(song, song_svc, cultural_profile)
+                    song = self._stage_suno_prompt(song, song_svc, cultural_profile, concept_profile)
                     session.commit()
                 elif status == SongStatus.QUALITY_REJECTED:
                     if (song.lyric_attempt or 0) >= settings.pipeline.max_lyric_retries:
@@ -82,14 +98,14 @@ class PipelineService:
                         session.commit()
                         break
                     song_svc.reset_for_retry(song)
-                    song = self._stage_suno_prompt(song, song_svc, cultural_profile)
+                    song = self._stage_suno_prompt(song, song_svc, cultural_profile, concept_profile)
                     session.commit()
                 elif status == SongStatus.LYRICS_READY:
-                    song = self._stage_suno_prompt(song, song_svc, cultural_profile)
+                    song = self._stage_suno_prompt(song, song_svc, cultural_profile, concept_profile)
                     session.commit()
                 elif status == SongStatus.QUALITY_APPROVED:
                     # QUALITY_APPROVED is set when lyrics pass; advance to SUNO_READY
-                    song = self._stage_suno_prompt(song, song_svc, cultural_profile)
+                    song = self._stage_suno_prompt(song, song_svc, cultural_profile, concept_profile)
                     session.commit()
                 elif status == SongStatus.SUNO_READY:
                     if settings.suno.client.lower() == "browser":
@@ -100,14 +116,14 @@ class PipelineService:
                         logger.info("Song %s is SUNO_READY. Waiting for audio import.", song.id)
                         break
                 elif status == SongStatus.AUDIO_IMPORTED:
-                    song = self._stage_image(song, song_svc, city, cultural_profile)
+                    song = self._stage_image(song, song_svc, city, cultural_profile, concept_playlist, concept_profile)
                     session.commit()
                 elif status == SongStatus.IMAGE_READY:
                     song = self._stage_video(song, song_svc)
                     session.commit()
                 elif status == SongStatus.VIDEO_READY:
                     if not self.dry_run:
-                        song = self._stage_upload(song, song_svc, session, city)
+                        song = self._stage_upload(song, song_svc, session, city, concept_playlist)
                         session.commit()
                     else:
                         logger.info("[DRY-RUN] Skipping upload for song %s", song.id)
@@ -120,19 +136,47 @@ class PipelineService:
 
     # ── Stages ────────────────────────────────────────────────────────
 
-    def _stage_concept(self, song, song_svc, history_svc, city, cultural_profile):
+    def _stage_concept(
+        self,
+        song,
+        song_svc,
+        history_svc,
+        city,
+        cultural_profile,
+        concept_playlist,
+        concept_profile,
+    ):
         logger.info("[%s] Stage: concept", song.id)
-        history_dict = history_svc.get_history_dict(city.id)
-        concept = self._concept_agent.generate(city.name, cultural_profile, history_dict)
+        if concept_playlist and concept_profile:
+            history_dict = history_svc.get_concept_history_dict(concept_playlist.id)
+            concept = self._concept_agent.generate_for_playlist(
+                concept_playlist.title,
+                concept_profile,
+                history_dict,
+            )
+        else:
+            history_dict = history_svc.get_history_dict(city.id)
+            concept = self._concept_agent.generate(city.name, cultural_profile, history_dict)
         song.set_concept(concept)
         song.title = concept.get("title", "")
-        history_svc.record_song(city.id, concept, self._concept_history_hooks(concept, cultural_profile))
+        file_storage.write_concept(self._get_context_slug(song), song.id, concept)
+        if concept_playlist:
+            history_svc.record_concept_song(
+                concept_playlist.id,
+                concept,
+                self._concept_history_hooks(concept, concept_profile or {}),
+            )
+        else:
+            history_svc.record_song(city.id, concept, self._concept_history_hooks(concept, cultural_profile))
         return song_svc.advance(song)  # → CONCEPT_READY
 
-    def _stage_suno_prompt(self, song, song_svc, cultural_profile):
+    def _stage_suno_prompt(self, song, song_svc, cultural_profile, concept_profile=None):
         logger.info("[%s] Stage: suno_prompt", song.id)
         concept = song.get_concept()
-        result = self._suno_prompt_agent.generate(concept, cultural_profile)
+        if concept_profile:
+            result = self._suno_prompt_agent.generate_for_playlist(concept, concept_profile)
+        else:
+            result = self._suno_prompt_agent.generate(concept, cultural_profile)
         simple_prompt = (
             result.get("simple_prompt")
             or result.get("style_prompt")
@@ -155,7 +199,7 @@ class PipelineService:
         task_id = suno_client.generate(song.suno_style_prompt, song.suno_lyrics, song.id)
         song.suno_task_id = str(task_id) if task_id else None
 
-        file_storage.write_suno_prompt(city_slug=self._get_city_slug(song), song_id=song.id,
+        file_storage.write_suno_prompt(city_slug=self._get_context_slug(song), song_id=song.id,
                                        style_prompt=song.suno_style_prompt,
                                        suno_lyrics=song.suno_lyrics)
         song.status = SongStatus.SUNO_READY
@@ -168,7 +212,7 @@ class PipelineService:
         if not song.suno_task_id:
             raise ValueError(f"Song {song.id} is SUNO_READY but has no suno_task_id.")
 
-        city_slug = city.slug
+        city_slug = self._get_context_slug(song)
         suno_client = get_suno_client()
         audio_dest = file_storage.audio_path(city_slug, song.id)  # returns .wav path
         downloaded = suno_client.download_audio(song.suno_task_id, audio_dest)
@@ -183,7 +227,7 @@ class PipelineService:
         if suno_lyrics:
             song.suno_lyrics = suno_lyrics
             song.lyrics = suno_lyrics
-            file_storage.write_lyrics(city.slug, song.id, suno_lyrics)
+            file_storage.write_lyrics(city_slug, song.id, suno_lyrics)
 
         song.audio_path = str(file_storage.rel(downloaded))
         song.status = SongStatus.AUDIO_IMPORTED
@@ -191,17 +235,25 @@ class PipelineService:
         logger.info("[%s] Audio indirme tamam: %s", song.id, downloaded)
         return song
 
-    def _stage_image(self, song, song_svc, city, cultural_profile):
+    def _stage_image(self, song, song_svc, city, cultural_profile, concept_playlist=None, concept_profile=None):
         logger.info("[%s] Stage: image", song.id)
         concept = song.get_concept()
-        ip_result = self._image_prompt_agent.generate(concept, city.name, cultural_profile)
+        if concept_playlist and concept_profile:
+            ip_result = self._image_prompt_agent.generate_for_playlist(
+                concept,
+                concept_playlist.title,
+                concept_profile,
+            )
+        else:
+            ip_result = self._image_prompt_agent.generate(concept, city.name, cultural_profile)
         image_prompt = ip_result.get("image_prompt", "")
         negative_prompt = ip_result.get("negative_prompt", "text, watermark, faces")
 
         song.image_prompt = image_prompt
-        file_storage.write_image_prompt(city.slug, song.id, image_prompt)
+        context_slug = self._get_context_slug(song)
+        file_storage.write_image_prompt(context_slug, song.id, image_prompt)
 
-        bg_path = file_storage.background_path(city.slug, song.id)
+        bg_path = file_storage.background_path(context_slug, song.id)
         self._image_generator.generate(image_prompt, negative_prompt, bg_path)
         song.background_image_path = str(file_storage.rel(bg_path))
 
@@ -209,7 +261,7 @@ class PipelineService:
             f"{image_prompt} Vertical 9:16 composition for a YouTube Short, "
             "strong central landscape subject, no stretching, no people, no instruments."
         )
-        short_bg_path = file_storage.short_background_path(city.slug, song.id)
+        short_bg_path = file_storage.short_background_path(context_slug, song.id)
         self._image_generator.generate(
             short_prompt,
             negative_prompt,
@@ -224,7 +276,7 @@ class PipelineService:
 
     def _stage_video(self, song, song_svc):
         logger.info("[%s] Stage: video", song.id)
-        city_slug = self._get_city_slug(song)
+        city_slug = self._get_context_slug(song)
         audio_path = file_storage.audio_path(city_slug, song.id)
         bg_path = file_storage.background_path(city_slug, song.id)
         short_bg_path = file_storage.short_background_path(city_slug, song.id)
@@ -249,7 +301,7 @@ class PipelineService:
         song.subtitles_path = str(file_storage.rel(srt_path))
 
         # Thumbnail
-        self._thumbnail_renderer.render(bg_path, song.title or "", self._get_city_name(song), thumb_path)
+        self._thumbnail_renderer.render(bg_path, song.title or "", self._get_context_name(song), thumb_path)
         song.thumbnail_path = str(file_storage.rel(thumb_path))
 
         # Long video
@@ -259,7 +311,7 @@ class PipelineService:
             srt_path,
             long_path,
             title=song.title or "",
-            city_name=self._get_city_name(song),
+            city_name=self._get_context_name(song),
         )
         song.long_video_path = str(file_storage.rel(long_path))
 
@@ -270,7 +322,7 @@ class PipelineService:
             srt_path,
             short_path,
             title=song.title or "",
-            city_name=self._get_city_name(song),
+            city_name=self._get_context_name(song),
         )
         song.short_video_path = str(file_storage.rel(short_path))
 
@@ -280,7 +332,7 @@ class PipelineService:
         concept = song.get_concept() or {}
         parts = [
             song.title or "Anadolu Türküleri Ezgileri",
-            self._get_city_name(song),
+            self._get_context_name(song),
             concept.get("theme") or "",
             concept.get("story") or "",
             concept.get("mood") or "",
@@ -304,7 +356,7 @@ class PipelineService:
             if line.strip() and not line.strip().startswith("[")
         ]
 
-    def _stage_upload(self, song, song_svc, session, city):
+    def _stage_upload(self, song, song_svc, session, city, concept_playlist=None):
         logger.info("[%s] Stage: upload", song.id)
 
         yt = YouTubeClient(
@@ -314,9 +366,17 @@ class PipelineService:
 
         meta_agent = MetadataAgent()
         concept = song.get_concept()
-        meta = meta_agent.generate(song.title or "", city.name, concept, song.lyrics)
+        if concept_playlist:
+            meta = meta_agent.generate_for_playlist(
+                song.title or "",
+                concept_playlist.title,
+                concept,
+                song.lyrics,
+            )
+        else:
+            meta = meta_agent.generate(song.title or "", city.name, concept, song.lyrics)
         song.set_youtube_metadata(meta)
-        file_storage.write_youtube_metadata(city.slug, song.id, meta)
+        file_storage.write_youtube_metadata(self._get_context_slug(song), song.id, meta)
 
         long_path = Path("outputs") / song.long_video_path if song.long_video_path else None
         short_path = Path("outputs") / song.short_video_path if song.short_video_path else None
@@ -336,14 +396,23 @@ class PipelineService:
 
         # Upload long video
         if long_path and long_path.exists() and not song.youtube_long_video_id:
-            playlist_id = self._ensure_city_playlist(yt, city)
+            playlist_id = (
+                self._ensure_concept_playlist(yt, concept_playlist)
+                if concept_playlist
+                else self._ensure_city_playlist(yt, city)
+            )
+            playlist_title = (
+                self._concept_playlist_title(concept_playlist)
+                if concept_playlist
+                else self._city_playlist_title(city)
+            )
             studio = YouTubeStudioUploader()
             vid_id = studio.upload_video(
                 video_path=long_path,
                 title=meta.get("title", song.title or ""),
                 description=meta.get("description", ""),
                 thumbnail_path=thumb_path,
-                playlist_title=self._city_playlist_title(city),
+                playlist_title=playlist_title,
             )
             song.youtube_long_video_id = vid_id
             self._verify_uploaded_channel(yt, vid_id)
@@ -446,6 +515,39 @@ class PipelineService:
         city.playlist_id = playlist_id
         return playlist_id
 
+    def _ensure_concept_playlist(self, yt: YouTubeClient, concept_playlist: ConceptPlaylist) -> str | None:
+        if concept_playlist.playlist_id:
+            return concept_playlist.playlist_id
+
+        title = self._concept_playlist_title(concept_playlist)
+        description = f"{concept_playlist.title} konseptinde üretilen Anadolu türküleri."
+        try:
+            playlist_id = yt.ensure_playlist(title, description)
+        except HttpError as exc:
+            if not self._is_youtube_quota_error(exc):
+                raise
+            logger.warning("Playlist API quota/rate limit reached; creating concept playlist via YouTube Studio web UI.")
+            YouTubeStudioUploader().create_playlist(
+                title=title,
+                description=description,
+                language="Turkish",
+            )
+            try:
+                playlist_id = yt.find_playlist_by_title(title)
+            except HttpError as lookup_exc:
+                logger.warning(
+                    "Playlist was created in Studio, but API lookup failed; upload will select it by title in Studio: %s",
+                    lookup_exc,
+                )
+                playlist_id = None
+
+        if not playlist_id:
+            logger.warning("Playlist id is unavailable for '%s'; continuing with Studio playlist title selection.", title)
+            return None
+
+        concept_playlist.playlist_id = playlist_id
+        return playlist_id
+
     @staticmethod
     def _is_youtube_quota_error(exc: HttpError) -> bool:
         status = getattr(getattr(exc, "resp", None), "status", None)
@@ -462,6 +564,10 @@ class PipelineService:
         return f"{city.name} Türküleri | Anadolu Türküleri Ezgileri"
 
     @staticmethod
+    def _concept_playlist_title(concept_playlist: ConceptPlaylist) -> str:
+        return f"{concept_playlist.title} | Anadolu Türküleri Ezgileri"
+
+    @staticmethod
     def _concept_history_hooks(concept: dict, cultural_profile: dict) -> list[str]:
         hooks: list[str] = []
         for key in ("theme", "story", "season", "narrator"):
@@ -472,14 +578,22 @@ class PipelineService:
             hooks.append(str(place))
         return hooks
 
-    def _get_city_slug(self, song: Song) -> str:
+    def _get_context_slug(self, song: Song) -> str:
         with get_session() as s:
-            from src.storage.models import City
+            from src.storage.models import City, ConceptPlaylist
+            if song.concept_playlist_id:
+                concept_playlist = s.get(ConceptPlaylist, song.concept_playlist_id)
+                if concept_playlist:
+                    return concept_playlist.slug
             city = s.get(City, song.city_id)
             return city.slug if city else "unknown"
 
-    def _get_city_name(self, song: Song) -> str:
+    def _get_context_name(self, song: Song) -> str:
         with get_session() as s:
-            from src.storage.models import City
+            from src.storage.models import City, ConceptPlaylist
+            if song.concept_playlist_id:
+                concept_playlist = s.get(ConceptPlaylist, song.concept_playlist_id)
+                if concept_playlist:
+                    return concept_playlist.title
             city = s.get(City, song.city_id)
             return city.name if city else ""
