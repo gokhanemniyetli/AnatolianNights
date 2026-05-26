@@ -23,20 +23,25 @@ class LyricAgent(BaseAgent):
     def generate(self, concept: dict, city_name: str, cultural_profile: dict) -> dict:
         """
         Returns dict with keys: lyrics, first_line, chorus_line, keywords
+        For instrumental tracks, returns empty lyrics.
         """
-        user_prompt = f"""
-Şehir: {city_name}
+        track_type = concept.get("track_type", "instrumental")
 
-ŞARKI KONSEPTİ:
+        # Instrumental tracks need no lyrics
+        if track_type == "instrumental":
+            return {
+                "lyrics": "",
+                "first_line": "",
+                "chorus_line": "",
+                "keywords": concept.get("instruments", []),
+            }
+
+        user_prompt = f"""
+TRACK CONCEPT:
 {json.dumps(concept, ensure_ascii=False, indent=2)}
 
-YÖRESEL KISITLAMALAR:
-- Kullan: {cultural_profile.get('instruments', {}).get('primary', [])}
-- Kaçın: {cultural_profile.get('instruments', {}).get('avoid', [])}
-- Yasak stiller: {cultural_profile.get('lyric_style', {}).get('forbidden_styles', [])}
-- Yasak kelimeler: {cultural_profile.get('lyric_style', {}).get('forbidden_words', [])}
-- Dil notu: {cultural_profile.get('lyric_style', {}).get('language_notes', '')}
-
-Bu konsepte uygun, doğal Türkçe, kaliteli türkü sözleri yaz.
+Track type: {track_type}
+{'Write 4-8 minimal atmospheric lines. No verse/chorus structure needed. Dreamy and almost wordless.' if track_type == 'ambient_vocal' else 'Write 2 short verses (3-4 lines each) + 1 short chorus (2-3 lines). Minimal, poetic, atmospheric.'}
+Language: Turkish preferred for authentic Anatolian texture, or English if the concept calls for it.
 """
         return self.call(user_prompt)

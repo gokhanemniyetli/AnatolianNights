@@ -1,5 +1,5 @@
 """
-HookOverlayRenderer — cinematic folk-title overlays for long videos and Shorts.
+HookOverlayRenderer — cinematic dark/neon title overlays for Anatolian Nights videos.
 """
 
 from __future__ import annotations
@@ -11,8 +11,9 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 class HookOverlayRenderer:
-    GOLD = (224, 184, 86, 255)
-    IVORY = (232, 226, 210, 255)
+    CYAN = (180, 220, 255, 255)   # soft neon blue-white for title
+    TAG = (100, 175, 220, 200)    # muted teal for channel tag
+    CHANNEL_NAME = "ANATOLIAN NIGHTS"
 
     def render_long(self, city_name: str, title: str, output_path: Path) -> Path:
         return self._render(
@@ -84,10 +85,11 @@ class HookOverlayRenderer:
             bbox = draw.textbbox((x, y), line, font=font, stroke_width=3)
             y = bbox[3] + line_gap
 
-        region = f"{self._tr_upper(city_name)} YÖRESİ"
-        region_font = self._font(region_size, "wide")
-        draw.text((x + 4, y + 28), region, fill=self.GOLD, font=region_font)
-        self._draw_ornament(draw, x + 6, y + 88, width=260 if size[0] <= 1080 else 310)
+        # Thin neon separator line
+        draw.line((x + 4, y + 22, x + 220, y + 22), fill=self.TAG, width=1)
+        # Channel tag
+        tag_font = self._font(region_size, "wide")
+        draw.text((x + 4, y + 34), self.CHANNEL_NAME, fill=self.TAG, font=tag_font)
 
         image.save(output_path, "PNG")
         return output_path
@@ -135,24 +137,12 @@ class HookOverlayRenderer:
     ) -> None:
         x, y = pos
         draw.text((x + 5, y + 6), text, fill=(0, 0, 0, 190), font=font, stroke_width=4, stroke_fill=(0, 0, 0, 190))
-        draw.text((x, y), text, fill=cls.IVORY, font=font, stroke_width=3, stroke_fill=(45, 41, 34, 230))
-
-    @classmethod
-    def _draw_ornament(cls, draw: ImageDraw.ImageDraw, x: int, y: int, width: int) -> None:
-        color = cls.GOLD
-        mid = x + width // 2
-        draw.line((x, y, mid - 32, y), fill=color, width=2)
-        draw.line((mid + 32, y, x + width, y), fill=color, width=2)
-        draw.ellipse((mid - 7, y - 7, mid + 7, y + 7), outline=color, width=2)
-        draw.line((mid - 22, y - 10, mid - 10, y), fill=color, width=2)
-        draw.line((mid - 22, y + 10, mid - 10, y), fill=color, width=2)
-        draw.line((mid + 10, y, mid + 22, y - 10), fill=color, width=2)
-        draw.line((mid + 10, y, mid + 22, y + 10), fill=color, width=2)
+        draw.text((x, y), text, fill=cls.CYAN, font=font, stroke_width=3, stroke_fill=(5, 12, 30, 230))
 
     @staticmethod
     def _title_lines(title: str, width: int, max_lines: int) -> list[str]:
-        words = HookOverlayRenderer._tr_upper(title.strip()).split()[:4]
-        return textwrap.wrap(" ".join(words), width=width)[:max_lines] or ["TURKU"]
+        words = (title.strip()).upper().split()[:4]
+        return textwrap.wrap(" ".join(words), width=width)[:max_lines] or ["NIGHT"]
 
     @classmethod
     def _fit_font(
@@ -192,4 +182,4 @@ class HookOverlayRenderer:
 
     @staticmethod
     def _tr_upper(text: str) -> str:
-        return text.translate(str.maketrans({"i": "İ", "ı": "I"})).upper()
+        return text.upper()

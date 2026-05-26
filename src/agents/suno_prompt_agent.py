@@ -1,8 +1,54 @@
-"""SunoPromptAgent — builds one deterministic simple-mode Suno description."""
+"""SunoPromptAgent — builds an atmospheric Suno simple-mode prompt for Anatolian Nights."""
 
-import re
+import json
+from pathlib import Path
 
-_FORBIDDEN_STYLE_TERMS = (
+from src.agents.base_agent import BaseAgent
+from src.config.models_config import get_model
+
+_PROMPT_PATH = Path(__file__).parent.parent.parent / "prompts" / "suno_style.txt"
+_SYSTEM_PROMPT = _PROMPT_PATH.read_text(encoding="utf-8")
+
+
+class SunoPromptAgent(BaseAgent):
+    def __init__(self):
+        super().__init__(
+            task="suno_prompt",
+            model=get_model("suno_prompt"),
+            system_prompt=_SYSTEM_PROMPT,
+        )
+
+    def generate(self, concept: dict, cultural_profile: dict) -> dict:
+        """
+        Returns dict with key: simple_prompt (str)
+        Builds the Suno prompt from the LLM using the concept.
+        """
+        return self._build_prompt(concept, concept_profile=None)
+
+    def generate_for_playlist(self, concept: dict, concept_profile: dict) -> dict:
+        """Build a Suno simple-mode prompt for a playlist concept."""
+        return self._build_prompt(concept, concept_profile=concept_profile)
+
+    def _build_prompt(self, concept: dict, concept_profile: dict | None) -> dict:
+        style_profile = {}
+        if concept_profile:
+            style_profile = concept_profile.get("style_profile", {}) or {}
+
+        user_prompt = f"""
+TRACK CONCEPT:
+{json.dumps(concept, ensure_ascii=False, indent=2)}
+
+STYLE PROFILE:
+{json.dumps(style_profile, ensure_ascii=False, indent=2)}
+
+Write a single English Suno simple-mode prompt paragraph for this atmospheric Anatolian Nights track.
+The track_type is: {concept.get('track_type', 'instrumental')}
+{'No vocals — this is fully instrumental.' if concept.get('track_type') == 'instrumental' else ''}
+{'Dreamy ambient vocals, heavily reverbed, minimal.' if concept.get('track_type') == 'ambient_vocal' else ''}
+{'Soft atmospheric vocals with minimal lyrics.' if concept.get('track_type') == 'lyrical' else ''}
+"""
+        return self.call(user_prompt)
+
     "german",
     "rap",
     "pop",

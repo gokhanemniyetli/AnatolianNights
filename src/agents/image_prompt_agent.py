@@ -1,9 +1,7 @@
 """
-ImagePromptAgent — generates a detailed SDXL image generation prompt
-for the song's background visual.
+ImagePromptAgent — generates a cinematic atmospheric image prompt for Anatolian Nights.
 """
 
-import json
 from pathlib import Path
 
 from src.agents.base_agent import BaseAgent
@@ -24,97 +22,54 @@ class ImagePromptAgent(BaseAgent):
     def generate(self, concept: dict, city_name: str, cultural_profile: dict) -> dict:
         """
         Returns dict with keys: image_prompt (str), negative_prompt (str), style_tags (list)
+        City-based generate delegates to the playlist method.
         """
-        visual = cultural_profile.get("visual_atmosphere", {})
-        user_prompt = f"""
-SONG:
-- City: {city_name}
-- Theme: {concept.get('theme', '')}
-- Mood: {concept.get('mood', '')}
-- Season: {concept.get('season', '')}
-- Story: {concept.get('story', '')}
-
-VISUAL ATMOSPHERE FROM CULTURAL PROFILE:
-- Colors: {visual.get('colors', [])}
-- Landscape: {visual.get('landscape', '')}
-- Season suggestions: {visual.get('season_suggestions', [])}
-- Lighting: {visual.get('lighting', '')}
-
-Generate a 1920x1080 landscape background image prompt for this Turkish folk song.
-Use only scenery, landmarks, architecture, weather, water, terrain, animals, and regional atmosphere.
-Do not include people, human figures, musicians, faces, hands, bodies, silhouettes, or musical instruments.
-The first sentence must mention the main regional landscape/place and the season or weather.
-No text in image.
-"""
-        result = self.call(user_prompt)
-
-        # SDXL's CLIP encoder truncates long prompts, so keep the non-negotiable
-        # "no humans/instruments" constraint at the front where it cannot be dropped.
-        forced_opening = (
-            f"Empty cinematic landscape of {city_name}, no people, no human figures, "
-            "no faces, no hands, no musicians, no musical instruments."
-        )
-        image_prompt = (result.get("image_prompt") or "").strip()
-        if forced_opening.lower() not in image_prompt.lower():
-            result["image_prompt"] = f"{forced_opening} {image_prompt}".strip()
-
-        negative_prompt = (result.get("negative_prompt") or "").strip()
-        extra_negative = (
-            "people, person, human figure, face, hands, body, portrait, crowd, "
-            "musician, singer, dancer, shepherd, villager, fisherman, worker, "
-            "silhouette of a person, baglama, saz, lute, guitar, kaval, flute, "
-            "drum, zurna, musical instrument, malformed faces, extra fingers"
-        )
-        result["negative_prompt"] = (
-            f"{negative_prompt}, {extra_negative}" if negative_prompt else extra_negative
-        )
-
-        return result
+        concept_profile = {
+            "group": "istanbul-night",
+            "style_profile": {"mood": "atmospheric night, cinematic"},
+        }
+        return self.generate_for_playlist(concept, f"{city_name} Nights", concept_profile)
 
     def generate_for_playlist(self, concept: dict, playlist_title: str, concept_profile: dict) -> dict:
-        """Generate a background prompt for a non-city playlist concept."""
-        visual = concept_profile.get("visual_atmosphere", {}) or {}
-        research = concept_profile.get("research", {}) or {}
+        """Generate a cinematic atmospheric background prompt for Anatolian Nights."""
+        group = concept_profile.get("group", "")
         user_prompt = f"""
-SONG:
-- Playlist concept: {playlist_title}
+TRACK:
+- Playlist: {playlist_title}
+- Group: {group}
 - Theme: {concept.get('theme', '')}
 - Mood: {concept.get('mood', '')}
-- Season: {concept.get('season', '')}
+- Visual: {concept.get('visual', '')}
+- Ambience: {concept.get('ambience', [])}
 - Story: {concept.get('story', '')}
 
-CONCEPT RESEARCH:
-{json.dumps(research, ensure_ascii=False, indent=2)}
-
-VISUAL ATMOSPHERE:
-- Colors: {visual.get('colors', [])}
-- Landscape: {visual.get('landscape', '')}
-- Season suggestions: {visual.get('season_suggestions', [])}
-- Lighting: {visual.get('lighting', '')}
-
-Generate a 1920x1080 landscape background image prompt for this Turkish folk playlist concept.
-Use only scenery, landmarks, architecture, weather, water, terrain, animals, and atmosphere.
-Do not include people, human figures, musicians, faces, hands, bodies, silhouettes, or musical instruments.
-The first sentence must mention the playlist concept atmosphere and the season or weather.
-No text in image.
+Generate a 1920x1080 cinematic atmospheric background image prompt.
+The scene must feel premium and moody — like a movie still or atmospheric album cover.
+No people, no human figures, no faces, no musicians, no musical instruments.
+Set the scene in Istanbul or Anatolia at night — rain, neon reflections, Bosphorus, old city architecture.
+First sentence: main visual subject + time of day + weather atmosphere.
+No text in the image.
 """
         result = self.call(user_prompt)
+
+        # Enforce no-humans constraint at the start of the prompt (CLIP encoder truncation safety)
         forced_opening = (
-            f"Empty cinematic Anatolian landscape for {playlist_title}, no people, no human figures, "
-            "no faces, no hands, no musicians, no musical instruments."
+            "Cinematic atmospheric night scene, Istanbul or Anatolia, "
+            "no people, no human figures, no faces, no hands, no musicians, no musical instruments."
         )
         image_prompt = (result.get("image_prompt") or "").strip()
-        if forced_opening.lower() not in image_prompt.lower():
+        if "no people" not in image_prompt.lower():
             result["image_prompt"] = f"{forced_opening} {image_prompt}".strip()
 
-        negative_prompt = (result.get("negative_prompt") or "").strip()
         extra_negative = (
             "people, person, human figure, face, hands, body, portrait, crowd, "
-            "musician, singer, dancer, shepherd, villager, fisherman, worker, "
-            "silhouette of a person, baglama, saz, lute, guitar, kaval, flute, "
-            "drum, zurna, musical instrument, malformed faces, extra fingers"
+            "musician, singer, dancer, silhouette of a person, "
+            "baglama, saz, guitar, kaval, flute, drum, musical instrument, "
+            "text, watermark, logo, daylight, bright sunlight, cheerful, tourist postcard, "
+            "anime, cartoon, illustration, malformed, blurry, low quality"
         )
+        existing_neg = (result.get("negative_prompt") or "").strip()
         result["negative_prompt"] = (
-            f"{negative_prompt}, {extra_negative}" if negative_prompt else extra_negative
+            f"{existing_neg}, {extra_negative}" if existing_neg else extra_negative
         )
         return result

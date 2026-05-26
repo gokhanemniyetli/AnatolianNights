@@ -14,8 +14,9 @@ logger = logging.getLogger(__name__)
 class ThumbnailRenderer:
     WIDTH = 1280
     HEIGHT = 720
-    GOLD = (224, 184, 86, 255)
-    IVORY = (232, 226, 210, 255)
+    WHITE = (235, 245, 255, 255)     # cool white for title
+    CYAN = (140, 200, 240, 255)      # soft neon cyan for accents
+    CHANNEL_TAG = "ANATOLIAN NIGHTS"
 
     def render(
         self,
@@ -44,14 +45,21 @@ class ThumbnailRenderer:
         line_gap = 18
         y = 334 if len(title_lines) == 1 else 246
         for line in title_lines:
-            self._draw_distressed_text(draw, (x, y), line, title_font, self.IVORY, stroke=3)
+            self._draw_distressed_text(draw, (x, y), line, title_font, self.WHITE, stroke=3)
             bbox = draw.textbbox((x, y), line, font=title_font, stroke_width=3)
             y = bbox[3] + line_gap
 
-        region = f"{self._tr_upper(city_name)} YÖRESİ"
-        region_font = self._font(34, kind="wide")
-        draw.text((x + 3, y + 24), region, fill=self.GOLD, font=region_font, spacing=2)
-        self._draw_ornament(draw, x + 7, y + 80, width=275)
+        # Thin neon separator + channel tag below title
+        draw.line((x + 4, y + 22, x + 260, y + 22), fill=self.CYAN, width=1)
+        tag_font = self._font(30, kind="wide")
+        draw.text((x + 4, y + 32), self.CHANNEL_TAG, fill=self.CYAN, font=tag_font)
+
+        # Small watermark bottom-right
+        wm_font = self._font(22, kind="wide")
+        wm_text = self.CHANNEL_TAG
+        wm_bbox = draw.textbbox((0, 0), wm_text, font=wm_font)
+        wm_w = wm_bbox[2] - wm_bbox[0]
+        draw.text((self.WIDTH - wm_w - 24, self.HEIGHT - 40), wm_text, fill=(180, 215, 245, 140), font=wm_font)
 
         Image.alpha_composite(canvas, overlay).convert("RGB").save(output_path, "PNG")
         return output_path
@@ -95,34 +103,22 @@ class ThumbnailRenderer:
         stroke: int,
     ) -> None:
         x, y = pos
-        shadow = (0, 0, 0, 190)
+        shadow = (0, 0, 0, 200)
         draw.text((x + 4, y + 5), text, fill=shadow, font=font, stroke_width=stroke + 1, stroke_fill=shadow)
-        draw.text((x, y), text, fill=fill, font=font, stroke_width=stroke, stroke_fill=(35, 32, 28, 230))
+        draw.text((x, y), text, fill=fill, font=font, stroke_width=stroke, stroke_fill=(5, 10, 28, 240))
 
         bbox = draw.textbbox((x, y), text, font=font, stroke_width=stroke)
         clip = Image.new("RGBA", (bbox[2] - bbox[0] + 12, bbox[3] - bbox[1] + 12), (0, 0, 0, 0))
         cdraw = ImageDraw.Draw(clip)
-        cdraw.text((6 - bbox[0] + x, 6 - bbox[1] + y), text, fill=(255, 255, 255, 34), font=font)
+        cdraw.text((6 - bbox[0] + x, 6 - bbox[1] + y), text, fill=(255, 255, 255, 28), font=font)
         mask = Image.effect_noise(clip.size, 70).convert("L").point(lambda p: 255 if p > 152 else 0)
-        texture = Image.new("RGBA", clip.size, (0, 0, 0, 34))
+        texture = Image.new("RGBA", clip.size, (0, 0, 0, 28))
         draw.bitmap((bbox[0] - 6, bbox[1] - 6), Image.composite(texture, Image.new("RGBA", clip.size), mask))
-
-    @classmethod
-    def _draw_ornament(cls, draw: ImageDraw.ImageDraw, x: int, y: int, width: int) -> None:
-        color = cls.GOLD
-        mid = x + width // 2
-        draw.line((x, y, mid - 32, y), fill=color, width=2)
-        draw.line((mid + 32, y, x + width, y), fill=color, width=2)
-        draw.ellipse((mid - 7, y - 7, mid + 7, y + 7), outline=color, width=2)
-        draw.line((mid - 22, y - 10, mid - 10, y), fill=color, width=2)
-        draw.line((mid - 22, y + 10, mid - 10, y), fill=color, width=2)
-        draw.line((mid + 10, y, mid + 22, y - 10), fill=color, width=2)
-        draw.line((mid + 10, y, mid + 22, y + 10), fill=color, width=2)
 
     @staticmethod
     def _title_lines(title: str, max_chars: int, max_lines: int) -> list[str]:
-        words = ThumbnailRenderer._tr_upper(title.strip()).split()[:4]
-        return textwrap.wrap(" ".join(words), width=max_chars)[:max_lines] or ["TURKU"]
+        words = (title.strip()).upper().split()[:4]
+        return textwrap.wrap(" ".join(words), width=max_chars)[:max_lines] or ["NIGHT"]
 
     @classmethod
     def _fit_font(
@@ -162,4 +158,4 @@ class ThumbnailRenderer:
 
     @staticmethod
     def _tr_upper(text: str) -> str:
-        return text.translate(str.maketrans({"i": "İ", "ı": "I"})).upper()
+        return text.upper()

@@ -24,13 +24,14 @@ video:
 image:
   width: 1920
   height: 1080
-  # SDXL-Turbo inference steps (4 = fast, 8 = balanced)
+  # model: "placeholder" | "sdxl-turbo" | "flux-schnell"
+  model: "placeholder"
   num_inference_steps: 4
   guidance_scale: 0.0
 
 youtube:
   category_id: "10"  # Music
-  default_language: "tr"
+  default_language: "en"
   made_for_kids: false
 
 ollama:

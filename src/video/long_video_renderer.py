@@ -1,9 +1,15 @@
 """
 LongVideoRenderer — renders the final long-form YouTube video.
-Output: 1920×1080 H.264 MP4 with AAC audio and burned-in subtitles.
+Output: 1920×1080 H.264 MP4 with AAC audio.
+
+Cinematic effects (all via FFmpeg, no extra deps):
+  - Slow Ken Burns zoom via progressive crop
+  - Film grain via noise filter
+  - Vignette via vignette filter
+  - Subtle cool/blue color grade via colorbalance
 
 Pipeline:
-  background.png (looped to audio length) + audio.mp3 + subtitles.srt
+  background.png (looped to audio length) + audio.mp3
   → long_video.mp4
 """
 
@@ -21,7 +27,7 @@ class LongVideoRenderer:
     VIDEO_HEIGHT = 1080
     VIDEO_CODEC = "libx264"
     AUDIO_CODEC = "aac"
-    CRF = "23"  # Quality factor (lower = better; 23 is fine for YouTube)
+    CRF = "23"
     PRESET = "medium"
 
     def render(
@@ -34,7 +40,7 @@ class LongVideoRenderer:
         city_name: str = "",
     ) -> Path:
         """
-        Render long video. Returns output_path.
+        Render long video with cinematic effects. Returns output_path.
         Raises RuntimeError on FFmpeg failure.
         """
         output_path = Path(output_path)
@@ -42,23 +48,39 @@ class LongVideoRenderer:
         hook_path = output_path.with_name("hook_long.png")
         HookOverlayRenderer().render_long(city_name, title, hook_path)
 
+        W = self.VIDEO_WIDTH
+        H = self.VIDEO_HEIGHT
+        # Ken Burns: scale to 110% then progressively crop from outer edge toward center
+        # Using expr-based crop for smooth drift. Keep computation simple for speed.
+        zoom_scale_w = int(W * 1.10)
+        zoom_scale_h = int(H * 1.10)
+        max_crop_x = zoom_scale_w - W   # = 0.10 * W
+        max_crop_y = zoom_scale_h - H
+
+        cinematic_filter = (
+            # Scale to 110%
+            f"[0:v]scale={zoom_scale_w}:{zoom_scale_h}:force_original_aspect_ratio=increase,"
+            f"crop={zoom_scale_w}:{zoom_scale_h},"
+            # Slow zoom: crop drifts from (max_x, max_y) toward (0, 0) over the duration
+            f"crop=w={W}:h={H}:x='{max_crop_x}*(1-t/120)':y='{max_crop_y}*(1-t/120)',"
+            # Film grain
+            "noise=alls=10:allf=t,"
+            # Subtle cool color grade (slight blue boost in shadows and highlights)
+            "colorbalance=bs=0.04:bm=0.02:bh=0.03,"
+            # Vignette
+            "vignette='PI/4'"
+            "[bg];"
+            "[bg][2:v]overlay=0:0[v]"
+        )
+
         cmd = [
             "ffmpeg", "-y",
-            # Loop background image for the entire audio duration
             "-loop", "1",
             "-i", str(background_path),
-            # Audio input
             "-i", str(audio_path),
             "-loop", "1",
             "-i", str(hook_path),
-            # Filters: scale and crop to exact dimensions.
-            # The local Homebrew FFmpeg build may not include libass/drawtext,
-            # so subtitles are kept as a sidecar SRT instead of burned in.
-            "-filter_complex", (
-                f"[0:v]scale={self.VIDEO_WIDTH}:{self.VIDEO_HEIGHT}:force_original_aspect_ratio=increase,"
-                f"crop={self.VIDEO_WIDTH}:{self.VIDEO_HEIGHT}[bg];"
-                f"[bg][2:v]overlay=0:0[v]"
-            ),
+            "-filter_complex", cinematic_filter,
             "-map", "[v]",
             "-map", "1:a",
             "-c:v", self.VIDEO_CODEC,
@@ -67,17 +89,16 @@ class LongVideoRenderer:
             "-c:a", self.AUDIO_CODEC,
             "-b:a", "192k",
             "-ar", "44100",
-            # End encoding when audio ends
             "-shortest",
-            # Ensure video/audio are synced
             "-movflags", "+faststart",
             str(output_path),
         ]
 
-        logger.info("Rendering long video: %s", output_path)
+        logger.info("Rendering long video (cinematic): %s", output_path)
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
             raise RuntimeError(f"FFmpeg long video render failed:\n{result.stderr[-2000:]}")
 
         logger.info("Long video ready: %s", output_path)
         return output_path
+

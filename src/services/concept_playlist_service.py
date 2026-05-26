@@ -5,7 +5,7 @@ ConceptPlaylistService — manages non-city playlist concepts and their research
 import json
 import logging
 import re
-from datetime import datetime
+from datetime import date, datetime
 from html import unescape
 from pathlib import Path
 from urllib.parse import parse_qs, quote_plus, urlparse
@@ -116,13 +116,108 @@ class ConceptPlaylistService:
             "group": concept.group,
             "research": research,
             "style_profile": style_profile,
-            "instruments": {"primary": style_profile.get("instruments", ["bağlama"])},
+            "instruments": {"primary": style_profile.get("instruments", ["bağlama", "synth pad"])},
             "visual_atmosphere": style_profile.get("visual_atmosphere", {}),
         }
 
+    def create_youtube_playlists_batch(
+        self,
+        daily_limit: int = 20,
+        youtube_client=None,
+    ) -> dict:
+        """
+        Gradually create YouTube playlists for concept playlists that don't have one yet.
+        Respects daily_limit and tracks progress in data/playlist_creation_progress.json.
+        Returns a summary dict: {created, skipped, remaining, daily_remaining}.
+        """
+        progress_path = Path(__file__).parent.parent.parent / "data" / "playlist_creation_progress.json"
+        today = date.today().isoformat()
+
+        if progress_path.exists():
+            progress = json.loads(progress_path.read_text(encoding="utf-8"))
+        else:
+            progress = {"last_creation_date": None, "created_today": 0, "total_created": 0, "daily_limit": daily_limit}
+
+        if progress.get("last_creation_date") != today:
+            progress["last_creation_date"] = today
+            progress["created_today"] = 0
+
+        progress["daily_limit"] = daily_limit
+        slots_remaining = daily_limit - progress["created_today"]
+
+        if slots_remaining <= 0:
+            logger.info("Daily YouTube playlist creation limit (%d) reached for %s.", daily_limit, today)
+            progress_path.write_text(json.dumps(progress, indent=2), encoding="utf-8")
+            return {"created": 0, "skipped": 0, "remaining": 0, "daily_remaining": 0}
+
+        pending = (
+            self.session.query(ConceptPlaylist)
+            .filter(ConceptPlaylist.is_active == True, ConceptPlaylist.playlist_id.is_(None))
+            .order_by(ConceptPlaylist.sort_order.asc())
+            .limit(slots_remaining)
+            .all()
+        )
+
+        created = skipped = 0
+        for concept in pending:
+            if youtube_client is None:
+                logger.warning("No YouTube client provided; skipping playlist creation for '%s'.", concept.title)
+                skipped += 1
+                continue
+            try:
+                yt_id = self._create_youtube_playlist(youtube_client, concept)
+                concept.playlist_id = yt_id
+                progress["created_today"] += 1
+                progress["total_created"] += 1
+                created += 1
+                logger.info("Created YouTube playlist '%s' → %s", concept.title, yt_id)
+            except Exception as exc:
+                logger.error("Failed to create YouTube playlist for '%s': %s", concept.title, exc)
+                skipped += 1
+
+        self.session.flush()
+        progress_path.parent.mkdir(parents=True, exist_ok=True)
+        progress_path.write_text(json.dumps(progress, indent=2), encoding="utf-8")
+
+        total_pending = (
+            self.session.query(ConceptPlaylist)
+            .filter(ConceptPlaylist.is_active == True, ConceptPlaylist.playlist_id.is_(None))
+            .count()
+        )
+        return {
+            "created": created,
+            "skipped": skipped,
+            "remaining": total_pending,
+            "daily_remaining": daily_limit - progress["created_today"],
+        }
+
+    @staticmethod
+    def _create_youtube_playlist(youtube_client, concept: ConceptPlaylist) -> str:
+        """
+        Create a YouTube playlist via the YouTube Data API client.
+        Returns the playlist ID.
+        """
+        body = {
+            "snippet": {
+                "title": f"{concept.title} | Anatolian Nights",
+                "description": (
+                    f"Atmospheric Turkish lo-fi and ambient music — {concept.title} collection.\n"
+                    "#AnatolianNights #TurkishLofi #AmbientMusic"
+                ),
+                "defaultLanguage": "en",
+            },
+            "status": {"privacyStatus": "public"},
+        }
+        response = (
+            youtube_client.playlists()
+            .insert(part="snippet,status", body=body)
+            .execute()
+        )
+        return response["id"]
+
     @staticmethod
     def _research_from_web(title: str) -> dict:
-        query = f"{title} Türk halk müziği özellikleri yöre tavır enstrüman"
+        query = f"{title} atmospheric Turkish lo-fi ambient music Istanbul night"
         sources = ConceptPlaylistService._duckduckgo_search(query)
         source_text = " ".join(item.get("snippet", "") for item in sources)
         summary = ConceptPlaylistService._summarize_research(title, source_text)
@@ -183,101 +278,93 @@ class ConceptPlaylistService:
     def _summarize_research(title: str, source_text: str) -> str:
         if source_text:
             return (
-                f"{title} konsepti için kayıtlı web araştırması; yöre/tavır, duygu, "
-                "ritim ve çalgı ipuçlarını üretim promptuna bağlamak için kullanılır."
+                f"Web research for '{title}' concept; used to anchor atmospheric texture, "
+                "instrument palette, and mood for Anatolian Nights production prompts."
             )
         return (
-            f"{title} konsepti için web sonucu alınamadı; üretim, katalogdaki tarz profili "
-            "ve Anadolu türkü formu kurallarına göre yapılır."
+            f"No web results for '{title}'; production follows catalog style profile "
+            "and Anatolian Nights atmospheric defaults."
         )
 
     @staticmethod
     def _style_notes(title: str, source_text: str) -> list[str]:
         notes = [
-            "Türkü kısa tutulur; toplam süre hedefi 3-4 dakikayı geçmez.",
-            "Her üretimde yeni bir insan hikayesi, yeni başlık ve farklı duygu ekseni seçilir.",
-            f"Ana playlist kimliği açıkça {title} konseptine bağlı kalır.",
+            "Keep tracks instrumental-first; target 3-5 minute duration.",
+            "Each production should have a unique emotional anchor and never repeat the same title or hook.",
+            f"All output must feel consistent with the '{title}' playlist atmosphere.",
         ]
         lowered = f"{title} {source_text}".casefold()
-        if "zeybek" in lowered:
-            notes.append("Ağırbaşlı zeybek tavrı, dokuz zamanlı his ve efe vakarını öne çıkar.")
-        if "halay" in lowered:
-            notes.append("Toplu oyun enerjisi, davul-zurna hissi ve ritmik canlılık korunur.")
-        if "bozlak" in lowered or "uzun hava" in lowered:
-            notes.append("Serbest uzun hava tavrı, geniş nefesli vokal ve içli anlatım öne çıkar.")
-        if "karadeniz" in lowered or "kemençe" in lowered:
-            notes.append("Kemençe, hızlı kıvraklık, yayla/deniz/dağ imgeleri dengeli kullanılır.")
-        if "ege" in lowered:
-            notes.append("Zeybek, efe, ova, zeytinlik ve deniz imgesi doğal bir arka plan sağlar.")
-        if "iç anadolu" in lowered or "ic anadolu" in lowered:
-            notes.append("Bozkır, bağlama, bozlak/kırık hava tavrı ve sade hikaye dili öne çıkar.")
+        if any(w in lowered for w in ["rain", "yağmur", "storm"]):
+            notes.append("Emphasize wet ambience: rain on cobblestones, dripping eaves, distant thunder.")
+        if any(w in lowered for w in ["bosphorus", "boğaz", "sea", "deniz"]):
+            notes.append("Include water texture: Bosphorus waves, foghorns, distant seagull echoes.")
+        if any(w in lowered for w in ["neon", "city", "urban", "tram", "metro"]):
+            notes.append("Urban night texture: neon reflections, tram bells, distant traffic hum.")
+        if any(w in lowered for w in ["fog", "sis", "mist"]):
+            notes.append("Use fog as a sonic metaphor: reverb trails, washed-out pads, low-visibility mood.")
+        if any(w in lowered for w in ["synthwave", "synth", "electronic", "cyber"]):
+            notes.append("Lean into synthwave fusion: retro synth pads layered over bağlama or ney textures.")
         return notes
 
     @staticmethod
     def _story_angles(title: str) -> list[str]:
         base = [
-            "gurbetten eve dönme isteği",
-            "kavuşamayan iki sevenin bekleyişi",
-            "aile sofrası ve emek",
-            "yolculukta hatırlanan eski söz",
-            "köyden kente taşınan bir hatıra",
-            "düğün, kına veya bayram telaşı",
-            "ustaya, toprağa veya geçmişe vefa",
+            "a solitary figure watching rain streak down a café window",
+            "the Bosphorus at 3am, ferry lights dissolving into fog",
+            "a neon sign reflected in a puddle on Istiklal Street",
+            "the last tram running through empty Galata streets",
+            "distant call to prayer heard through a half-open apartment window",
+            "smoke curling in a dim tea house, late-night city hum outside",
+            "the feeling of a city that never fully sleeps",
         ]
         lowered = title.casefold()
-        if "asker" in lowered:
-            return ["asker yolu bekleyen yâr", "ana duası", "terhis günü umudu", *base[:2]]
-        if "gurbet" in lowered or "hasret" in lowered:
-            return ["gurbette yazılan mektup", "tren garında bekleyiş", "baba ocağına dönüş", *base]
-        if "düğün" in lowered or "gelin" in lowered or "kına" in lowered:
-            return ["gelin alma sabahı", "kına gecesinde vedalaşma", "çeyiz sandığı hatırası", *base]
+        if any(w in lowered for w in ["rain", "storm", "wet"]):
+            return ["rain on the Galata Bridge", "sound of rain on a copper rooftop", *base[:4]]
+        if any(w in lowered for w in ["bosphorus", "sea", "water"]):
+            return ["fog rolling in from the Bosphorus", "a ferry crossing at dusk", *base[:4]]
+        if any(w in lowered for w in ["neon", "city", "night drive"]):
+            return ["highway lights at 2am", "neon kanji reflected in wet asphalt", *base[:4]]
         return base
 
     @staticmethod
     def _default_style_profile(title: str, group: str) -> dict:
         lowered = title.casefold()
-        instruments = ["bağlama", "kaval"]
-        tempo = "orta-yavaş"
-        vocal = "duygulu Türk halk müziği vokali"
-        if "karadeniz" in lowered or "kemençe" in lowered:
-            instruments = ["kemençe", "tulum", "bağlama"]
-            tempo = "orta-hareketli"
-        elif "ege" in lowered or "zeybek" in lowered:
-            instruments = ["bağlama", "cura", "davul"]
-            tempo = "ağır zeybek"
-        elif "halay" in lowered:
-            instruments = ["davul", "zurna", "bağlama"]
-            tempo = "hareketli"
-        elif "ney" in lowered or "ambient" in lowered or "ottoman" in lowered:
-            instruments = ["ney", "bağlama", "bendir"]
-            tempo = "yavaş atmosferik"
-        elif "rock" in lowered:
-            instruments = ["elektro bağlama", "bağlama", "davul"]
-            tempo = "orta tempolu modern"
-        elif any(term in lowered for term in ["elektronik", "synthwave", "cyber", "edm", "trap", "phonk"]):
-            instruments = ["elektro bağlama", "synth pad", "ritmik davul"]
-            tempo = "modern ritmik"
-        if "kadın vokal" in lowered:
-            vocal = "duygulu kadın Türk halk müziği vokali"
-        elif "erkek vokal" in lowered:
-            vocal = "duygulu erkek Türk halk müziği vokali"
-        elif "düet" in lowered:
-            vocal = "kadın ve erkek düet vokal"
+        # Defaults by group
+        group_instruments = {
+            "istanbul-night": ["bağlama textures", "synth pad", "vinyl crackle", "ambient guitar"],
+            "anatolian-ambient": ["ney flute", "bağlama", "synth pad", "bendir"],
+            "lo-fi-chill": ["lo-fi drums", "ambient guitar", "bağlama", "vinyl crackle"],
+            "synthwave-fusion": ["retro synth", "elektro bağlama", "lo-fi drums", "bass synth"],
+            "radio-session": ["bağlama", "acoustic guitar", "brush drums", "room ambience"],
+            "night-atmosphere": ["synth pad", "ney flute", "ambient texture", "sparse piano"],
+        }
+        instruments = group_instruments.get(group, ["bağlama", "synth pad", "ambient guitar"])
+
+        # Override by keyword hints in title
+        if any(w in lowered for w in ["rain", "storm", "fog"]):
+            instruments = ["rain texture", "synth pad", "ney flute", "distant piano"]
+        elif any(w in lowered for w in ["synthwave", "neon", "cyber", "drive"]):
+            instruments = ["retro synth", "bass synth", "elektro bağlama", "lo-fi drums"]
+        elif any(w in lowered for w in ["ney", "sufi", "mystic", "ottoman"]):
+            instruments = ["ney", "bendir", "ambient pad", "bağlama"]
+        elif any(w in lowered for w in ["jazz", "café", "cafe", "session"]):
+            instruments = ["acoustic guitar", "brush drums", "bağlama", "room ambience"]
 
         return {
-            "tempo": tempo,
-            "vocal": vocal,
+            "tempo": "slow-to-mid atmospheric",
+            "vocal": "ambient vocal or instrumental",
             "instruments": instruments,
             "avoid": [
-                "konsept dışına çıkan şehir tanıtımı",
-                "aynı başlık ve aynı hikaye tekrarı",
-                "4 dakikayı aşan uzun yapı",
+                "loud pop production",
+                "traditional folk tavır",
+                "upbeat dance rhythms",
+                "explicit lyrics",
             ],
             "visual_atmosphere": {
-                "colors": ["toprak tonları", "gün batımı altını", "gece mavisi"],
-                "landscape": "Anadolu coğrafyasına uygun sinematik doğal manzara",
-                "lighting": "doğal, şiirsel, kontrastı dengeli ışık",
-                "season_suggestions": ["bahar", "sonbahar", "kış akşamı"],
+                "colors": ["deep navy", "midnight blue", "neon cyan", "amber street light"],
+                "landscape": "Istanbul or Anatolia at night — cinematic urban or misty natural",
+                "lighting": "low-key, neon-lit, foggy, moody",
+                "season_suggestions": ["rainy autumn", "winter night", "foggy spring"],
             },
             "group": group,
         }

@@ -33,6 +33,9 @@ class YouTubeStudioUploader:
         self.headless = headless
         self.timeout_ms = timeout_ms
         self.expected_channel_id = (expected_channel_id or settings.youtube.channel_id or "").strip()
+        # Optional account/channel hint used for automated account switching
+        # in multi-login browser profiles (e.g. "AnatolianNights" or account email).
+        self.account_hint = (os.getenv("YOUTUBE_STUDIO_ACCOUNT_HINT") or "").strip()
 
     def upload_video(
         self,
@@ -301,6 +304,7 @@ class YouTubeStudioUploader:
         expected_fragment = f"/channel/{self.expected_channel_id}"
         while time.monotonic() < deadline:
             try:
+                self._try_auto_switch_account(page)
                 if expected_fragment not in page.url:
                     page.goto(self._studio_url(), wait_until="domcontentloaded")
                 self._wait_for_login_if_needed(page)
@@ -309,6 +313,104 @@ class YouTubeStudioUploader:
                     return
             except Exception:
                 page.wait_for_timeout(2_000)
+
+    def _try_auto_switch_account(self, page) -> None:
+        """Best-effort automatic account/channel switch for multi-login profiles."""
+        # 1) Try clicking visible "Switch account" / "Sign in" actions.
+        for pattern in [r"(Hesap değiştir|Switch account)", r"(Oturum aç|Sign in)"]:
+            try:
+                locator = page.get_by_text(re.compile(pattern, re.I)).first
+                if locator.count():
+                    locator.click(timeout=2_500)
+                    page.wait_for_timeout(1_000)
+            except Exception:
+                continue
+
+        # 2) If we have an account hint, try selecting that account/channel card.
+        if self.account_hint:
+            try:
+                hint_locator = page.get_by_text(re.compile(re.escape(self.account_hint), re.I)).first
+                if hint_locator.count():
+                    hint_locator.click(timeout=3_000)
+                    page.wait_for_timeout(1_500)
+                    return
+            except Exception:
+                pass
+
+        # 3) Open avatar/account menu and try to pick matching account/channel entry.
+        for selector in [
+            "button#avatar-btn",
+            "button[aria-label*='Account']",
+            "button[aria-label*='Hesap']",
+            "ytcp-ve#avatar-btn button",
+        ]:
+            try:
+                btn = page.locator(selector).first
+                if btn.count():
+                    btn.click(timeout=2_000)
+                    page.wait_for_timeout(800)
+                    break
+            except Exception:
+                continue
+
+        # 4) Prefer explicit expected channel id if it appears in href/text in menu/list.
+        if self.expected_channel_id:
+            clicked = False
+            try:
+                clicked = bool(
+                    page.evaluate(
+                        """
+                        (expectedId) => {
+                          const re = new RegExp(expectedId, 'i');
+                          const candidates = [...document.querySelectorAll('a, button, [role="menuitem"], [role="option"], yt-formatted-string, div')]
+                            .filter((el) => {
+                              const text = (el.innerText || el.textContent || el.getAttribute('aria-label') || '').trim();
+                              const href = el.getAttribute('href') || '';
+                              const box = el.getBoundingClientRect();
+                              return box.width > 0 && box.height > 0 && (re.test(text) || re.test(href));
+                            });
+                          if (!candidates.length) return false;
+                          candidates[0].scrollIntoView({block: 'center', inline: 'center'});
+                          candidates[0].click();
+                          return true;
+                        }
+                        """,
+                        self.expected_channel_id,
+                    )
+                )
+            except Exception:
+                clicked = False
+            if clicked:
+                page.wait_for_timeout(1_500)
+                return
+
+        # 5) Final fallback: account hint again (inside opened menus/dialogs).
+        if self.account_hint:
+            try:
+                clicked = bool(
+                    page.evaluate(
+                        """
+                        (hint) => {
+                          const re = new RegExp(hint, 'i');
+                          const candidates = [...document.querySelectorAll('a, button, [role="menuitem"], [role="option"], yt-formatted-string, div')]
+                            .filter((el) => {
+                              const text = (el.innerText || el.textContent || el.getAttribute('aria-label') || '').trim();
+                              const box = el.getBoundingClientRect();
+                              return box.width > 0 && box.height > 0 && re.test(text);
+                            });
+                          if (!candidates.length) return false;
+                          candidates[0].scrollIntoView({block: 'center', inline: 'center'});
+                          candidates[0].click();
+                          return true;
+                        }
+                        """,
+                        self.account_hint,
+                    )
+                )
+            except Exception:
+                clicked = False
+            if clicked:
+                page.wait_for_timeout(1_500)
 
     def _open_upload_dialog(self, page) -> None:
         self._wait_for_login_if_needed(page)
@@ -332,9 +434,23 @@ class YouTubeStudioUploader:
             except PlaywrightTimeoutError:
                 continue
 
+        # Prefer deterministic menu/button targets first.
+        upload_targets = [
+            lambda: page.get_by_role("menuitem", name=re.compile(r"(Upload videos|Video yükle|Videoları yükle)", re.I)).first,
+            lambda: page.locator("#upload-button").first,
+            lambda: page.get_by_role("button", name=re.compile(r"(Upload videos|Video yükle|Videoları yükle)", re.I)).first,
+        ]
+        for target_factory in upload_targets:
+            try:
+                target_factory().click(timeout=15_000)
+                page.locator("input[type=file]").first.wait_for(state="attached", timeout=60_000)
+                return
+            except Exception:
+                continue
+
         for pattern in upload_patterns:
             try:
-                page.get_by_text(pattern).click(timeout=15_000)
+                page.get_by_text(pattern).first.click(timeout=15_000)
                 page.locator("input[type=file]").first.wait_for(state="attached", timeout=60_000)
                 return
             except PlaywrightTimeoutError:

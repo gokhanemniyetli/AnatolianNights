@@ -1,6 +1,6 @@
 """
-ConceptAgent — generates a unique song concept for a given city.
-Receives city cultural profile + generation history to avoid repetition.
+ConceptAgent — generates a unique atmospheric track concept for Anatolian Nights channel.
+Receives playlist/concept profile and generation history to avoid repetition.
 """
 
 import json
@@ -12,6 +12,197 @@ from src.config.models_config import get_model
 
 _PROMPT_PATH = Path(__file__).parent.parent.parent / "prompts" / "concept.txt"
 _SYSTEM_PROMPT = _PROMPT_PATH.read_text(encoding="utf-8")
+
+_VALID_TRACK_TYPES = {"instrumental", "ambient_vocal", "lyrical"}
+
+_GENERIC_TITLE_RE = re.compile(
+    r"^(ambient track|lo.?fi track|turkish track|anatolian track|track \d+|untitled|song \d+)$",
+    re.IGNORECASE,
+)
+
+_FALLBACK_CONCEPTS = [
+    {
+        "title": "Rain Over Galata",
+        "theme": "urban loneliness",
+        "story": "A rainy night walk through old Istanbul streets — distant ferry horns and wet cobblestones echoing with memory.",
+        "mood": "melancholic, dreamy, reflective",
+        "tempo": "slow, 72 BPM, lo-fi groove",
+        "track_type": "instrumental",
+        "vocal": "no vocals, instrumental only",
+        "instruments": ["soft bağlama", "warm synth pads", "lo-fi drums", "vinyl crackle"],
+        "ambience": ["rain", "distant ferry horn", "wet streets"],
+        "visual": "rainy Istanbul at night, neon reflections on wet cobblestones, Galata Tower silhouette in mist",
+        "avoid": ["upbeat tempos", "folk stage feeling", "loud vocals"],
+    },
+    {
+        "title": "Bosphorus After Midnight",
+        "theme": "quiet solitude",
+        "story": "The Bosphorus at 2am — empty ferries drifting, city lights blurred by fog, time suspended.",
+        "mood": "peaceful, lonely, nostalgic",
+        "tempo": "very slow, 65 BPM, ambient",
+        "track_type": "instrumental",
+        "vocal": "no vocals, instrumental only",
+        "instruments": ["analog synths", "soft ney flute", "ambient guitar", "field recording"],
+        "ambience": ["Bosphorus waves", "distant traffic", "foghorn"],
+        "visual": "Bosphorus at midnight, city lights reflecting on dark water, a lone ferry disappearing into fog",
+        "avoid": ["energetic rhythms", "traditional folk feel", "vocals"],
+    },
+    {
+        "title": "Neon Reflections on the Tram",
+        "theme": "midnight city drift",
+        "story": "A late-night tram ride through the illuminated streets of Istanbul — neon signs blurring in the rain.",
+        "mood": "dreamy, urban, atmospheric",
+        "tempo": "slow-medium, 78 BPM, lo-fi",
+        "track_type": "ambient_vocal",
+        "vocal": "dreamy distant female vocals, heavily reverbed, minimal wordless singing",
+        "instruments": ["electric piano", "lo-fi drums", "warm bass", "vinyl texture"],
+        "ambience": ["tram sounds", "rain", "neon city hum"],
+        "visual": "empty Istanbul tram at night, neon lights reflecting on rain-soaked tracks, fog-lit windows",
+        "avoid": ["folk instruments", "traditional style", "upbeat energy"],
+    },
+    {
+        "title": "Anatolian Night Drive",
+        "theme": "solitary road journey",
+        "story": "Driving through the Anatolian plateau at night — endless dark roads, distant village lights, thoughts wandering.",
+        "mood": "reflective, lonely, serene",
+        "tempo": "medium, 80 BPM, chill lo-fi",
+        "track_type": "instrumental",
+        "vocal": "no vocals, instrumental only",
+        "instruments": ["soft bağlama texture", "synth pads", "lo-fi drums", "ambient guitar"],
+        "ambience": ["highway wind", "distant crickets", "vinyl crackle"],
+        "visual": "dark Anatolian highway at night, headlights illuminating empty road, vast starry sky above",
+        "avoid": ["energetic", "pop production", "loud mix"],
+    },
+    {
+        "title": "Istanbul Fog Sessions",
+        "theme": "foggy urban morning",
+        "story": "Istanbul at 5am in dense fog — the city barely visible, a silence broken only by distant mosque calls.",
+        "mood": "serene, ethereal, contemplative",
+        "tempo": "slow, 68 BPM, ambient",
+        "track_type": "lyrical",
+        "vocal": "soft breathy Turkish vocals, minimal lyrics, reverb-heavy delivery",
+        "instruments": ["ney flute", "minimal piano", "ambient synth wash", "soft percussion"],
+        "ambience": ["fog", "distant adhan", "light rain"],
+        "visual": "Istanbul skyline disappearing into thick morning fog, mosques barely visible, golden light filtering through mist",
+        "avoid": ["high energy", "loud drums", "folk stage performance"],
+    },
+]
+
+
+class ConceptAgent(BaseAgent):
+    def __init__(self):
+        super().__init__(
+            task="concept",
+            model=get_model("concept"),
+            system_prompt=_SYSTEM_PROMPT,
+        )
+
+    def generate(
+        self,
+        city_name: str,
+        cultural_profile: dict,
+        generation_history: dict,
+    ) -> dict:
+        """Generate a track concept using city as the anchor atmosphere."""
+        concept_profile = {
+            "concept_title": f"{city_name} Night Atmosphere",
+            "group": "istanbul-night",
+            "style_profile": {
+                "instruments": ["soft bağlama", "synth pads", "lo-fi drums"],
+                "mood": "atmospheric, night, cinematic",
+            },
+        }
+        return self.generate_for_playlist(
+            playlist_title=f"{city_name} Nights",
+            concept_profile=concept_profile,
+            generation_history=generation_history,
+        )
+
+    def generate_for_playlist(
+        self,
+        playlist_title: str,
+        concept_profile: dict,
+        generation_history: dict,
+    ) -> dict:
+        """Generate a track concept for a playlist atmosphere."""
+        style_profile = concept_profile.get("style_profile", {}) or {}
+        group = concept_profile.get("group", "")
+        user_prompt = f"""
+PLAYLIST: {playlist_title}
+GROUP: {group}
+
+STYLE PROFILE:
+{json.dumps(style_profile, ensure_ascii=False, indent=2)}
+
+PREVIOUSLY USED — DO NOT REPEAT:
+- Themes: {generation_history.get('used_themes', [])}
+- Moods: {generation_history.get('used_moods', [])}
+- Instruments: {generation_history.get('used_instruments', [])}
+- Titles: {generation_history.get('used_titles', [])}
+
+RECENTLY USED ACROSS CHANNEL — AVOID:
+- Recent themes: {generation_history.get('recent_global_themes', [])}
+- Recent titles: {generation_history.get('recent_global_titles', [])}
+
+Generate a NEW, UNIQUE atmospheric track concept that perfectly matches this playlist's atmosphere.
+The title must be cinematic and evocative — 2-5 words.
+Choose track_type carefully: prefer instrumental (50%), then ambient_vocal (30%), then lyrical (20%).
+"""
+        last_result: dict = {}
+        for attempt in range(3):
+            retry_note = ""
+            if attempt:
+                retry_note = (
+                    "\nPREVIOUS ATTEMPT REJECTED: Title was too generic or concept didn't match channel identity. "
+                    "Try a different atmospheric angle with a more evocative cinematic title.\n"
+                )
+            result = self.call(user_prompt + retry_note)
+            last_result = result
+            if self._is_valid_concept(result, generation_history):
+                result.setdefault("playlist_concept", playlist_title)
+                return result
+        fallback = self._fallback_concept(playlist_title, generation_history)
+        fallback["playlist_concept"] = playlist_title
+        return fallback
+
+    @staticmethod
+    def _is_valid_concept(concept: dict, generation_history: dict | None = None) -> bool:
+        title = str(concept.get("title") or "").strip()
+        theme = str(concept.get("theme") or "").strip()
+        track_type = str(concept.get("track_type") or "").strip().lower()
+
+        if not title or len(title.split()) < 2:
+            return False
+        if _GENERIC_TITLE_RE.match(title):
+            return False
+        if track_type not in _VALID_TRACK_TYPES:
+            return False
+        if not theme:
+            return False
+
+        if generation_history:
+            used_titles = {str(t).casefold() for t in generation_history.get("used_titles", [])}
+            used_titles.update(str(t).casefold() for t in generation_history.get("recent_global_titles", []))
+            if title.casefold() in used_titles:
+                return False
+
+        return True
+
+    @staticmethod
+    def _fallback_concept(playlist_title: str, generation_history: dict) -> dict:
+        used_titles = {
+            str(item).casefold()
+            for item in [
+                *generation_history.get("used_titles", []),
+                *generation_history.get("recent_global_titles", []),
+            ]
+        }
+        selected = next(
+            (c for c in _FALLBACK_CONCEPTS if c["title"].casefold() not in used_titles),
+            _FALLBACK_CONCEPTS[0],
+        )
+        return dict(selected)
+
 
 _EMOTION_RE = re.compile(
     r"(aşk|sevda|gurbet|ayrılık|hasret|özlem|kavuş|düğün|ana|baba|asker|göç|hasat|umut|bekleyiş|sitem|emek|bereket|dönüş|y[aâ]r|barış|kırgın|naz|ağıt|bayram|nişan|kına|mektup|dua|helallik|komşu|kardeş|çocuk|ocak|sofra|pazar|yayla|imece|yolcu|emanet|rüya|söz|gönül|mahcup|pişman)",

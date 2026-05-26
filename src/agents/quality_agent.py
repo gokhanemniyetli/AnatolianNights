@@ -27,18 +27,22 @@ class QualityAgent(BaseAgent):
         is_approved (bool), score (float), issues (list), rejected_reason (str|None),
         positive_notes (list), reviewer_model (str)
         """
+        track_type = concept.get("track_type", "instrumental")
         user_prompt = f"""
-Şehir: {city_name}
-Tema: {concept.get('theme', '')}
-Duygu: {concept.get('mood', '')}
+TRACK CONCEPT:
+- Title: {concept.get('title', '')}
+- Theme: {concept.get('theme', '')}
+- Mood: {concept.get('mood', '')}
+- Track type: {track_type}
+- Instruments: {concept.get('instruments', [])}
+- Ambience: {concept.get('ambience', [])}
 
-ŞARKI SÖZLERİ:
-{lyrics}
+LYRICS:
+{lyrics if lyrics and lyrics.strip() else '(instrumental — no lyrics)'}
 
-Bu şarkı sözlerini kalite kriterlerine göre değerlendir.
-Skor eşiği: {settings.pipeline.quality_threshold}
+Review this track concept and lyrics (if any) against Anatolian Nights atmospheric standards.
+Score threshold: {settings.pipeline.quality_threshold}
 """
         result = self.call(user_prompt)
-        # Inject the model name for traceability
         result["reviewer_model"] = self.model
         return result

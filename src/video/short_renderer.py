@@ -2,8 +2,10 @@
 ShortRenderer — extracts the first N seconds of the song as a YouTube Short.
 Output: 1080×1920 (portrait) MP4, hook_duration seconds.
 
+Cinematic effects: same as LongVideoRenderer (Ken Burns, grain, vignette, color grade).
+
 Pipeline:
-  background.png (cropped to 9:16) + audio.mp3 (first N seconds) + subtitles.srt
+  background.png (cropped to 9:16) + audio.mp3 (first N seconds)
   → short_video.mp4
 """
 
@@ -20,8 +22,6 @@ logger = logging.getLogger(__name__)
 class ShortRenderer:
     SHORT_WIDTH = 1080
     SHORT_HEIGHT = 1920
-    # YouTube can round a 12.0s MP4 up to PT13S after processing. Keep the
-    # rendered file below the user-facing 12 second cap.
     MAX_DURATION_SECONDS = 11
     VIDEO_CODEC = "libx264"
     AUDIO_CODEC = "aac"
@@ -39,7 +39,7 @@ class ShortRenderer:
         city_name: str = "",
     ) -> Path:
         """
-        Render Short video (portrait, first hook_duration seconds).
+        Render Short video (portrait, first hook_duration seconds) with cinematic effects.
         Returns output_path.
         """
         output_path = Path(output_path)
@@ -49,6 +49,25 @@ class ShortRenderer:
 
         requested_duration = hook_duration or settings.video.short_hook_duration
         duration = min(requested_duration, self.MAX_DURATION_SECONDS)
+
+        W = self.SHORT_WIDTH
+        H = self.SHORT_HEIGHT
+        zoom_scale_w = int(W * 1.10)
+        zoom_scale_h = int(H * 1.10)
+        max_crop_x = zoom_scale_w - W
+        max_crop_y = zoom_scale_h - H
+
+        cinematic_filter = (
+            f"[0:v]scale={zoom_scale_w}:{zoom_scale_h}:force_original_aspect_ratio=increase,"
+            f"crop={zoom_scale_w}:{zoom_scale_h},"
+            f"crop=w={W}:h={H}:x='{max_crop_x}*(1-t/{duration})':y='{max_crop_y}*(1-t/{duration})',"
+            "noise=alls=10:allf=t,"
+            "colorbalance=bs=0.04:bm=0.02:bh=0.03,"
+            "vignette='PI/4'"
+            "[bg];"
+            "[bg][2:v]overlay=0:0[v]"
+        )
+
         cmd = [
             "ffmpeg", "-y",
             "-loop", "1",
@@ -57,13 +76,7 @@ class ShortRenderer:
             "-loop", "1",
             "-i", str(hook_path),
             "-t", str(duration),
-            "-filter_complex", (
-                # Preserve image proportions for Shorts. If the input is already
-                # 9:16 this is a clean resize; otherwise it crops, never squeezes.
-                f"[0:v]scale={self.SHORT_WIDTH}:{self.SHORT_HEIGHT}:force_original_aspect_ratio=increase,"
-                f"crop={self.SHORT_WIDTH}:{self.SHORT_HEIGHT}[bg];"
-                f"[bg][2:v]overlay=0:0[v]"
-            ),
+            "-filter_complex", cinematic_filter,
             "-map", "[v]",
             "-map", "1:a",
             "-c:v", self.VIDEO_CODEC,
@@ -77,10 +90,11 @@ class ShortRenderer:
             str(output_path),
         ]
 
-        logger.info("Rendering Short (%ds): %s", duration, output_path)
+        logger.info("Rendering Short (%ds, cinematic): %s", duration, output_path)
         result = subprocess.run(cmd, capture_output=True, text=True)
         if result.returncode != 0:
             raise RuntimeError(f"FFmpeg Short render failed:\n{result.stderr[-2000:]}")
 
         logger.info("Short ready: %s", output_path)
         return output_path
+
