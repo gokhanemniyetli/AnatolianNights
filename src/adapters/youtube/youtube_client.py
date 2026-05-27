@@ -228,6 +228,15 @@ class YouTubeClient:
 
         return video_id
 
+    def delete_video(self, video_id: str) -> None:
+        """Delete a YouTube video by ID."""
+        if self.dry_run:
+            logger.info("[DRY RUN] Would delete video %s", video_id)
+            return
+        service = self._get_service()
+        service.videos().delete(id=video_id).execute()
+        logger.info("Deleted YouTube video %s", video_id)
+
     # ── Helpers ───────────────────────────────────────────────────────
 
     def _set_thumbnail(self, service, video_id: str, thumbnail_path: Path) -> None:

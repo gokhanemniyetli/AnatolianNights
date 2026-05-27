@@ -49,8 +49,8 @@ class FileStorage:
 
     def write_suno_prompt(self, city_slug: str, song_id: int, suno_lyrics: str, style_prompt: str) -> tuple[Path, Path]:
         d = self.song_dir(city_slug, song_id)
-        lyrics_path = d / "suno_prompt.txt"
-        style_path = d / "style_prompt.txt"
+        lyrics_path = d / "suno_lyrics.txt"
+        style_path = d / "suno_prompt.txt"
         lyrics_path.write_text(suno_lyrics, encoding="utf-8")
         style_path.write_text(style_prompt, encoding="utf-8")
         return lyrics_path, style_path

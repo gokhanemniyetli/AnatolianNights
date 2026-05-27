@@ -39,6 +39,7 @@ class MetadataAgent(BaseAgent):
         city_name: str,
         concept: dict,
         lyrics: str,
+        language: str = "tr",
     ) -> dict:
         """Generate YouTube metadata for a city-based track."""
         return self.generate_for_playlist(
@@ -46,6 +47,7 @@ class MetadataAgent(BaseAgent):
             playlist_title=f"{city_name} Nights",
             concept=concept,
             lyrics=lyrics,
+            language=language,
         )
 
     def generate_for_playlist(
@@ -54,8 +56,17 @@ class MetadataAgent(BaseAgent):
         playlist_title: str,
         concept: dict,
         lyrics: str,
+        language: str = "tr",
     ) -> dict:
         """Generate YouTube metadata for a playlist-based track."""
+        if language == "en":
+            lang_note = (
+                "\nLANGUAGE: Generate ALL metadata in English. "
+                "Translate the song title to English if it is in Turkish. "
+                "The title, description, short_title, and short_description must all be in English."
+            )
+        else:
+            lang_note = ""
         user_prompt = f"""
 TRACK:
 - Title: {song_title}
@@ -67,7 +78,7 @@ TRACK:
 
 LYRICS:
 {self._format_lyrics_for_description(lyrics) if lyrics and lyrics.strip() else '(instrumental — no lyrics)'}
-
+{lang_note}
 Generate cinematic atmospheric YouTube metadata for the ANATOLIAN NIGHTS channel.
 Title must follow format: "{song_title} | Anatolian Nights" or a variant.
 Description must feel premium and atmospheric — like liner notes for a cinematic music release.
@@ -83,19 +94,38 @@ Tags should be relevant and natural, not spammy.
         if not result.get("tags"):
             result["tags"] = self._build_tags(song_title)
         if not result.get("description"):
-            result["description"] = self._fallback_description(song_title, playlist_title, lyrics)
+            result["description"] = self._fallback_description(song_title, playlist_title, lyrics, language=language)
         if not result.get("short_description"):
-            result["short_description"] = f"{song_title} — atmospheric Turkish lo-fi. #AnatolianNights"[:150]
+            if language == "en":
+                result["short_description"] = f"{song_title} - atmospheric Turkish lo-fi. #AnatolianNights"[:150]
+            else:
+                result["short_description"] = f"{song_title} - atmosferik Turkce lo-fi. #AnatolianNights"[:150]
+
+        if language == "en":
+            result["title"] = self._ensure_english_title(result.get("title", ""), song_title)
+            result["short_title"] = self._ensure_english_title(result.get("short_title", ""), song_title)[:100]
 
         return result
 
-    def _fallback_description(self, song_title: str, playlist_title: str, lyrics: str) -> str:
+    def _fallback_description(self, song_title: str, playlist_title: str, lyrics: str, language: str = "tr") -> str:
         clean_lyrics = self._format_lyrics_for_description(lyrics)
         hashtags = " ".join(self._build_tags(song_title)[:6])
-        intro = f"{song_title} — from the {playlist_title} collection by Anatolian Nights."
+        if language == "en":
+            intro = f"{song_title} - from the {playlist_title} collection by Anatolian Nights."
+        else:
+            intro = f"{song_title} - Anatolian Nights tarafindan {playlist_title} koleksiyonundan."
         if not clean_lyrics:
             return f"{intro}\n\n{hashtags}".strip()
         return f"{intro}\n\n{clean_lyrics}\n\n{hashtags}".strip()
+
+    @staticmethod
+    def _ensure_english_title(candidate_title: str, fallback_song_title: str) -> str:
+        title = (candidate_title or "").strip()
+        if not title:
+            return f"{fallback_song_title} | Anatolian Nights"
+        if "|" not in title:
+            return f"{title} | Anatolian Nights"
+        return title
 
     @staticmethod
     def _build_tags(song_title: str) -> list[str]:
@@ -109,133 +139,6 @@ Tags should be relevant and natural, not spammy.
                 seen.add(tag)
                 result.append(tag)
         return result
-
-    @classmethod
-    def _format_lyrics_for_description(cls, lyrics: str) -> str:
-        stanzas: list[list[str]] = []
-        current: list[str] = []
-        for raw in (lyrics or "").splitlines():
-            line = raw.strip()
-            if not line:
-                if current:
-                    stanzas.append(current)
-                    current = []
-                continue
-            if _SECTION_RE.match(line):
-                if current:
-                    stanzas.append(current)
-                    current = []
-                continue
-            line = cls._strip_suno_markers(line)
-            if line:
-                current.append(line)
-        if current:
-            stanzas.append(current)
-        return "\n\n".join("\n".join(stanza) for stanza in stanzas)
-
-    @staticmethod
-    def _strip_suno_markers(text: str) -> str:
-        text = re.sub(r"\[[^\]]+\]", "", text)
-        text = re.sub(r"\n{3,}", "\n\n", text)
-        return text.strip()
-
-
-
-class MetadataAgent(BaseAgent):
-    def __init__(self):
-        super().__init__(
-            task="metadata",
-            model=get_model("metadata"),
-            system_prompt=_SYSTEM_PROMPT,
-        )
-
-    def generate(
-        self,
-        song_title: str,
-        city_name: str,
-        concept: dict,
-        lyrics: str,
-    ) -> dict:
-        """
-        Returns dict with keys:
-        title, description, tags, short_title, short_description
-        """
-        result = {
-            "tags": self._hashtags(song_title, city_name),
-        }
-        result["title"] = f"{song_title} | {city_name} Yöresi | Anadolu Türküleri Ezgileri"
-        result["description"] = self._format_description(
-            song_title,
-            city_name,
-            lyrics,
-        )
-        result["short_title"] = song_title[:100]
-        result["short_description"] = self._format_short_description(song_title, city_name)
-        return result
-
-    def generate_for_playlist(
-        self,
-        song_title: str,
-        playlist_title: str,
-        concept: dict,
-        lyrics: str,
-    ) -> dict:
-        result = {
-            "tags": self._hashtags(song_title, playlist_title),
-        }
-        result["title"] = f"{song_title} | {playlist_title} | Anadolu Türküleri Ezgileri"
-        result["description"] = self._format_playlist_description(song_title, playlist_title, lyrics)
-        result["short_title"] = song_title[:100]
-        result["short_description"] = self._format_playlist_short_description(song_title, playlist_title)
-        return result
-
-    def _format_playlist_description(self, song_title: str, playlist_title: str, lyrics: str) -> str:
-        clean_lyrics = self._format_lyrics_for_description(lyrics)
-        intro = f"{song_title} - {playlist_title} konseptinde yeni bir türkü."
-        hashtags = self._format_hashtags(song_title, playlist_title)
-        if not clean_lyrics:
-            return f"{intro}\n\n{hashtags}".strip()
-        return f"{intro}\n\nŞarkı Sözleri:\n\n{clean_lyrics}\n\n{hashtags}".strip()
-
-    def _format_playlist_short_description(self, song_title: str, playlist_title: str) -> str:
-        hashtags = " ".join(self._hashtags(song_title, playlist_title)[:3])
-        description = f"{song_title} - {playlist_title} kısa türkü. {hashtags}"
-        return description[:150].strip()
-
-    def _format_description(self, song_title: str, city_name: str, lyrics: str) -> str:
-        clean_lyrics = self._format_lyrics_for_description(lyrics)
-        intro = f"{song_title} - {city_name} yöresinden yeni bir türkü."
-        hashtags = self._format_hashtags(song_title, city_name)
-        if not clean_lyrics:
-            return f"{intro}\n\n{hashtags}".strip()
-        return f"{intro}\n\nŞarkı Sözleri:\n\n{clean_lyrics}\n\n{hashtags}".strip()
-
-    def _format_short_description(self, song_title: str, city_name: str) -> str:
-        hashtags = " ".join(self._hashtags(song_title, city_name)[:3])
-        description = f"{song_title} - {city_name} yöresinden kısa türkü. {hashtags}"
-        return description[:150].strip()
-
-    def _format_hashtags(self, song_title: str, city_name: str) -> str:
-        return " ".join(self._hashtags(song_title, city_name))
-
-    @classmethod
-    def _hashtags(cls, song_title: str, city_name: str) -> list[str]:
-        city_tag = cls._hashtag(city_name)
-        title_tag = cls._hashtag(song_title)
-        tags = [
-            city_tag,
-            title_tag,
-            "#Türkü",
-            "#AnadoluTürküleri",
-            "#HalkMüziği",
-            "#TürkHalkMüziği",
-        ]
-        return [tag for index, tag in enumerate(tags) if tag and tag not in tags[:index]]
-
-    @staticmethod
-    def _hashtag(text: str) -> str:
-        tag = re.sub(r"[^\wçğıöşüÇĞİÖŞÜ]+", "", text or "", flags=re.UNICODE)
-        return f"#{tag}" if tag else ""
 
     @classmethod
     def _format_lyrics_for_description(cls, lyrics: str) -> str:

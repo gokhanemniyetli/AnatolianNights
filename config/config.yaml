@@ -24,8 +24,8 @@ video:
 image:
   width: 1920
   height: 1080
-  # model: "placeholder" | "sdxl-turbo" | "flux-schnell"
-  model: "placeholder"
+  # model: "pollinations" | "placeholder" | "sdxl-turbo" | "flux-schnell"
+  model: "pollinations"
   num_inference_steps: 4
   guidance_scale: 0.0
 
@@ -36,12 +36,12 @@ youtube:
 
 ollama:
   base_url: "http://127.0.0.1:11434"
-  timeout_seconds: 120
+  timeout_seconds: 600
   max_retries: 3
   retry_delay_seconds: 2
 
 suno:
-  client: "manual"
+  client: "browser"
   model_version: "v5.5"
 
 storage:

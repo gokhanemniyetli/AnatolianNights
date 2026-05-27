@@ -36,7 +36,7 @@ class ManualSunoClient:
             f"{style_prompt}\n\n"
             f"=== INSTRUCTIONS ===\n"
             f"1. Go to suno.com and create a new song.\n"
-            f"2. Use Simple mode (do not switch to Custom lyrics/style).\n"
+            f"2. Use Simple mode.\n"
             f"3. Paste the SIMPLE PROMPT into the main prompt box.\n"
             f"4. Generate the song and download the best version as MP3.\n"
             f"5. Run: python -m cli import-audio --song-id {song_id} --file /path/to/audio.mp3\n"

@@ -61,9 +61,12 @@ class ShortRenderer:
             f"[0:v]scale={zoom_scale_w}:{zoom_scale_h}:force_original_aspect_ratio=increase,"
             f"crop={zoom_scale_w}:{zoom_scale_h},"
             f"crop=w={W}:h={H}:x='{max_crop_x}*(1-t/{duration})':y='{max_crop_y}*(1-t/{duration})',"
-            "noise=alls=10:allf=t,"
+            "noise=alls=8:allf=t,"
             "colorbalance=bs=0.04:bm=0.02:bh=0.03,"
-            "vignette='PI/4'"
+            "eq=saturation=0.92:contrast=1.05:brightness=-0.02,"
+            "vignette='PI/4',"
+            # Film grain layer 2 — temporal shimmer (geq rain removed for FFmpeg 8 compat)
+            "noise=alls=4:allf=t"
             "[bg];"
             "[bg][2:v]overlay=0:0[v]"
         )

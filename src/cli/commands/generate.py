@@ -28,8 +28,8 @@ def generate_city(city_slug: str, dry_run: bool):
 @click.command("generate-next")
 @click.option("--dry-run", is_flag=True, default=False)
 def generate_next(dry_run: bool):
-    """Generate a song for the next city in round-robin order."""
-    console.print("[bold cyan]Generating song for next city...[/]")
+    """Generate a song for the next concept playlist."""
+    console.print("[bold cyan]Generating song for next concept...[/]")
     orch = Orchestrator(dry_run=dry_run)
     song_id = orch.run_one()
     if song_id:
@@ -106,7 +106,26 @@ def resume_song(song_id: str, dry_run: bool):
     pipeline = PipelineService(dry_run=dry_run)
     try:
         pipeline.run_song(song_id)
+        _resume_twin_if_needed(song_id, pipeline)
         console.print(f"[green]✓ Song {song_id} advanced successfully.[/]")
     except Exception as exc:
+        _resume_twin_if_needed(song_id, pipeline)
         console.print(f"[red]✗ Pipeline error: {exc}[/]")
         raise SystemExit(1) from exc
+
+
+def _resume_twin_if_needed(song_id: str, pipeline) -> None:
+    from src.storage.database import get_session
+    from src.storage.models import Song
+
+    with get_session() as session:
+        refreshed: Song | None = session.get(Song, song_id)
+        if not refreshed or refreshed.language != "tr" or not refreshed.twin_song_id:
+            return
+        twin_song_id = refreshed.twin_song_id
+        twin: Song | None = session.get(Song, twin_song_id)
+        if not twin or twin.status in {SongStatus.UPLOADED, SongStatus.PERMANENTLY_REJECTED}:
+            return
+
+    console.print(f"[cyan]Resuming English twin song [bold]{twin_song_id}[/]...[/]")
+    pipeline.run_song(str(twin_song_id))

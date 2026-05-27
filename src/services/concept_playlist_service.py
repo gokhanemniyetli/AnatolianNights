@@ -289,7 +289,7 @@ class ConceptPlaylistService:
     @staticmethod
     def _style_notes(title: str, source_text: str) -> list[str]:
         notes = [
-            "Keep tracks instrumental-first; target 3-5 minute duration.",
+            "Keep tracks vocal-first with Turkish lyrics; target 3-5 minute duration.",
             "Each production should have a unique emotional anchor and never repeat the same title or hook.",
             f"All output must feel consistent with the '{title}' playlist atmosphere.",
         ]
@@ -352,7 +352,7 @@ class ConceptPlaylistService:
 
         return {
             "tempo": "slow-to-mid atmospheric",
-            "vocal": "ambient vocal or instrumental",
+            "vocal": "clear Turkish lead vocal with sung lyrics",
             "instruments": instruments,
             "avoid": [
                 "loud pop production",

@@ -9,6 +9,7 @@ import json
 import logging
 import os
 import re
+import subprocess
 import time
 from pathlib import Path
 
@@ -29,13 +30,56 @@ class YouTubeStudioUploader:
         expected_channel_id: str | None = None,
     ):
         configured_profile = os.getenv("YOUTUBE_STUDIO_PROFILE_DIR")
+        configured_headless = os.getenv("YOUTUBE_STUDIO_HEADLESS")
         self.profile_dir = Path(configured_profile or profile_dir)
-        self.headless = headless
+        if configured_headless is None:
+            self.headless = headless
+        else:
+            self.headless = configured_headless.strip().lower() in {"1", "true", "yes", "on"}
         self.timeout_ms = timeout_ms
         self.expected_channel_id = (expected_channel_id or settings.youtube.channel_id or "").strip()
         # Optional account/channel hint used for automated account switching
         # in multi-login browser profiles (e.g. "AnatolianNights" or account email).
         self.account_hint = (os.getenv("YOUTUBE_STUDIO_ACCOUNT_HINT") or "").strip()
+
+    def _launch_context(self, playwright):
+        self.profile_dir.mkdir(parents=True, exist_ok=True)
+        self._ensure_profile_not_in_use()
+        return playwright.chromium.launch_persistent_context(
+            str(self.profile_dir),
+            headless=self.headless,
+            viewport={"width": 1440, "height": 1000},
+            accept_downloads=True,
+            args=[
+                "--disable-blink-features=AutomationControlled",
+                "--disable-session-crashed-bubble",
+                "--no-first-run",
+            ],
+        )
+
+    def _ensure_profile_not_in_use(self) -> None:
+        profile_path = str(self.profile_dir.resolve())
+        try:
+            proc = subprocess.run(
+                ["pgrep", "-fal", "Google Chrome for Testing|Chromium"],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+        except Exception:
+            return
+
+        locks = [
+            line.strip()
+            for line in (proc.stdout or "").splitlines()
+            if profile_path in line and "--user-data-dir=" in line
+        ]
+        if locks:
+            raise RuntimeError(
+                "YouTube Studio browser profile is already in use. "
+                "Close all 'Google Chrome for Testing' windows (or stop old uploader process), then retry. "
+                f"Profile: {profile_path}"
+            )
 
     def upload_video(
         self,
@@ -53,14 +97,7 @@ class YouTubeStudioUploader:
             raise FileNotFoundError(video_path)
 
         with sync_playwright() as pw:
-            self.profile_dir.mkdir(parents=True, exist_ok=True)
-            context = pw.chromium.launch_persistent_context(
-                str(self.profile_dir),
-                headless=self.headless,
-                viewport={"width": 1440, "height": 1000},
-                accept_downloads=True,
-                args=["--disable-blink-features=AutomationControlled"],
-            )
+            context = self._launch_context(pw)
             page = context.pages[0] if context.pages else context.new_page()
             page.set_default_timeout(self.timeout_ms)
 
@@ -92,14 +129,7 @@ class YouTubeStudioUploader:
             return
 
         with sync_playwright() as pw:
-            self.profile_dir.mkdir(parents=True, exist_ok=True)
-            context = pw.chromium.launch_persistent_context(
-                str(self.profile_dir),
-                headless=self.headless,
-                viewport={"width": 1440, "height": 1000},
-                accept_downloads=True,
-                args=["--disable-blink-features=AutomationControlled"],
-            )
+            context = self._launch_context(pw)
             page = context.pages[0] if context.pages else context.new_page()
             page.set_default_timeout(self.timeout_ms)
 
@@ -128,14 +158,7 @@ class YouTubeStudioUploader:
             return
 
         with sync_playwright() as pw:
-            self.profile_dir.mkdir(parents=True, exist_ok=True)
-            context = pw.chromium.launch_persistent_context(
-                str(self.profile_dir),
-                headless=self.headless,
-                viewport={"width": 1440, "height": 1000},
-                accept_downloads=True,
-                args=["--disable-blink-features=AutomationControlled"],
-            )
+            context = self._launch_context(pw)
             page = context.pages[0] if context.pages else context.new_page()
             page.set_default_timeout(self.timeout_ms)
 
@@ -161,14 +184,7 @@ class YouTubeStudioUploader:
             raise ValueError("Playlist title is required.")
 
         with sync_playwright() as pw:
-            self.profile_dir.mkdir(parents=True, exist_ok=True)
-            context = pw.chromium.launch_persistent_context(
-                str(self.profile_dir),
-                headless=self.headless,
-                viewport={"width": 1440, "height": 1000},
-                accept_downloads=True,
-                args=["--disable-blink-features=AutomationControlled"],
-            )
+            context = self._launch_context(pw)
             page = context.pages[0] if context.pages else context.new_page()
             page.set_default_timeout(self.timeout_ms)
 
@@ -1197,7 +1213,7 @@ class YouTubeStudioUploader:
     def _click_next(self, page) -> None:
         self._click_named_button(
             page,
-            [r"Next", r"İleri", r"Sonraki", r"Devam"],
+            [r"Next", r"İleri", r"Sonraki", r"Devam", r"Continue", r"Devam et", r"İlerle"],
             timeout=900_000,
         )
 
@@ -1677,6 +1693,12 @@ class YouTubeStudioUploader:
                 continue
         if self._click_dialog_action_button(page, names):
             return
+        screenshot_path = "/private/tmp/yt_studio_next_button_fail.png"
+        try:
+            page.screenshot(path=screenshot_path, full_page=True)
+            logger.warning("Screenshot saved to %s — check to see current button labels", screenshot_path)
+        except Exception:
+            pass
         raise TimeoutError(f"Could not click button matching: {names}")
 
     def _click_dialog_action_button(self, page, names: list[str]) -> bool:

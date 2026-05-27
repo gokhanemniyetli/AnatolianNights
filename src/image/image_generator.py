@@ -2,18 +2,21 @@
 ImageGenerator — generates atmospheric background images for Anatolian Nights.
 
 Model selection (config-driven):
-  flux-schnell  → black-forest-labs/FLUX.1-schnell via diffusers (best quality)
-  sdxl-turbo    → stabilityai/sdxl-turbo via diffusers (fallback)
+  pollinations  → FLUX via Pollinations.ai free API (recommended, no setup)
+  flux-schnell  → black-forest-labs/FLUX.1-schnell via diffusers (local, best quality)
+  sdxl-turbo    → stabilityai/sdxl-turbo via diffusers (local, faster)
   placeholder   → dark atmospheric PIL gradient (no AI model required)
 
 Device: MPS (Apple Silicon) when available, CPU fallback.
 Output: generated size → resized to 1920x1080 via Pillow.
 """
 
+import hashlib
 import logging
 import random
 from pathlib import Path
 
+import requests
 from PIL import Image
 
 from src.config.settings import settings
@@ -87,7 +90,59 @@ def _atmospheric_placeholder(width: int, height: int, seed: int | None = None) -
     return img
 
 
+def _generate_pollinations(
+    image_prompt: str,
+    output_path: Path,
+    width: int,
+    height: int,
+    retries: int = 3,
+) -> Path:
+    """
+    Generate image via Pollinations.ai free FLUX API.
+    No API key required. Returns output_path.
+    """
+    import io
+    import time
+    import urllib.parse
+
+    seed = int(hashlib.md5(image_prompt.encode()).hexdigest()[:8], 16)
+
+    # Prepend no-humans safety prefix (CLIP truncates at ~77 tokens, put safety first)
+    safe_prompt = (
+        "cinematic atmospheric night scene, no people, no human figures, no faces, "
+        "no hands, no musicians, no instruments, " + image_prompt
+    )
+    encoded = urllib.parse.quote(safe_prompt)
+    url = (
+        f"https://image.pollinations.ai/prompt/{encoded}"
+        f"?width={width}&height={height}&seed={seed}&nologo=true&model=flux&enhance=true"
+    )
+
+    logger.info("Generating image via Pollinations (FLUX): %s...", image_prompt[:80])
+
+    last_exc: Exception | None = None
+    for attempt in range(1, retries + 1):
+        try:
+            resp = requests.get(url, timeout=120, stream=True)
+            resp.raise_for_status()
+            img = Image.open(io.BytesIO(resp.content)).convert("RGB")
+            img.save(str(output_path), format="PNG")
+            logger.info("Pollinations image saved to %s", output_path)
+            return output_path
+        except Exception as exc:
+            last_exc = exc
+            logger.warning("Pollinations attempt %d/%d failed: %s", attempt, retries, exc)
+            if attempt < retries:
+                time.sleep(10 * attempt)
+
+    logger.error("Pollinations failed after %d attempts, falling back to placeholder: %s", retries, last_exc)
+    img = _atmospheric_placeholder(width, height)
+    img.save(str(output_path), format="PNG")
+    return output_path
+
+
 class ImageGenerator:
+
     TARGET_WIDTH = 1920
     TARGET_HEIGHT = 1080
 
@@ -119,6 +174,9 @@ class ImageGenerator:
             img.save(str(output_path), format="PNG")
             logger.info("Placeholder image saved to %s", output_path)
             return output_path
+
+        if model_key == "pollinations":
+            return _generate_pollinations(image_prompt, output_path, w, h)
 
         # AI model path — lazy import torch/diffusers
         try:

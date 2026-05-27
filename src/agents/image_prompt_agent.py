@@ -19,7 +19,7 @@ class ImagePromptAgent(BaseAgent):
             system_prompt=_SYSTEM_PROMPT,
         )
 
-    def generate(self, concept: dict, city_name: str, cultural_profile: dict) -> dict:
+    def generate(self, concept: dict, city_name: str, cultural_profile: dict, language: str = "tr") -> dict:
         """
         Returns dict with keys: image_prompt (str), negative_prompt (str), style_tags (list)
         City-based generate delegates to the playlist method.
@@ -28,11 +28,23 @@ class ImagePromptAgent(BaseAgent):
             "group": "istanbul-night",
             "style_profile": {"mood": "atmospheric night, cinematic"},
         }
-        return self.generate_for_playlist(concept, f"{city_name} Nights", concept_profile)
+        return self.generate_for_playlist(concept, f"{city_name} Nights", concept_profile, language=language)
 
-    def generate_for_playlist(self, concept: dict, playlist_title: str, concept_profile: dict) -> dict:
+    def generate_for_playlist(
+        self,
+        concept: dict,
+        playlist_title: str,
+        concept_profile: dict,
+        language: str = "tr",
+    ) -> dict:
         """Generate a cinematic atmospheric background prompt for Anatolian Nights."""
         group = concept_profile.get("group", "")
+        lang_note = ""
+        if (language or "tr").lower() == "en":
+            lang_note = (
+                "\nLANGUAGE: Write the full image prompt and style wording in English only. "
+                "If any source text is Turkish, translate it to natural English."
+            )
         user_prompt = f"""
 TRACK:
 - Playlist: {playlist_title}
@@ -42,6 +54,7 @@ TRACK:
 - Visual: {concept.get('visual', '')}
 - Ambience: {concept.get('ambience', [])}
 - Story: {concept.get('story', '')}
+{lang_note}
 
 Generate a 1920x1080 cinematic atmospheric background image prompt.
 The scene must feel premium and moody — like a movie still or atmospheric album cover.

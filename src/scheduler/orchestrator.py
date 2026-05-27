@@ -34,9 +34,7 @@ class Orchestrator:
                 if not concept_playlist:
                     logger.error("Concept playlist not found: %s", concept_slug)
                     return None
-                city = city_svc.get_by_id(concept_playlist.anchor_city_id) if concept_playlist.anchor_city_id else None
-                if not city:
-                    city = city_svc.get_next_city()
+                city = self._resolve_anchor_city(city_svc, concept_playlist)
                 if not city:
                     logger.error("No anchor city found for concept: %s", concept_slug)
                     return None
@@ -53,42 +51,63 @@ class Orchestrator:
                 song_id = song.id
                 logger.info("Created song %s for city: %s", song_id, city.name)
             else:
-                target = self._next_target(city_svc, concept_playlist_svc)
-                if not target:
-                    logger.error("No active cities or concepts found")
+                concept_playlist = concept_playlist_svc.get_next_concept()
+                if not concept_playlist:
+                    logger.error("No active concept playlists found")
                     return None
-                target_type, target_obj = target
-                if target_type == "concept":
-                    concept_playlist = target_obj
-                    city = city_svc.get_by_id(concept_playlist.anchor_city_id) if concept_playlist.anchor_city_id else None
-                    if not city:
-                        city = city_svc.get_next_city()
-                    if not city:
-                        logger.error("No anchor city found for concept: %s", concept_playlist.slug)
-                        return None
-                    concept_playlist_svc.ensure_research(concept_playlist)
-                    song = song_svc.create_concept_song(city.id, concept_playlist.id)
-                    song_id = song.id
-                    logger.info("Created song %s for concept: %s", song_id, concept_playlist.title)
-                else:
-                    city = target_obj
-                    song = song_svc.create_song(city.id)
-                    song_id = song.id
-                    logger.info("Created song %s for city: %s", song_id, city.name)
+                city = self._resolve_anchor_city(city_svc, concept_playlist)
+                if not city:
+                    logger.error("No anchor city found for concept: %s", concept_playlist.slug)
+                    return None
+                concept_playlist_svc.ensure_research(concept_playlist)
+                song = song_svc.create_concept_song(city.id, concept_playlist.id)
+                song_id = song.id
+                logger.info("Created song %s for concept: %s", song_id, concept_playlist.title)
 
         # Run outside the session above (pipeline opens its own sessions)
         try:
             self.pipeline.run_song(song_id)
         except Exception as exc:
             logger.exception("Pipeline failed for song %s: %s", song_id, exc)
+            self._run_twin_if_needed(song_id)
             return None
 
+        self._run_twin_if_needed(song_id)
         return song_id
 
     def resume(self, song_id: str) -> str:
         """Resume an existing song from its current status."""
         self.pipeline.run_song(song_id)
+        self._run_twin_if_needed(song_id)
         return song_id
+
+    def _run_twin_if_needed(self, song_id: str | int) -> None:
+        with get_session() as session:
+            song = SongService(session).get_by_id(song_id)
+            if not song or not song.twin_song_id:
+                return
+            language = getattr(song, "language", None) or "tr"
+            if language != "tr":
+                return
+            twin_id = song.twin_song_id
+            twin = SongService(session).get_by_id(twin_id)
+            if not twin or twin.status in {"uploaded", "permanently_rejected"}:
+                return
+
+        logger.info("Running English twin song %s for song %s", twin_id, song_id)
+        try:
+            self.pipeline.run_song(str(twin_id))
+        except Exception as exc:
+            logger.exception("Twin pipeline failed for song %s: %s", twin_id, exc)
+
+    @staticmethod
+    def _resolve_anchor_city(city_svc: CityService, concept_playlist):
+        city = city_svc.get_by_id(concept_playlist.anchor_city_id) if concept_playlist.anchor_city_id else None
+        if city:
+            return city
+        # Concept-first mode still needs a valid city_id for DB integrity.
+        active_cities = city_svc.get_all_active()
+        return active_cities[0] if active_cities else None
 
     @staticmethod
     def _next_target(city_svc: CityService, concept_playlist_svc: ConceptPlaylistService):

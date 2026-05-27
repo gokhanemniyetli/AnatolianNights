@@ -41,7 +41,7 @@ class YouTubeSettings(BaseSettings):
 
 
 class SunoSettings(BaseSettings):
-    client: str = Field(default="manual", alias="SUNO_CLIENT")
+    client: str = Field(default=_yaml.get("suno", {}).get("client", "manual"), alias="SUNO_CLIENT")
     model_version: str = Field(default=_yaml.get("suno", {}).get("model_version", "chirp-fenix"), alias="SUNO_MODEL_VERSION")
     email: Optional[str] = Field(default=None, alias="SUNO_EMAIL")
     password: Optional[str] = Field(default=None, alias="SUNO_PASSWORD")
@@ -81,6 +81,12 @@ class StorageSettings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
 
 
+class ImageSettings(BaseSettings):
+    model: str = Field(default=_yaml.get("image", {}).get("model", "placeholder"))
+
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)
+
+
 class Settings(BaseSettings):
     ollama: OllamaSettings = Field(default_factory=OllamaSettings)
     youtube: YouTubeSettings = Field(default_factory=YouTubeSettings)
@@ -88,6 +94,7 @@ class Settings(BaseSettings):
     pipeline: PipelineSettings = Field(default_factory=PipelineSettings)
     video: VideoSettings = Field(default_factory=VideoSettings)
     storage: StorageSettings = Field(default_factory=StorageSettings)
+    image: ImageSettings = Field(default_factory=ImageSettings)
     log_level: str = Field(default="INFO", alias="LOG_LEVEL")
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore", populate_by_name=True)

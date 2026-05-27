@@ -39,6 +39,7 @@ _POLL_INTERVAL_S = 15       # seconds between status checks
 _POLL_TIMEOUT_S = 600       # 10 minutes max wait
 _GENERATE_RETRY_DELAYS_S = (120, 300)
 _SIMPLE_PROMPT_MAX_CHARS = 2800
+_CUSTOM_MODEL_FALLBACKS = ("chirp-v5", "chirp-v4-5", "chirp-auk", "chirp-v4")
 
 
 def _env_int(name: str, default: int) -> int:
@@ -52,7 +53,21 @@ def _env_int(name: str, default: int) -> int:
         return default
 
 
+def _model_candidates() -> list[str]:
+    configured = (settings.suno.model_version or "").strip()
+    candidates = [configured, *_CUSTOM_MODEL_FALLBACKS]
+    result: list[str] = []
+    for candidate in candidates:
+        if candidate and candidate not in result:
+            result.append(candidate)
+    return result
+
+
 _CAPTCHA_WAIT_TIMEOUT_S = _env_int("SUNO_CAPTCHA_WAIT_TIMEOUT_SECONDS", 900)
+
+
+class _CaptchaNeedsHeadedMode(Exception):
+    """Raised when a CAPTCHA is detected in headless mode; caller should retry headed."""
 
 # Real Chrome paths (macOS)
 _CHROME_PATHS = [
@@ -99,12 +114,23 @@ class BrowserSunoClient:
 
     def generate(self, style_prompt: str, suno_lyrics: str, song_id: str) -> str:
         """Submit to Suno. Returns clip_id (use as task_id)."""
-        if suno_lyrics and suno_lyrics.strip():
-            logger.warning("Simple mode zorunlu: suno_lyrics yok sayılıyor.")
         last_exc: Exception | None = None
+        _headed_retry_done = False
         for attempt in range(len(_GENERATE_RETRY_DELAYS_S) + 1):
             try:
-                return asyncio.run(self._async_generate_via_ui(style_prompt, ""))
+                force_headed = _headed_retry_done or not _suno_headless()
+                return asyncio.run(self._async_generate_via_ui(style_prompt, suno_lyrics, _force_headed=force_headed))
+            except _CaptchaNeedsHeadedMode:
+                if _headed_retry_done:
+                    raise RuntimeError(
+                        "Suno CAPTCHA headed modda da çözülemedi. "
+                        "Lütfen tarayıcıda manuel olarak çözün."
+                    )
+                logger.warning(
+                    "Headless modda CAPTCHA algılandı — tarayıcı görünür modda yeniden başlatılıyor."
+                )
+                _headed_retry_done = True
+                continue
             except RuntimeError as exc:
                 last_exc = exc
                 message = str(exc).lower()
@@ -338,42 +364,56 @@ class BrowserSunoClient:
             if not jwt:
                 await browser.close()
                 logger.warning("Suno JWT alınamadı; UI fallback deneniyor.")
+                if suno_lyrics and suno_lyrics.strip():
+                    raise RuntimeError("Suno JWT alınamadı; custom lyrics mode UI fallback ile güvenli değil.")
                 return await self._async_generate_via_ui(style_prompt, suno_lyrics)
 
             # Make the API call from within the browser (correct cookies + auth)
             result = await page.evaluate(
-                """async ([style_prompt, suno_lyrics, jwt, model_version]) => {
+                """async ([style_prompt, suno_lyrics, jwt, model_versions]) => {
                     const endpoints = [
                         "https://studio-api-prod.suno.com/api/generate/v2/",
                         "https://studio-api.suno.ai/api/generate/v2/",
                     ];
                     const isSimpleMode = !suno_lyrics || !suno_lyrics.trim();
-                    const payload = {
-                        prompt: isSimpleMode ? style_prompt.slice(0, 2800) : suno_lyrics,
-                        mv: model_version,
-                        title: "",
-                        tags: isSimpleMode ? "" : style_prompt.slice(0, 200),
-                        make_instrumental: false,
-                    };
-                    for (const url of endpoints) {
-                        try {
-                            const resp = await fetch(url, {
-                                method: "POST",
-                                headers: {
-                                    "Content-Type": "application/json",
-                                    "Authorization": "Bearer " + jwt,
-                                },
-                                body: JSON.stringify(payload),
-                            });
-                            const text = await resp.text();
-                            return { status: resp.status, url, text };
-                        } catch (e) {
-                            continue;
+                    let last = { status: 0, url: "", text: "all endpoints failed", mv: "" };
+                    for (const mv of model_versions) {
+                        const payload = {
+                            prompt: isSimpleMode ? style_prompt.slice(0, 2800) : suno_lyrics,
+                            mv,
+                            title: "",
+                            tags: isSimpleMode ? "" : style_prompt.slice(0, 200),
+                            make_instrumental: false,
+                        };
+                        for (const url of endpoints) {
+                            try {
+                                const resp = await fetch(url, {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "Authorization": "Bearer " + jwt,
+                                    },
+                                    body: JSON.stringify(payload),
+                                });
+                                const text = await resp.text();
+                                last = { status: resp.status, url, text, mv };
+                                if (
+                                    resp.status === 400
+                                    && text.toLowerCase().includes("selected model")
+                                    && text.toLowerCase().includes("isn't valid")
+                                ) {
+                                    continue;
+                                }
+                                return last;
+                            } catch (e) {
+                                last = { status: 0, url, text: String(e), mv };
+                                continue;
+                            }
                         }
                     }
-                    return { status: 0, url: "", text: "all endpoints failed" };
+                    return last;
                 }""",
-                [style_prompt, suno_lyrics, jwt, settings.suno.model_version],
+                [style_prompt, suno_lyrics, jwt, _model_candidates()],
             )
 
             await browser.close()
@@ -381,7 +421,7 @@ class BrowserSunoClient:
         logger.info(
             "Suno generate yanıtı — status=%s url=%s body=%s",
             result["status"],
-            result["url"],
+            f"{result['url']} mv={result.get('mv', '')}",
             result.get("text", "")[:500],
         )
 
@@ -408,12 +448,16 @@ class BrowserSunoClient:
                 result["status"] == 422
                 and "token_validation_failed" in result.get("text", "")
             ):
+                if suno_lyrics and suno_lyrics.strip():
+                    raise RuntimeError("Suno API token doğrulamasını reddetti; custom lyrics mode durduruldu.")
                 logger.warning("Suno API token doğrulamasını reddetti; UI fallback deneniyor.")
                 return await self._async_generate_via_ui(style_prompt, suno_lyrics)
             if (
                 result["status"] == 400
                 and "selected model isn't valid" in result.get("text", "")
             ):
+                if suno_lyrics and suno_lyrics.strip():
+                    raise RuntimeError("Suno API modeli custom lyrics mode için reddetti; sözler kaybolmasın diye durduruldu.")
                 logger.warning("Suno API model değerini reddetti; UI fallback deneniyor.")
                 return await self._async_generate_via_ui(style_prompt, suno_lyrics)
             raise RuntimeError(
@@ -429,7 +473,7 @@ class BrowserSunoClient:
         logger.info("Suno generation gönderildi — clip_id=%s", clip_id)
         return clip_id
 
-    async def _async_generate_via_ui(self, style_prompt: str, suno_lyrics: str = "") -> str:
+    async def _async_generate_via_ui(self, style_prompt: str, suno_lyrics: str = "", _force_headed: bool = False) -> str:
         """
         Generate through the real Suno Create UI.
 
@@ -440,10 +484,11 @@ class BrowserSunoClient:
         """
         from playwright.async_api import async_playwright
 
-        suno_lyrics = ""
         profile_dir = _suno_profile_dir()
         real_chrome = _find_real_browser()
-        headless = _suno_headless()
+        headless = False if _force_headed else _suno_headless()
+        suno_lyrics = (suno_lyrics or "").strip()
+        has_custom_lyrics = bool(suno_lyrics)
 
         async with async_playwright() as pw:
             launch_kwargs: dict = {
@@ -481,7 +526,13 @@ class BrowserSunoClient:
                 request_log.append(f"{request.method} {request.url} {body[:250]}")
 
             async def on_response(response):
+                # Only intercept POST responses to the actual Suno generate endpoint
+                if response.request.method != "POST":
+                    return
                 if "generate" not in response.url:
+                    return
+                # Ignore 204 No Content (preflight / CORS / unrelated POSTs)
+                if response.status == 204:
                     return
                 try:
                     text = await response.text()
@@ -489,7 +540,7 @@ class BrowserSunoClient:
                     if not generate_future.done():
                         generate_future.set_exception(exc)
                     return
-                if response.status != 200:
+                if response.status not in (200, 201):
                     if not generate_future.done():
                         generate_future.set_exception(
                             RuntimeError(f"Suno UI generate HTTP {response.status}: {text[:300]}")
@@ -501,18 +552,59 @@ class BrowserSunoClient:
                     if not generate_future.done():
                         generate_future.set_exception(exc)
                     return
+                clips = data.get("clips", []) or data.get("data", [])
+                valid_clips = [
+                    clip for clip in clips
+                    if isinstance(clip, dict)
+                    and clip.get("id")
+                    and (
+                        clip.get("audio_url")
+                        or clip.get("audioUrl")
+                        or clip.get("status") in {"submitted", "queued", "pending", "complete"}
+                    )
+                ]
+                if not valid_clips:
+                    return
+                data["_captured_url"] = response.url
                 if not generate_future.done():
                     generate_future.set_result(data)
 
             page.on("request", on_request)
             page.on("response", on_response)
 
+            # Intercept Suno generate API calls and ALWAYS force make_instrumental=false.
+            # Simple mode can produce instrumental tracks if the UI state is wrong or
+            # Suno's React carries a stored preference. This route handler corrects the
+            # payload at the network level before it reaches the server.
+            async def _force_vocal_route(route, request):
+                if "generate" in request.url and request.method == "POST":
+                    try:
+                        body_bytes = request.post_data_buffer
+                        if body_bytes:
+                            payload = json.loads(body_bytes)
+                            was_instrumental = payload.get("make_instrumental")
+                            payload["make_instrumental"] = False
+                            logger.info(
+                                "Suno generate payload (make_instrumental was=%s → false): %s",
+                                was_instrumental,
+                                str(payload)[:400],
+                            )
+                            await route.continue_(post_data=json.dumps(payload))
+                            return
+                        else:
+                            logger.warning("Suno generate isteğinde body bulunamadı: %s", request.url)
+                    except Exception as exc:
+                        logger.warning("Suno route interception hatası: %s", exc)
+                await route.continue_()
+
+            await page.route("**/*", _force_vocal_route)
+
             try:
                 await page.goto(f"{_SUNO_HOME}/create", wait_until="domcontentloaded")
                 await page.wait_for_timeout(8000)
-                await self._wait_for_manual_captcha_if_present(page)
+                await self._wait_for_manual_captcha_if_present(page, headless=headless)
                 setup_state = await page.evaluate(
-                    """async modelLabel => {
+                    """async ([modelLabel, hasCustomLyrics]) => {
                     const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
                     const visible = el => {
                         const rect = el.getBoundingClientRect();
@@ -535,18 +627,53 @@ class BrowserSunoClient:
                     const controls = () => [...document.querySelectorAll("button,[role=button]")]
                         .filter(visible);
 
-                    const simpleButton = controls().find(el => /^simple$/i.test(textOf(el)));
-                    if (simpleButton) {
-                        fireClick(simpleButton);
+                    const modeButton = controls().find(el =>
+                        hasCustomLyrics ? /^advanced$/i.test(textOf(el)) : /^simple$/i.test(textOf(el))
+                    );
+                    if (modeButton) {
+                        fireClick(modeButton);
                         await sleep(1200);
                     }
 
                     const lyricsVisible = [...document.querySelectorAll("textarea")]
                         .filter(visible)
                         .some(el => /lyric/i.test(el.placeholder || "") || /lyric/i.test(el.getAttribute("aria-label") || ""));
-                    if (lyricsVisible && simpleButton) {
+                    const simpleButton = controls().find(el => /^simple$/i.test(textOf(el)));
+                    if (!hasCustomLyrics && lyricsVisible && simpleButton) {
                         fireClick(simpleButton);
                         await sleep(1200);
+                    }
+                    if (!hasCustomLyrics) {
+                        // Ensure Instrumental toggle is OFF.
+                        // Try by text label first, then by aria-label/title.
+                        const instrumentalButton = controls().find(el =>
+                            /instrumental/i.test(textOf(el)) ||
+                            /instrumental/i.test(el.getAttribute("aria-label") || "") ||
+                            /instrumental/i.test(el.getAttribute("title") || "")
+                        );
+                        const isInstrumentalOn = instrumentalButton && (
+                            instrumentalButton.getAttribute("aria-pressed") === "true" ||
+                            instrumentalButton.getAttribute("data-state") === "on" ||
+                            instrumentalButton.getAttribute("data-state") === "checked" ||
+                            instrumentalButton.getAttribute("aria-checked") === "true" ||
+                            instrumentalButton.getAttribute("aria-selected") === "true" ||
+                            /\bactive\b|\bselected\b|\bon\b|\bchecked\b/.test(instrumentalButton.className)
+                        );
+                        const instrumentalDebug = instrumentalButton
+                            ? { found: true, outerHTML: instrumentalButton.outerHTML.slice(0, 300), isOn: isInstrumentalOn }
+                            : { found: false };
+                        if (instrumentalButton && isInstrumentalOn) {
+                            fireClick(instrumentalButton);
+                            await sleep(1000);
+                        }
+                        // Capture after-state for debug logging.
+                        window.__instrumentalDebug = instrumentalDebug;
+                        window.__instrumentalAfter = instrumentalButton ? {
+                            aria_pressed: instrumentalButton.getAttribute("aria-pressed"),
+                            data_state: instrumentalButton.getAttribute("data-state"),
+                            aria_checked: instrumentalButton.getAttribute("aria-checked"),
+                            className: instrumentalButton.className.slice(0, 120),
+                        } : null;
                     }
 
                     const modelControls = controls().filter(el => /v[0-9]|model|chirp/i.test(textOf(el)));
@@ -559,16 +686,22 @@ class BrowserSunoClient:
                         if (option) {
                             fireClick(option);
                             await sleep(1000);
-                            return { ok: true, mode: "simple", model: modelLabel };
+                            return { ok: true, mode: hasCustomLyrics ? "advanced" : "simple", model: modelLabel,
+                                     instrumental_debug: window.__instrumentalDebug,
+                                     instrumental_after: window.__instrumentalAfter };
                         }
                     }
                     const selectedModel = controls().find(el => textOf(el).toLowerCase().includes(modelLabel.toLowerCase()));
                     if (selectedModel) {
-                        return { ok: true, mode: "simple", model: modelLabel };
+                        return { ok: true, mode: hasCustomLyrics ? "advanced" : "simple", model: modelLabel,
+                                 instrumental_debug: window.__instrumentalDebug,
+                                 instrumental_after: window.__instrumentalAfter };
                     }
-                    return { ok: true, mode: "simple", model: "unchanged" };
+                    return { ok: true, mode: hasCustomLyrics ? "advanced" : "simple", model: "unchanged",
+                             instrumental_debug: window.__instrumentalDebug,
+                             instrumental_after: window.__instrumentalAfter };
                     }""",
-                    "v5.5",
+                    ["v5.5", has_custom_lyrics],
                 )
                 logger.info("Suno UI setup: %s", setup_state)
                 if setup_state.get("model") not in {"v5.5", "unchanged"}:
@@ -578,8 +711,100 @@ class BrowserSunoClient:
                         "Suno UI model seçimi doğrulanamadı; mevcut seçili modelle devam ediliyor: %s",
                         setup_state,
                     )
+
+                # --- Login check ---
+                textarea_count = await page.evaluate(
+                    """() => {
+                        const visible = el => {
+                            const rect = el.getBoundingClientRect();
+                            const style = getComputedStyle(el);
+                            return rect.width > 0 && rect.height > 0
+                                && style.display !== "none"
+                                && style.visibility !== "hidden";
+                        };
+                        return [...document.querySelectorAll("textarea")].filter(visible).length;
+                    }"""
+                )
+                if textarea_count == 0:
+                    if headless:
+                        raise RuntimeError(
+                            "Suno oturumu geçersiz veya giriş yapılmamış. "
+                            "SUNO_HEADLESS=false ortam değişkeniyle komutu tekrar çalıştırın "
+                            "ve açılan Chrome penceresinde suno.com'a giriş yapın."
+                        )
+                    logger.warning(
+                        "Suno'ya giriş yapılmamış — Chrome penceresi açık, lütfen suno.com'a giriş yapın."
+                    )
+                    _loop = asyncio.get_running_loop()
+                    try:
+                        await _loop.run_in_executor(
+                            None,
+                            input,
+                            "Suno'ya giriş yaptıktan sonra burada Enter'a basın: ",
+                        )
+                    except EOFError as exc:
+                        raise RuntimeError(
+                            "Suno oturumu geçersiz ve stdin kapalı. "
+                            "Komutu interaktif terminalde SUNO_HEADLESS=false ile çalıştırın."
+                        ) from exc
+                    await page.goto(f"{_SUNO_HOME}/create", wait_until="domcontentloaded")
+                    await page.wait_for_timeout(6000)
+                    await self._wait_for_manual_captcha_if_present(page, headless=headless)
+                    setup_state = await page.evaluate(
+                        """async ([modelLabel, hasCustomLyrics]) => {
+                        const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+                        const visible = el => {
+                            const rect = el.getBoundingClientRect();
+                            const style = getComputedStyle(el);
+                            return rect.width > 0 && rect.height > 0
+                                && style.display !== "none"
+                                && style.visibility !== "hidden";
+                        };
+                        const textOf = el => (el.innerText || el.textContent || el.getAttribute("aria-label") || "").trim();
+                        const fireClick = el => {
+                            el.scrollIntoView({ block: "center", inline: "center" });
+                            for (const type of ["pointerdown", "mousedown", "pointerup", "mouseup", "click"]) {
+                                el.dispatchEvent(new MouseEvent(type, { bubbles: true, cancelable: true, view: window }));
+                            }
+                        };
+                        const controls = () => [...document.querySelectorAll("button,[role=button]")].filter(visible);
+                        const modeButton = controls().find(el =>
+                            hasCustomLyrics ? /^advanced$/i.test(textOf(el)) : /^simple$/i.test(textOf(el))
+                        );
+                        if (modeButton) { fireClick(modeButton); await sleep(1200); }
+                        if (!hasCustomLyrics) {
+                            // Ensure Instrumental toggle is OFF.
+                            const instrumentalButton = controls().find(el =>
+                                /instrumental/i.test(textOf(el)) ||
+                                /instrumental/i.test(el.getAttribute("aria-label") || "") ||
+                                /instrumental/i.test(el.getAttribute("title") || "")
+                            );
+                            const isInstrumentalOn = instrumentalButton && (
+                                instrumentalButton.getAttribute("aria-pressed") === "true" ||
+                                instrumentalButton.getAttribute("data-state") === "on" ||
+                                instrumentalButton.getAttribute("data-state") === "checked" ||
+                                instrumentalButton.getAttribute("aria-checked") === "true" ||
+                                instrumentalButton.getAttribute("aria-selected") === "true" ||
+                                /\bactive\b|\bselected\b|\bon\b|\bchecked\b/.test(instrumentalButton.className)
+                            );
+                            window.__instrumentalDebug = instrumentalButton
+                                ? { found: true, outerHTML: instrumentalButton.outerHTML.slice(0, 300), isOn: isInstrumentalOn }
+                                : { found: false };
+                            if (instrumentalButton && isInstrumentalOn) {
+                                fireClick(instrumentalButton);
+                                await sleep(1000);
+                            }
+                        }
+                        return { ok: true, mode: hasCustomLyrics ? "advanced" : "simple", model: "unchanged",
+                                 instrumental_debug: window.__instrumentalDebug };
+                        }""",
+                        ["v5.5", has_custom_lyrics],
+                    )
+                    logger.info("Suno UI setup (sonrası): %s", setup_state)
+                # --- Login check end ---
+
                 form_state = await page.evaluate(
-                    """prompt => {
+                    """([stylePrompt, lyrics]) => {
                         const visible = el => {
                             const rect = el.getBoundingClientRect();
                             const style = getComputedStyle(el);
@@ -590,6 +815,38 @@ class BrowserSunoClient:
                         const textareas = [...document.querySelectorAll("textarea")]
                             .filter(visible)
                             .sort((a, b) => a.getBoundingClientRect().y - b.getBoundingClientRect().y);
+                        const setValue = (target, value) => {
+                            target.scrollIntoView({ block: "center" });
+                            target.focus();
+                            const setter = Object.getOwnPropertyDescriptor(
+                                window.HTMLTextAreaElement.prototype,
+                                "value"
+                            ).set;
+                            setter.call(target, value);
+                            target.dispatchEvent(new InputEvent("input", {
+                                bubbles: true,
+                                inputType: "insertText",
+                                data: value,
+                            }));
+                            target.dispatchEvent(new Event("change", { bubbles: true }));
+                        };
+                        if (lyrics && lyrics.trim()) {
+                            if (textareas.length < 2) {
+                                return {
+                                    ok: false,
+                                    reason: "advanced lyrics/style fields not found",
+                                    textareaCount: textareas.length,
+                                    placeholders: textareas.map(e => e.placeholder || e.getAttribute("aria-label") || "")
+                                };
+                            }
+                            setValue(textareas[0], lyrics);
+                            setValue(textareas[1], stylePrompt);
+                            return {
+                                ok: true,
+                                mode: "advanced",
+                                placeholders: textareas.slice(0, 2).map(e => e.placeholder || e.getAttribute("aria-label") || ""),
+                            };
+                        }
                         const lyricsFields = textareas.filter(
                             e => /lyric/i.test(e.placeholder || "") || /lyric/i.test(e.getAttribute("aria-label") || "")
                         );
@@ -605,28 +862,17 @@ class BrowserSunoClient:
                         if (!target) {
                             return { ok: false, reason: "prompt textarea not found" };
                         }
-                        target.scrollIntoView({ block: "center" });
-                        target.focus();
-                        const setter = Object.getOwnPropertyDescriptor(
-                            window.HTMLTextAreaElement.prototype,
-                            "value"
-                        ).set;
-                        setter.call(target, prompt);
-                        target.dispatchEvent(new InputEvent("input", {
-                            bubbles: true,
-                            inputType: "insertText",
-                            data: prompt,
-                        }));
-                        target.dispatchEvent(new Event("change", { bubbles: true }));
+                        setValue(target, stylePrompt);
                         return { ok: true, placeholder: target.placeholder, value: target.value };
                         }""",
-                    style_prompt[:_SIMPLE_PROMPT_MAX_CHARS],
+                    [style_prompt[:_SIMPLE_PROMPT_MAX_CHARS], suno_lyrics],
                 )
                 if not form_state.get("ok"):
                     raise RuntimeError(f"Suno UI prompt alanı bulunamadı: {form_state}")
-                await page.locator("textarea:visible").first.fill(
-                    style_prompt[:_SIMPLE_PROMPT_MAX_CHARS]
-                )
+                if not has_custom_lyrics:
+                    await page.locator("textarea:visible").first.fill(
+                        style_prompt[:_SIMPLE_PROMPT_MAX_CHARS]
+                    )
                 await page.wait_for_timeout(800)
 
                 await page.wait_for_timeout(1500)
@@ -664,7 +910,7 @@ class BrowserSunoClient:
                 create_target = create_target.get("target") if create_target else None
                 if not create_target:
                     raise RuntimeError("Suno UI Create butonu bulunamadı.")
-                await self._wait_for_manual_captcha_if_present(page)
+                await self._wait_for_manual_captcha_if_present(page, headless=headless)
 
                 data = None
                 for click_attempt in range(2):
@@ -677,7 +923,7 @@ class BrowserSunoClient:
                         break
                     except TimeoutError as exc:
                         if await self._is_captcha_visible(page) and click_attempt == 0:
-                            await self._wait_for_manual_captcha_if_present(page, force_prompt=True)
+                            await self._wait_for_manual_captcha_if_present(page, force_prompt=True, headless=headless)
                             continue
 
                         screenshot_path = Path("/private/tmp/suno_generate_timeout.png")
@@ -702,7 +948,7 @@ class BrowserSunoClient:
         if not clips:
             raise RuntimeError(f"Suno UI generate yanıtında clip bulunamadı: {str(data)[:300]}")
         clip_id = clips[0]["id"]
-        logger.info("Suno UI generation gönderildi — clip_id=%s", clip_id)
+        logger.info("Suno UI generation gönderildi — clip_id=%s url=%s", clip_id, data.get("_captured_url", ""))
         return clip_id
 
     async def _is_captcha_visible(self, page) -> bool:
@@ -719,9 +965,11 @@ class BrowserSunoClient:
                 const hcaptchaFrame = [...document.querySelectorAll("iframe")]
                     .some(frame => /hcaptcha/i.test(frame.src || frame.title || frame.name || ""));
                 const bodyText = (document.body?.innerText || "").toLowerCase();
+                // "challenge" is too broad (Suno's own page content may contain it).
+                // Only match very specific CAPTCHA phrases.
                 const challengeText = bodyText.includes("hcaptcha")
                     || bodyText.includes("verify you are human")
-                    || bodyText.includes("challenge");
+                    || bodyText.includes("verify that you are human");
                 return hcaptchaFrame || challengeText
                     || Boolean([...document.querySelectorAll("[data-hcaptcha-widget-id], .h-captcha")]
                         .find(visible));
@@ -729,12 +977,26 @@ class BrowserSunoClient:
             )
         )
 
-    async def _wait_for_manual_captcha_if_present(self, page, force_prompt: bool = False) -> None:
+    async def _wait_for_manual_captcha_if_present(self, page, force_prompt: bool = False, headless: bool = True) -> None:
         if not force_prompt and not await self._is_captcha_visible(page):
             return
 
         screenshot_path = Path("/private/tmp/suno_captcha_wait.png")
         await page.screenshot(path=str(screenshot_path), full_page=True)
+
+        if headless:
+            # Browser is invisible — raise so caller can restart in headed mode.
+            logger.warning(
+                "Headless modda CAPTCHA algılandı. Tarayıcı görünür modda yeniden başlatılıyor. "
+                "Ekran görüntüsü: %s",
+                screenshot_path,
+            )
+            try:
+                subprocess.run(["open", str(screenshot_path)], check=False)
+            except Exception:
+                pass
+            raise _CaptchaNeedsHeadedMode()
+
         logger.warning(
             "Suno CAPTCHA bekliyor. Tarayıcıda CAPTCHA'yı elle çözün; "
             "ekran görüntüsü: %s",

@@ -2,6 +2,7 @@
 cycle commands — run-cycle, dry-run
 """
 
+import os
 import time
 from datetime import date, datetime, timedelta
 
@@ -193,6 +194,10 @@ def run_scheduler(
     active_end_hour: int,
 ):
     """Run one song attempt every configured interval until stopped."""
+    if os.getenv("ANATOLIAN_ENABLE_SCHEDULER", "0").strip().lower() not in {"1", "true", "yes", "on"}:
+        raise click.ClickException(
+            "run-scheduler is disabled by default. Set ANATOLIAN_ENABLE_SCHEDULER=1 to enable it."
+        )
     if city and concept:
         raise click.ClickException("Use either --city or --concept, not both.")
     interval = interval_minutes if interval_minutes is not None else settings.pipeline.publish_interval_minutes

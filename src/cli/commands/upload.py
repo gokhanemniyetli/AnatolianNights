@@ -91,7 +91,14 @@ def upload_youtube_web(song_id: str, kind: str, profile_dir: str):
         city_name = city.name
 
         if not song.youtube_metadata:
-            meta = MetadataAgent().generate(song.title or "", city.name, song.get_concept(), song.lyrics)
+            language = (getattr(song, "language", None) or "tr")
+            meta = MetadataAgent().generate(
+                song.title or "",
+                city.name,
+                song.get_concept(),
+                song.lyrics,
+                language=language,
+            )
             song.set_youtube_metadata(meta)
             file_storage.write_youtube_metadata(city.slug, song.id, meta)
             session.flush()

@@ -27,8 +27,8 @@ _FALLBACK_CONCEPTS = [
         "story": "A rainy night walk through old Istanbul streets — distant ferry horns and wet cobblestones echoing with memory.",
         "mood": "melancholic, dreamy, reflective",
         "tempo": "slow, 72 BPM, lo-fi groove",
-        "track_type": "instrumental",
-        "vocal": "no vocals, instrumental only",
+        "track_type": "lyrical",
+        "vocal": "atmospheric Turkish vocals, soft modern delivery, 2 verses and 1 chorus",
         "instruments": ["soft bağlama", "warm synth pads", "lo-fi drums", "vinyl crackle"],
         "ambience": ["rain", "distant ferry horn", "wet streets"],
         "visual": "rainy Istanbul at night, neon reflections on wet cobblestones, Galata Tower silhouette in mist",
@@ -40,8 +40,8 @@ _FALLBACK_CONCEPTS = [
         "story": "The Bosphorus at 2am — empty ferries drifting, city lights blurred by fog, time suspended.",
         "mood": "peaceful, lonely, nostalgic",
         "tempo": "very slow, 65 BPM, ambient",
-        "track_type": "instrumental",
-        "vocal": "no vocals, instrumental only",
+        "track_type": "lyrical",
+        "vocal": "atmospheric Turkish vocals, soft modern delivery, 2 verses and 1 chorus",
         "instruments": ["analog synths", "soft ney flute", "ambient guitar", "field recording"],
         "ambience": ["Bosphorus waves", "distant traffic", "foghorn"],
         "visual": "Bosphorus at midnight, city lights reflecting on dark water, a lone ferry disappearing into fog",
@@ -53,8 +53,8 @@ _FALLBACK_CONCEPTS = [
         "story": "A late-night tram ride through the illuminated streets of Istanbul — neon signs blurring in the rain.",
         "mood": "dreamy, urban, atmospheric",
         "tempo": "slow-medium, 78 BPM, lo-fi",
-        "track_type": "ambient_vocal",
-        "vocal": "dreamy distant female vocals, heavily reverbed, minimal wordless singing",
+        "track_type": "lyrical",
+        "vocal": "atmospheric Turkish vocals, soft modern delivery, 2 verses and 1 chorus",
         "instruments": ["electric piano", "lo-fi drums", "warm bass", "vinyl texture"],
         "ambience": ["tram sounds", "rain", "neon city hum"],
         "visual": "empty Istanbul tram at night, neon lights reflecting on rain-soaked tracks, fog-lit windows",
@@ -66,8 +66,8 @@ _FALLBACK_CONCEPTS = [
         "story": "Driving through the Anatolian plateau at night — endless dark roads, distant village lights, thoughts wandering.",
         "mood": "reflective, lonely, serene",
         "tempo": "medium, 80 BPM, chill lo-fi",
-        "track_type": "instrumental",
-        "vocal": "no vocals, instrumental only",
+        "track_type": "lyrical",
+        "vocal": "atmospheric Turkish vocals, soft modern delivery, 2 verses and 1 chorus",
         "instruments": ["soft bağlama texture", "synth pads", "lo-fi drums", "ambient guitar"],
         "ambience": ["highway wind", "distant crickets", "vinyl crackle"],
         "visual": "dark Anatolian highway at night, headlights illuminating empty road, vast starry sky above",
@@ -102,6 +102,7 @@ class ConceptAgent(BaseAgent):
         city_name: str,
         cultural_profile: dict,
         generation_history: dict,
+        forced_title: str | None = None,
     ) -> dict:
         """Generate a track concept using city as the anchor atmosphere."""
         concept_profile = {
@@ -116,6 +117,7 @@ class ConceptAgent(BaseAgent):
             playlist_title=f"{city_name} Nights",
             concept_profile=concept_profile,
             generation_history=generation_history,
+            forced_title=forced_title,
         )
 
     def generate_for_playlist(
@@ -123,13 +125,25 @@ class ConceptAgent(BaseAgent):
         playlist_title: str,
         concept_profile: dict,
         generation_history: dict,
+        forced_title: str | None = None,
     ) -> dict:
         """Generate a track concept for a playlist atmosphere."""
         style_profile = concept_profile.get("style_profile", {}) or {}
         group = concept_profile.get("group", "")
+
+        if forced_title:
+            title_instruction = f"""SONG TITLE (FIXED — YOU MUST USE EXACTLY THIS, DO NOT CHANGE IT): "{forced_title}"
+
+This is a modern Turkish title evoking Istanbul nights, rain, neon lights, ferries, trams, and urban solitude.
+Build the ENTIRE concept around this title. The genre is Turkish Lo-fi / Anatolian Ambient — NOT folk, NOT türkü."""
+        else:
+            title_instruction = "Generate a cinematic Turkish title (2-5 words) that evokes Istanbul nights, rain, neon, ferries, or urban solitude."
+
         user_prompt = f"""
 PLAYLIST: {playlist_title}
 GROUP: {group}
+
+{title_instruction}
 
 STYLE PROFILE:
 {json.dumps(style_profile, ensure_ascii=False, indent=2)}
@@ -145,24 +159,44 @@ RECENTLY USED ACROSS CHANNEL — AVOID:
 - Recent titles: {generation_history.get('recent_global_titles', [])}
 
 Generate a NEW, UNIQUE atmospheric track concept that perfectly matches this playlist's atmosphere.
-The title must be cinematic and evocative — 2-5 words.
-Choose track_type carefully: prefer instrumental (50%), then ambient_vocal (30%), then lyrical (20%).
+GENRE: Turkish Lo-fi / Anatolian Ambient. NOT folk. NOT türkü. NOT traditional performance.
+Set track_type to "lyrical" for every new song, with atmospheric Turkish vocals and a short 2-verse + 1-chorus lyric structure.
 """
         last_result: dict = {}
         for attempt in range(3):
             retry_note = ""
             if attempt:
                 retry_note = (
-                    "\nPREVIOUS ATTEMPT REJECTED: Title was too generic or concept didn't match channel identity. "
-                    "Try a different atmospheric angle with a more evocative cinematic title.\n"
+                    "\nPREVIOUS ATTEMPT REJECTED: Concept didn't match channel identity. "
+                    "GENRE = Turkish Lo-fi / Anatolian Ambient. NOT folk, NOT türkü. "
+                    "Mood must be: atmospheric, cinematic, dreamy, urban night. NOT 'içli, samimi, geleneksel'.\n"
                 )
+                if forced_title:
+                    retry_note += f'Remember: use EXACTLY this title: "{forced_title}"\n'
             result = self.call(user_prompt + retry_note)
             last_result = result
-            if self._is_valid_concept(result, generation_history):
+            # If forced_title, override whatever title the LLM produced
+            if forced_title:
+                result["title"] = forced_title
+            result["track_type"] = "lyrical"
+            result["vocal"] = "atmospheric Turkish vocals, soft modern delivery, 2 verses and 1 chorus"
+            if self._is_valid_concept(result, generation_history if not forced_title else None):
                 result.setdefault("playlist_concept", playlist_title)
                 return result
+        # Fallback
+        if forced_title:
+            last_result["title"] = forced_title
+            last_result.setdefault("playlist_concept", playlist_title)
+            if last_result.get("track_type") not in _VALID_TRACK_TYPES:
+                last_result["track_type"] = "lyrical"
+            last_result["track_type"] = "lyrical"
+            last_result["vocal"] = "atmospheric Turkish vocals, soft modern delivery, 2 verses and 1 chorus"
+            last_result.setdefault("theme", "urban night atmosphere")
+            return last_result
         fallback = self._fallback_concept(playlist_title, generation_history)
         fallback["playlist_concept"] = playlist_title
+        fallback["track_type"] = "lyrical"
+        fallback["vocal"] = "atmospheric Turkish vocals, soft modern delivery, 2 verses and 1 chorus"
         return fallback
 
     @staticmethod
@@ -312,213 +346,4 @@ _THEME_FAMILIES = [
 ]
 
 
-class ConceptAgent(BaseAgent):
-    def __init__(self):
-        super().__init__(
-            task="concept",
-            model=get_model("concept"),
-            system_prompt=_SYSTEM_PROMPT,
-        )
-
-    def generate(
-        self,
-        city_name: str,
-        cultural_profile: dict,
-        generation_history: dict,
-    ) -> dict:
-        """
-        Returns a concept dict with keys:
-        title, theme, story, mood, tempo, vocal, instruments, avoid, season, narrator
-        """
-        user_prompt = f"""
-Şehir: {city_name}
-
-KÜLTÜREL PROFİL:
-{json.dumps(cultural_profile, ensure_ascii=False, indent=2)}
-
-DAHA ÖNCE KULLANILAN (BUNLARI TEKRARLAMA):
-- Temalar: {generation_history.get('used_themes', [])}
-- Tempolar: {generation_history.get('used_tempos', [])}
-- Duygular: {generation_history.get('used_moods', [])}
-- Enstrümanlar: {generation_history.get('used_instruments', [])}
-- Başlıklar: {generation_history.get('used_titles', [])}
-
-KANAL GENELİNDE SON KULLANILANLAR (BUNLARI DA TEKRARLAMA):
-- Son temalar: {generation_history.get('recent_global_themes', [])}
-- Son başlıklar: {generation_history.get('recent_global_titles', [])}
-
-GENİŞ TEMA HAVUZU:
-{", ".join(_THEME_FAMILIES)}
-
-Bu şehir için YENİ ve FARKLI bir türkü konsepti oluştur.
-Öncelik duygu/insan hikayesi olsun; yöresel yerler, yemekler, doğa ve tarihi dokular sadece sahne ve imge olarak kalsın.
-Bu kez ana tema olarak GENİŞ TEMA HAVUZU'ndan son kullanılanlara benzemeyen TEK bir tema ailesi seç ve bunu açıkça işle.
-Son kayıtlarda çok tekrar ettiği için "yas", "veda", "ağıt", "hüzün", "ölüm" ana tema veya başlık olarak ASLA kullanma; hikayenin ana duygusu da bunlar olmasın.
-Başlığa rakam ekleyerek tekrar çözmeye çalışma; "Yas 1", "Yas2", "Veda 1" gibi başlıklar kesin yasaktır.
-Başlıkta "duygu", "hikaye", "tema", "konu" gibi meta/soyut üretim kelimeleri kullanma; başlık gerçek türkü adı gibi duyulsun.
-Başlığı sadece dağ, göl, yol, sır, kale, kule, ova, nehir gibi bir nesne/yer adı yapma; başlık duygu veya olay anlatmalı.
-Başlık tek kelimelik genel bir ad olmasın; "Yas", "Veda", "Umut", "Hasret", "Sevda" gibi çıplak/generic başlıklar yasaktır.
-Başlık 2-4 kelimelik, doğal ve yeni olmalı: örn. "Kına Gecesi", "Gurbet Mektubu", "Mahcup Sevda" gibi ama verilen geçmişte varsa aynısını kullanma.
-Hikaye 1-2 kısa cümle olsun; birden fazla konuyu üst üste yığma. Ana, kına, bayram, çoban, yurt, sevda gibi farklı konuları aynı hikayede karıştırma.
-"""
-        last_result: dict = {}
-        for attempt in range(3):
-            retry_note = ""
-            if attempt:
-                retry_note = (
-                    "\nÖNCEKİ DENEME REDDEDİLDİ: Başlık/tema fazla tekrar eden, generic veya yer-nesne merkezliydi. "
-                    "Yeni denemede son kullanılan başlıklara/temalara benzemeyen 2-4 kelimelik özgün bir başlık ve farklı bir tema ailesi kullan.\n"
-                )
-            result = self.call(user_prompt + retry_note)
-            last_result = result
-            if self._is_valid_concept(result, generation_history):
-                return result
-        return self._fallback_concept(city_name, generation_history, last_result)
-
-    def generate_for_playlist(
-        self,
-        playlist_title: str,
-        concept_profile: dict,
-        generation_history: dict,
-    ) -> dict:
-        """Generate a song concept for a non-city playlist concept."""
-        research = concept_profile.get("research", {})
-        style_profile = concept_profile.get("style_profile", {})
-        user_prompt = f"""
-PLAYLIST KONSEPTİ: {playlist_title}
-KONSEPT GRUBU: {concept_profile.get('group', '')}
-
-KAYITLI ARAŞTIRMA:
-{json.dumps(research, ensure_ascii=False, indent=2)}
-
-TARZ PROFİLİ:
-{json.dumps(style_profile, ensure_ascii=False, indent=2)}
-
-DAHA ÖNCE BU KONSEPTTE KULLANILANLAR (BUNLARI TEKRARLAMA):
-- Temalar: {generation_history.get('used_themes', [])}
-- Tempolar: {generation_history.get('used_tempos', [])}
-- Duygular: {generation_history.get('used_moods', [])}
-- Enstrümanlar: {generation_history.get('used_instruments', [])}
-- Başlıklar: {generation_history.get('used_titles', [])}
-
-KANAL GENELİNDE SON KULLANILANLAR (BUNLARI DA TEKRARLAMA):
-- Son temalar: {generation_history.get('recent_global_themes', [])}
-- Son başlıklar: {generation_history.get('recent_global_titles', [])}
-
-Bu playlist konsepti için YENİ ve FARKLI bir türkü konsepti oluştur.
-Şehir merkezli düşünme; ana bağlam playlist konsepti ve onun tavrı/atmosferi olsun.
-Her üretimde farklı bir insan hikayesi seç: gurbet, kavuşma, emek, düğün, yolculuk, aile, çocukluk, sitem, umut, vefa gibi.
-Kayıtlı araştırmadaki tavır, çalgı, ritim ve atmosfer notlarını kullan; ama kaynak metinleri kopyalama.
-Şarkı maksimum 4 dakika hedefiyle kısa türkü yapısına uygun olsun.
-Başlık 2-4 kelimelik doğal bir türkü adı olsun; playlist adını birebir başlık yapma.
-Başlıkta "duygu", "hikaye", "tema", "konu" gibi meta kelimeler kullanma.
-Hikaye 1-2 kısa cümle olsun; tek ana duyguya odaklan.
-"""
-        last_result: dict = {}
-        for attempt in range(3):
-            retry_note = ""
-            if attempt:
-                retry_note = (
-                    "\nÖNCEKİ DENEME REDDEDİLDİ: Başlık/tema generic veya tekrarlıydı. "
-                    "Playlist konseptine uygun ama daha özgün başlık, farklı hikaye ve net tarz seç.\n"
-                )
-            result = self.call(user_prompt + retry_note)
-            last_result = result
-            if self._is_valid_concept(result, generation_history):
-                result["playlist_concept"] = playlist_title
-                return result
-        fallback = self._fallback_concept(playlist_title, generation_history, last_result)
-        fallback["playlist_concept"] = playlist_title
-        fallback["story"] = fallback["story"].replace(f"{playlist_title} yöresinde", f"{playlist_title} konseptinde")
-        return fallback
-
-    @staticmethod
-    def _is_valid_concept(concept: dict, generation_history: dict | None = None) -> bool:
-        title = str(concept.get("title") or "")
-        theme = str(concept.get("theme") or "")
-        story = str(concept.get("story") or "")
-        combined = " ".join([title, theme, story])
-        has_emotion = bool(_EMOTION_RE.search(combined))
-        object_title = bool(_OBJECT_RE.search(title))
-        title_has_signal = bool(_TITLE_SIGNAL_RE.search(title))
-        if _BANNED_TITLE_RE.search(title.strip()):
-            return False
-        if _BANNED_MAIN_THEME_RE.search(theme.strip()):
-            return False
-        if "," in theme or len(theme.split()) > 3:
-            return False
-        if _AWKWARD_TITLE_RE.search(title):
-            return False
-        if _AWKWARD_STORY_RE.search(story):
-            return False
-        if len(title.split()) < 2:
-            return False
-        if not title_has_signal:
-            return False
-        if _OVERUSED_RECENT_RE.search(" ".join([title, theme, story])):
-            return False
-        if generation_history and ConceptAgent._duplicates_recent(title, theme, generation_history):
-            return False
-        return has_emotion
-
-    @staticmethod
-    def _duplicates_recent(title: str, theme: str, generation_history: dict) -> bool:
-        recent_titles = generation_history.get("recent_global_titles", [])
-        recent_themes = generation_history.get("recent_global_themes", [])
-        local_titles = generation_history.get("used_titles", [])
-        local_themes = generation_history.get("used_themes", [])
-        for candidate, existing in (
-            (title, [*recent_titles, *local_titles]),
-            (theme, [*recent_themes, *local_themes]),
-        ):
-            candidate_norm = candidate.casefold().strip()
-            if not candidate_norm:
-                continue
-            for item in existing:
-                item_norm = str(item or "").casefold().strip()
-                if not item_norm:
-                    continue
-                if candidate_norm == item_norm:
-                    return True
-        return False
-
-    @staticmethod
-    def _fallback_concept(city_name: str, generation_history: dict, last_result: dict) -> dict:
-        used_titles = {
-            str(item).casefold()
-            for item in [
-                *generation_history.get("used_titles", []),
-                *generation_history.get("recent_global_titles", []),
-            ]
-        }
-        used_themes = {
-            str(item).casefold()
-            for item in [
-                *generation_history.get("used_themes", []),
-                *generation_history.get("recent_global_themes", []),
-            ]
-        }
-        selected = next(
-            (
-                item
-                for item in _FALLBACK_CONCEPTS
-                if item[0].casefold() not in used_titles
-                and item[1].casefold() not in used_themes
-            ),
-            _FALLBACK_CONCEPTS[0],
-        )
-        title, theme, story = selected
-        instruments = last_result.get("instruments") if isinstance(last_result, dict) else None
-        avoid = last_result.get("avoid") if isinstance(last_result, dict) else None
-        return {
-            "title": title,
-            "theme": theme,
-            "story": f"{city_name} yöresinde geçen bu türkü, {story}",
-            "mood": "içli, doğal, samimi",
-            "tempo": "orta-yavaş geleneksel türkü",
-            "vocal": "emotional Turkish folk vocal",
-            "instruments": instruments if isinstance(instruments, list) and instruments else ["bağlama", "kaval"],
-            "avoid": avoid if isinstance(avoid, list) else [],
-            "season": "zamansız",
-            "narrator": "duygusunu doğrudan anlatan kişi",
-        }
+# ─ End of ConceptAgent ─

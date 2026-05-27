@@ -20,7 +20,7 @@ class LyricAgent(BaseAgent):
             system_prompt=_SYSTEM_PROMPT,
         )
 
-    def generate(self, concept: dict, city_name: str, cultural_profile: dict) -> dict:
+    def generate(self, concept: dict, city_name: str, cultural_profile: dict, language: str = "tr") -> dict:
         """
         Returns dict with keys: lyrics, first_line, chorus_line, keywords
         For instrumental tracks, returns empty lyrics.
@@ -36,12 +36,26 @@ class LyricAgent(BaseAgent):
                 "keywords": concept.get("instruments", []),
             }
 
+        if language == "en":
+            lang_instruction = (
+                "Write atmospheric English lyrics for this track.\n"
+                "The language must be English only — do NOT use Turkish words."
+            )
+        else:
+            lang_instruction = (
+                "Write atmospheric Turkish lyrics for this track.\n"
+                "Language: Turkish only."
+            )
+
         user_prompt = f"""
 TRACK CONCEPT:
 {json.dumps(concept, ensure_ascii=False, indent=2)}
 
 Track type: {track_type}
-{'Write 4-8 minimal atmospheric lines. No verse/chorus structure needed. Dreamy and almost wordless.' if track_type == 'ambient_vocal' else 'Write 2 short verses (3-4 lines each) + 1 short chorus (2-3 lines). Minimal, poetic, atmospheric.'}
-Language: Turkish preferred for authentic Anatolian texture, or English if the concept calls for it.
+{lang_instruction}
+Use section tags ([Verse], [Chorus], [Bridge] etc.) as feels natural for the song.
+Each section should have 3-5 short, evocative lines.
+
+Keep it minimal, poetic, atmospheric, modern, and easy for Suno to sing.
 """
         return self.call(user_prompt)

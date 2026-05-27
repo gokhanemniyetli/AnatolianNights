@@ -160,6 +160,10 @@ class Song(Base):
     background_image_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
     subtitles_path: Mapped[str | None] = mapped_column(String(500), nullable=True)
 
+    # Language / twin
+    language: Mapped[str] = mapped_column(String(10), default="tr", server_default="tr")
+    twin_song_id: Mapped[int | None] = mapped_column(Integer, nullable=True)
+
     # Status
     status: Mapped[str] = mapped_column(String(50), default=SongStatus.CONCEPT_READY)
 

@@ -1,6 +1,6 @@
 """
 CycleRunner — runs one or more pipeline cycles.
-A cycle = generate K songs (default 1) for the top cities.
+A cycle = generate K songs (default 1) for concept playlists.
 """
 
 import logging

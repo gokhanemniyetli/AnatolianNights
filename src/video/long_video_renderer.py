@@ -63,12 +63,16 @@ class LongVideoRenderer:
             f"crop={zoom_scale_w}:{zoom_scale_h},"
             # Slow zoom: crop drifts from (max_x, max_y) toward (0, 0) over the duration
             f"crop=w={W}:h={H}:x='{max_crop_x}*(1-t/120)':y='{max_crop_y}*(1-t/120)',"
-            # Film grain
-            "noise=alls=10:allf=t,"
+            # Film grain — subtle base layer
+            "noise=alls=8:allf=t,"
             # Subtle cool color grade (slight blue boost in shadows and highlights)
             "colorbalance=bs=0.04:bm=0.02:bh=0.03,"
+            # VHS/tape saturation — slight desaturation + warm shadow crush
+            "eq=saturation=0.92:contrast=1.05:brightness=-0.02,"
             # Vignette
-            "vignette='PI/4'"
+            "vignette='PI/4',"
+            # Film grain layer 2 — adds subtle temporal shimmer (replaces geq rain)
+            "noise=alls=4:allf=t"
             "[bg];"
             "[bg][2:v]overlay=0:0[v]"
         )
